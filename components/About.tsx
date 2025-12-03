@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { CONTENT } from '../constants';
 import { Reveal } from './UI/Reveal';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 export const About: React.FC = () => {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  // Parallax effect: Moves image vertically counter to scroll
+  // Map scroll progress (0 to 1) to Y translation (-8% to 8%)
+  const y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
+
   return (
     <section id="about" className="py-24 md:py-32 bg-stone-50 overflow-hidden">
       <div className="container mx-auto px-6 md:px-12">
@@ -11,11 +22,14 @@ export const About: React.FC = () => {
           {/* Image Side */}
           <div className="relative order-2 md:order-1">
              <Reveal direction="right">
-                <div className="aspect-[4/5] bg-stone-200 overflow-hidden">
-                  <img 
+                <div ref={containerRef} className="aspect-[4/5] bg-stone-200 overflow-hidden relative">
+                  <motion.img 
+                    style={{ y, scale: 1.15 }} // Initial scale > 1 to avoid gaps during parallax movement
                     src={CONTENT.about.image} 
                     alt="About Muqi" 
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000 ease-out"
+                    className="w-full h-full object-cover"
+                    whileHover={{ scale: 1.2 }}
+                    transition={{ duration: 1, ease: "easeOut" }}
                   />
                 </div>
              </Reveal>

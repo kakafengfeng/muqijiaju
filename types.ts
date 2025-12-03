@@ -37,6 +37,14 @@ export interface ProjectItem {
   year: string;
 }
 
+export interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  intro: string;
+  image: string;
+}
+
 export interface NewsItem {
   id: string;
   title: string;
@@ -65,6 +73,7 @@ export interface SiteContent {
   about: AboutContent;
   products: ProductItem[];
   projects: ProjectItem[];
+  team: TeamMember[];
   news: NewsItem[];
   company: CompanyInfo;
 }

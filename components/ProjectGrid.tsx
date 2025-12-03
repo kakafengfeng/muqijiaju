@@ -1,11 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CONTENT } from '../constants';
 import { Reveal } from './UI/Reveal';
-import { Plus } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export const ProjectGrid: React.FC = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (selectedId) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedId]);
+
+  const selectedProject = CONTENT.projects.find(p => p.id === selectedId);
 
   return (
     <section id="projects" className="py-24 md:py-32 bg-stone-100">
@@ -57,27 +71,54 @@ export const ProjectGrid: React.FC = () => {
         </div>
       </div>
       
-      {/* Simple Lightbox Modal */}
+      {/* Lightbox Modal */}
       <AnimatePresence>
-        {selectedId && (
+        {selectedId && selectedProject && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-black/90 flex items-center justify-center p-4"
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[100] bg-stone-950/95 backdrop-blur-sm flex items-center justify-center p-6 md:p-12"
             onClick={() => setSelectedId(null)}
           >
-            <div className="relative max-w-5xl w-full max-h-[90vh]">
-               <img 
-                 src={CONTENT.projects.find(p => p.id === selectedId)?.image} 
-                 className="w-full h-full object-contain max-h-[85vh]"
-                 alt="Project detail"
-               />
-               <div className="absolute bottom-[-40px] left-0 text-white font-light text-xl">
-                 {CONTENT.projects.find(p => p.id === selectedId)?.name}
+            {/* Close Button */}
+            <button 
+                className="absolute top-6 right-6 md:top-10 md:right-10 text-white/50 hover:text-white transition-colors z-50 p-2"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedId(null);
+                }}
+            >
+                <X size={32} strokeWidth={1} />
+            </button>
+
+            <motion.div 
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+                className="relative max-w-6xl w-full flex flex-col items-center"
+                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking content
+            >
+               <div className="relative w-full overflow-hidden shadow-2xl bg-stone-900">
+                   <img 
+                     src={selectedProject.image} 
+                     className="w-full h-full object-contain max-h-[70vh] md:max-h-[75vh]"
+                     alt={selectedProject.name}
+                   />
                </div>
-               <button className="absolute -top-10 right-0 text-white hover:text-stone-300">Close</button>
-            </div>
+               
+               <div className="w-full mt-8 flex flex-col md:flex-row justify-between items-start md:items-center text-white border-t border-white/10 pt-6">
+                 <div>
+                    <h3 className="text-2xl md:text-4xl font-light mb-2">{selectedProject.name}</h3>
+                    <p className="text-sm font-bold text-white/40 tracking-widest uppercase">{selectedProject.category}</p>
+                 </div>
+                 <div className="mt-4 md:mt-0 font-serif italic text-3xl text-white/60">
+                    {selectedProject.year}
+                 </div>
+               </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -4,6 +4,7 @@ import { Hero } from './components/Hero';
 import { About } from './components/About';
 import { ProductCarousel } from './components/ProductCarousel';
 import { ProjectGrid } from './components/ProjectGrid';
+import { TeamSection } from './components/TeamSection';
 import { NewsSection } from './components/NewsSection';
 import { Footer } from './components/Footer';
 
@@ -16,6 +17,7 @@ function App() {
         <About />
         <ProductCarousel />
         <ProjectGrid />
+        <TeamSection />
         <NewsSection />
       </main>
       <Footer />

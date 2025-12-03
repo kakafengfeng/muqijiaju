@@ -1,6 +1,46 @@
 import React from 'react';
 import { CONTENT } from '../constants';
-import { Instagram, Linkedin, Twitter, Facebook } from 'lucide-react';
+import { Instagram, Linkedin } from 'lucide-react';
+
+const WechatIcon = ({ size = 20, className = "" }: { size?: number, className?: string }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="1.5" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <path d="M8 17.5a5 5 0 0 1-5-5c0-2.5 2.5-4.5 5.5-4.5s5.5 2 5.5 4.5c0 .8-.2 1.5-.6 2.1l.6 2.4-2.4-.6c-.9.4-1.9.6-3 .6z" />
+    <path d="M17 11c3 0 5.5 1.8 5.5 4s-2.5 4-5.5 4c-.9 0-1.8-.2-2.6-.5l-2 .5.5-2c-.3-.6-.4-1.2-.4-1.9 0-2.3 2.5-4.1 5.5-4.1z" />
+    <circle cx="6.5" cy="11.5" r=".5" fill="currentColor" />
+    <circle cx="9.5" cy="11.5" r=".5" fill="currentColor" />
+    <circle cx="15.5" cy="14.5" r=".5" fill="currentColor" />
+    <circle cx="18.5" cy="14.5" r=".5" fill="currentColor" />
+  </svg>
+);
+
+const WeiboIcon = ({ size = 20, className = "" }: { size?: number, className?: string }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="1.5" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+     <path d="M15 7.5a4 4 0 0 1 4 4" />
+     <path d="M15.5 9.5a2 2 0 0 1 2 2" />
+     <path d="M12 4a9 9 0 0 0-9 9 9 9 0 0 0 9 9 5 5 0 0 0 5-5c0-3-4-3-4-6s2-5 2-6" />
+     <circle cx="11.5" cy="13.5" r="1" fill="currentColor" />
+  </svg>
+);
 
 export const Footer: React.FC = () => {
   return (
@@ -40,10 +80,18 @@ export const Footer: React.FC = () => {
            <div className="md:col-span-1 flex flex-col justify-start md:items-end">
               <h4 className="text-white text-xs font-bold tracking-widest uppercase mb-6">Social</h4>
               <div className="flex gap-4">
-                 <a href="#" className="hover:text-white transition-colors"><Instagram size={20} /></a>
-                 <a href="#" className="hover:text-white transition-colors"><Linkedin size={20} /></a>
-                 <a href="#" className="hover:text-white transition-colors"><Twitter size={20} /></a>
-                 <a href="#" className="hover:text-white transition-colors"><Facebook size={20} /></a>
+                 <a href={CONTENT.company.socials.wechat} className="hover:text-white transition-colors" aria-label="WeChat">
+                    <WechatIcon size={22} />
+                 </a>
+                 <a href={CONTENT.company.socials.weibo} className="hover:text-white transition-colors" aria-label="Weibo">
+                    <WeiboIcon size={22} />
+                 </a>
+                 <a href={CONTENT.company.socials.linkedin} className="hover:text-white transition-colors" aria-label="LinkedIn">
+                    <Linkedin size={22} strokeWidth={1.5} />
+                 </a>
+                 <a href={CONTENT.company.socials.instagram} className="hover:text-white transition-colors" aria-label="Instagram">
+                    <Instagram size={22} strokeWidth={1.5} />
+                 </a>
               </div>
            </div>
         </div>

@@ -7,6 +7,7 @@ export const CONTENT: SiteContent = {
     { label: "品牌", href: "#brand" },
     { label: "产品", href: "#products" },
     { label: "项目", href: "#projects" },
+    { label: "团队", href: "#team" },
     { label: "新闻", href: "#news" },
     { label: "联系", href: "#contact" },
   ],
@@ -78,6 +79,29 @@ export const CONTENT: SiteContent = {
       category: "Showroom",
       year: "2024",
       image: "https://picsum.photos/id/305/800/800"
+    }
+  ],
+  team: [
+    {
+      id: "t1",
+      name: "林一鸣",
+      role: "创始人 / 首席设计师",
+      intro: "20年高端家居设计经验，曾获红点设计大奖。致力于探索东方美学与现代生活的平衡。",
+      image: "https://picsum.photos/id/1005/600/800"
+    },
+    {
+      id: "t2",
+      name: "王广大",
+      role: "设计总监",
+      intro: "前意大利著名家居品牌主理人，专注于极简主义美学与功能性的完美融合。",
+      image: "https://picsum.photos/id/338/600/800"
+    },
+    {
+      id: "t3",
+      name: "张艳慧",
+      role: "工艺总监",
+      intro: "匠心独运，对材质与细节有着极致的追求，确保每一件作品都经得起时间的考验。",
+      image: "https://picsum.photos/id/64/600/800"
     }
   ],
   news: [
