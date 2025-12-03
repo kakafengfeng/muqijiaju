@@ -106,7 +106,7 @@ export const CONTENT: SiteContent = {
   company: {
     name: "木栖家居科技（上海）有限公司",
     nameEn: "Muqi Home Technology (Shanghai) Co., Ltd.",
-    address: "上海市静安区南京西路1266号恒隆广场",
+    address: "上海市徐汇区宜山路家饰佳4033展位",
     copyright: "© 2025 Muqi Home Technology. All rights reserved.",
     icp: "沪ICP备××××××号",
     socials: {

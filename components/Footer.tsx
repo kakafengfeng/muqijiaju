@@ -30,10 +30,10 @@ export const Footer: React.FC = () => {
           {/* Contact */}
           <div className="md:col-span-1">
              <h4 className="text-white text-xs font-bold tracking-widest uppercase mb-6">Contact</h4>
-             <p className="mb-2">上海市静安区</p>
+             <p className="mb-2">上海市徐汇区</p>
              <p className="mb-6">{CONTENT.company.address}</p>
              <a href="mailto:info@muqi.com" className="hover:text-white transition-colors block mb-2">info@muqi.com</a>
-             <a href="tel:+862112345678" className="hover:text-white transition-colors">+86 21 1234 5678</a>
+             <a href="tel:+86 15801948991" className="hover:text-white transition-colors">+86 21 1234 5678</a>
           </div>
 
            {/* Socials */}
