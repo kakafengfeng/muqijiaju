@@ -1,12 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useContent } from '../context/ContentContext';
-import { Settings, X, Image as ImageIcon, ChevronRight, ChevronDown, Trash2, Plus } from 'lucide-react';
+import { Settings, X, Image as ImageIcon, ChevronRight, ChevronDown, Trash2, Plus, Save, LogOut, RotateCcw, Lock } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const AdminPanel: React.FC = () => {
-  const { content, updateContent, updateNestedContent } = useContent();
+  const { content, updateContent, updateNestedContent, saveContent, resetContent } = useContent();
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  
+  // Auth States
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  // Listen for the custom event from Footer to open login
+  useEffect(() => {
+    const handleOpenLogin = () => setShowLoginModal(true);
+    window.addEventListener('open-admin-login', handleOpenLogin);
+    return () => window.removeEventListener('open-admin-login', handleOpenLogin);
+  }, []);
+
+  // Handle Login
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordInput === 'admin') { // Simple hardcoded password
+      setIsAuthenticated(true);
+      setShowLoginModal(false);
+      setIsOpen(true);
+      setErrorMsg('');
+      setPasswordInput('');
+    } else {
+      setErrorMsg('密码错误 (Password Incorrect)');
+    }
+  };
+
+  // Handle Save
+  const handleSave = () => {
+    saveContent();
+    alert('修改已保存！\nChanges saved successfully.');
+  };
+
+  // Handle Logout
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setIsOpen(false);
+  };
 
   // Handle Image Upload (Convert to Base64)
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, path: string[]) => {
@@ -87,6 +126,53 @@ export const AdminPanel: React.FC = () => {
     { id: 'company', label: '公司信息 Company' },
   ];
 
+  // Render Login Modal
+  if (showLoginModal && !isAuthenticated) {
+    return (
+      <div className="fixed inset-0 z-[100] bg-stone-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-white p-8 rounded-lg shadow-2xl w-full max-w-sm"
+        >
+          <div className="flex justify-between items-center mb-6">
+             <h2 className="text-xl font-bold text-stone-900 flex items-center gap-2">
+               <Lock size={20} /> 管理员登录
+             </h2>
+             <button onClick={() => setShowLoginModal(false)}><X size={20} /></button>
+          </div>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="block text-xs font-bold text-stone-500 uppercase mb-1">Password</label>
+              <input 
+                type="password" 
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                className="w-full p-2 border border-stone-200 rounded focus:border-stone-900 outline-none"
+                placeholder="Enter admin password"
+                autoFocus
+              />
+              {errorMsg && <p className="text-red-500 text-xs mt-1">{errorMsg}</p>}
+            </div>
+            <button 
+              type="submit" 
+              className="w-full py-2 bg-stone-900 text-white font-medium rounded hover:bg-stone-700 transition-colors"
+            >
+              Unlock Editor
+            </button>
+            <div className="text-center text-xs text-stone-400 mt-2">
+                默认密码: admin
+            </div>
+          </form>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // If not authenticated and not showing modal, show nothing (Hidden)
+  if (!isAuthenticated) return null;
+
+  // Floating Trigger (Only visible when authenticated)
   if (!isOpen) {
     return (
       <button
@@ -103,10 +189,37 @@ export const AdminPanel: React.FC = () => {
     <div className="fixed inset-y-0 right-0 w-[400px] bg-white z-[100] shadow-2xl flex flex-col border-l border-stone-200">
       {/* Header */}
       <div className="p-6 bg-stone-900 text-white flex justify-between items-center">
-        <h2 className="text-lg font-bold tracking-wider uppercase">Site Editor</h2>
-        <button onClick={() => setIsOpen(false)} className="hover:opacity-70">
-          <X size={24} />
-        </button>
+        <div>
+           <h2 className="text-lg font-bold tracking-wider uppercase">CMS</h2>
+           <div className="flex items-center gap-2 text-[10px] text-stone-400">
+             <span className="w-2 h-2 rounded-full bg-green-500"></span> Authenticated
+           </div>
+        </div>
+        <div className="flex gap-4">
+            <button onClick={handleLogout} className="hover:text-red-400 transition-colors" title="Logout">
+                <LogOut size={20} />
+            </button>
+            <button onClick={() => setIsOpen(false)} className="hover:opacity-70">
+                <X size={24} />
+            </button>
+        </div>
+      </div>
+
+      {/* Toolbar */}
+      <div className="px-6 py-3 bg-stone-100 border-b border-stone-200 flex justify-between items-center">
+          <button 
+            onClick={resetContent}
+            className="flex items-center gap-2 text-xs text-red-600 hover:text-red-800 font-medium"
+            title="Reset to default"
+          >
+             <RotateCcw size={14} /> 重置
+          </button>
+          <button 
+             onClick={handleSave}
+             className="flex items-center gap-2 bg-stone-900 text-white px-4 py-1.5 rounded text-xs font-bold hover:bg-green-700 transition-colors shadow-sm"
+          >
+             <Save size={14} /> 保存修改
+          </button>
       </div>
 
       {/* Content */}
@@ -231,8 +344,8 @@ export const AdminPanel: React.FC = () => {
         ))}
       </div>
       
-      <div className="p-4 bg-stone-100 text-xs text-stone-500 text-center">
-          Changes are applied locally in real-time.
+      <div className="p-4 bg-stone-100 text-xs text-stone-500 text-center border-t border-stone-200">
+          编辑模式已开启 | Authenticated
       </div>
     </div>
   );

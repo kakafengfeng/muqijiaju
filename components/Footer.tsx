@@ -98,7 +98,17 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-stone-800 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs opacity-50">
-           <p>{content.company.copyright}</p>
+           <div className="flex gap-2 items-center">
+              <p>{content.company.copyright}</p>
+              {/* Secret Admin Trigger */}
+              <button 
+                onClick={() => window.dispatchEvent(new Event('open-admin-login'))}
+                className="opacity-0 hover:opacity-100 transition-opacity px-2 text-stone-700"
+                title="Admin Access"
+              >
+                Admin
+              </button>
+           </div>
            <div className="flex gap-6">
               <span>{content.company.icp}</span>
               <span>Privacy Policy</span>
