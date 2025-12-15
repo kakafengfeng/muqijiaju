@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { CONTENT } from '../constants';
+import { useContent } from '../context/ContentContext';
 import { Reveal } from './UI/Reveal';
 import { Plus, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export const ProjectGrid: React.FC = () => {
+  const { content } = useContent();
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   // Lock body scroll when modal is open
@@ -19,7 +20,7 @@ export const ProjectGrid: React.FC = () => {
     };
   }, [selectedId]);
 
-  const selectedProject = CONTENT.projects.find(p => p.id === selectedId);
+  const selectedProject = content.projects.find(p => p.id === selectedId);
 
   return (
     <section id="projects" className="py-24 md:py-32 bg-stone-100">
@@ -32,7 +33,7 @@ export const ProjectGrid: React.FC = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {CONTENT.projects.map((project, index) => (
+          {content.projects.map((project, index) => (
             <Reveal key={project.id} delay={index * 0.1}>
               <div 
                 className="group relative cursor-pointer block overflow-hidden"

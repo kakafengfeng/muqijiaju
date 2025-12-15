@@ -1,8 +1,10 @@
 import React from 'react';
-import { CONTENT } from '../constants';
+import { useContent } from '../context/ContentContext';
 import { Reveal } from './UI/Reveal';
 
 export const TeamSection: React.FC = () => {
+  const { content } = useContent();
+
   return (
     <section id="team" className="py-24 bg-white">
       <div className="container mx-auto px-6 md:px-12">
@@ -14,7 +16,7 @@ export const TeamSection: React.FC = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-x-8 gap-y-16">
-          {CONTENT.team.map((member, index) => (
+          {content.team.map((member, index) => (
              <Reveal key={member.id} delay={index * 0.1}>
                 <div className="group text-center cursor-default">
                    {/* Image container */}

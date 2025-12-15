@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Globe, Search } from 'lucide-react';
-import { CONTENT } from '../constants';
+import { useContent } from '../context/ContentContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 
 export const Header: React.FC = () => {
+  const { content } = useContent();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+
+  // If we are on a detail page, we might want the header to be always dark/visible or handle it differently
+  // For now, we stick to the transparent-to-white behavior on the home page
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,45 +22,56 @@ export const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Force header style if not on home
+  const headerStyle = !isHome || isScrolled
+    ? 'bg-stone-50/90 backdrop-blur-md py-4 text-stone-900 shadow-sm'
+    : 'bg-transparent py-8 text-white';
+
+  const textColor = !isHome || isScrolled ? 'text-stone-900' : 'text-white';
+  const logoColor = !isHome || isScrolled ? 'bg-stone-900' : 'bg-white';
+
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${
-          isScrolled 
-            ? 'bg-stone-50/90 backdrop-blur-md py-4 text-stone-900 shadow-sm' 
-            : 'bg-transparent py-8 text-white'
-        }`}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${headerStyle}`}
       >
         <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
           {/* Logo Placeholder */}
-          <div className="flex items-center gap-2 cursor-pointer z-50">
-            <div className={`h-8 w-8 ${isScrolled ? 'bg-stone-900' : 'bg-white'} rounded-sm`}></div>
-            <span className={`text-xl font-bold tracking-widest uppercase ${isScrolled ? 'text-stone-900' : 'text-white'}`}>
+          <Link to="/" className="flex items-center gap-2 cursor-pointer z-50">
+            <div className={`h-8 w-8 ${logoColor} rounded-sm`}></div>
+            <span className={`text-xl font-bold tracking-widest uppercase ${textColor}`}>
               MUQI
             </span>
-          </div>
+          </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8 lg:gap-12">
-            {CONTENT.nav.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className={`text-sm tracking-widest uppercase hover:opacity-60 transition-opacity ${
-                   isScrolled ? 'text-stone-900' : 'text-white/90'
-                }`}
-              >
-                {item.label}
-              </a>
-            ))}
+            {content.nav.map((item) => {
+               // Handle anchor links vs actual routes if we add more pages
+               // For single page sections, we stick to anchors on home
+               const isAnchor = item.href.startsWith('#');
+               const href = isAnchor && !isHome ? `/${item.href}` : item.href;
+
+               return (
+                  <a
+                    key={item.label}
+                    href={href}
+                    className={`text-sm tracking-widest uppercase hover:opacity-60 transition-opacity ${
+                      !isHome || isScrolled ? 'text-stone-900' : 'text-white/90'
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+               );
+            })}
           </nav>
 
           {/* Utilities */}
           <div className="hidden md:flex items-center gap-6">
-            <button className={`hover:opacity-60 transition-opacity ${isScrolled ? 'text-stone-900' : 'text-white'}`}>
+            <button className={`hover:opacity-60 transition-opacity ${textColor}`}>
                 <Search size={20} strokeWidth={1.5} />
             </button>
-            <button className={`flex items-center gap-2 text-xs tracking-wide hover:opacity-60 transition-opacity ${isScrolled ? 'text-stone-900' : 'text-white'}`}>
+            <button className={`flex items-center gap-2 text-xs tracking-wide hover:opacity-60 transition-opacity ${textColor}`}>
               <Globe size={18} strokeWidth={1.5} />
               <span>ZH / EN</span>
             </button>
@@ -61,7 +79,7 @@ export const Header: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <button 
-            className={`md:hidden z-50 hover:opacity-60 transition-opacity ${isScrolled || isMenuOpen ? 'text-stone-900' : 'text-white'}`}
+            className={`md:hidden z-50 hover:opacity-60 transition-opacity ${isMenuOpen ? 'text-stone-900' : textColor}`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -80,10 +98,10 @@ export const Header: React.FC = () => {
             className="fixed inset-0 z-40 bg-stone-50 flex flex-col justify-center items-center md:hidden"
           >
             <nav className="flex flex-col gap-8 text-center">
-              {CONTENT.nav.map((item) => (
+              {content.nav.map((item) => (
                 <a
                   key={item.label}
-                  href={item.href}
+                  href={item.href.startsWith('#') && !isHome ? `/${item.href}` : item.href}
                   onClick={() => setIsMenuOpen(false)}
                   className="text-2xl text-stone-900 font-light tracking-widest uppercase"
                 >

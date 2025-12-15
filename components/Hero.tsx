@@ -1,9 +1,10 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import { CONTENT } from '../constants';
+import { useContent } from '../context/ContentContext';
 
 export const Hero: React.FC = () => {
+  const { content } = useContent();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -22,7 +23,7 @@ export const Hero: React.FC = () => {
       >
          <div className="absolute inset-0 bg-black/40 z-10" />
          <img 
-            src={CONTENT.hero.backgroundImage} 
+            src={content.hero.backgroundImage} 
             alt="Hero Background" 
             className="w-full h-full object-cover"
          />
@@ -37,7 +38,7 @@ export const Hero: React.FC = () => {
             transition={{ delay: 0.2, duration: 0.8 }}
             className="text-lg md:text-xl font-serif italic tracking-wider mb-4 text-stone-200"
           >
-            {CONTENT.hero.subtitle}
+            {content.hero.subtitle}
           </motion.h2>
 
           <motion.h1
@@ -46,7 +47,7 @@ export const Hero: React.FC = () => {
             transition={{ delay: 0.4, duration: 0.8 }}
             className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wide leading-tight mb-8"
           >
-            {CONTENT.hero.title}
+            {content.hero.title}
           </motion.h1>
 
           <motion.p 
@@ -55,7 +56,7 @@ export const Hero: React.FC = () => {
              transition={{ delay: 0.6, duration: 1 }}
              className="text-stone-300 text-sm md:text-base max-w-xl leading-relaxed mb-12 border-l-2 border-stone-500 pl-6"
           >
-            {CONTENT.hero.description}
+            {content.hero.description}
           </motion.p>
 
           <motion.div
@@ -66,11 +67,11 @@ export const Hero: React.FC = () => {
           >
             <button className="group relative px-8 py-4 bg-white text-stone-900 text-sm tracking-widest uppercase transition-transform hover:-translate-y-1">
               <span className="relative z-10 flex items-center gap-2 font-medium">
-                {CONTENT.hero.ctaPrimary} <ArrowRight size={16} />
+                {content.hero.ctaPrimary} <ArrowRight size={16} />
               </span>
             </button>
             <button className="px-8 py-4 border border-white/30 text-white text-sm tracking-widest uppercase hover:bg-white hover:text-stone-900 transition-all hover:-translate-y-1">
-              {CONTENT.hero.ctaSecondary}
+              {content.hero.ctaSecondary}
             </button>
           </motion.div>
         </div>

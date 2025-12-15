@@ -1,17 +1,16 @@
 import React, { useRef } from 'react';
-import { CONTENT } from '../constants';
+import { useContent } from '../context/ContentContext';
 import { Reveal } from './UI/Reveal';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 export const About: React.FC = () => {
+  const { content } = useContent();
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   });
 
-  // Parallax effect: Moves image vertically counter to scroll
-  // Map scroll progress (0 to 1) to Y translation (-8% to 8%)
   const y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
 
   return (
@@ -24,8 +23,8 @@ export const About: React.FC = () => {
              <Reveal direction="right">
                 <div ref={containerRef} className="aspect-[4/5] bg-stone-200 overflow-hidden relative">
                   <motion.img 
-                    style={{ y, scale: 1.15 }} // Initial scale > 1 to avoid gaps during parallax movement
-                    src={CONTENT.about.image} 
+                    style={{ y, scale: 1.15 }}
+                    src={content.about.image} 
                     alt="About Muqi" 
                     className="w-full h-full object-cover"
                     whileHover={{ scale: 1.2 }}
@@ -41,12 +40,12 @@ export const About: React.FC = () => {
           <div className="order-1 md:order-2">
             <Reveal>
               <span className="text-xs font-bold text-stone-400 tracking-widest uppercase mb-4 block">
-                {CONTENT.about.title}
+                {content.about.title}
               </span>
             </Reveal>
             <Reveal delay={0.1}>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-stone-900 mb-8 leading-tight">
-                {CONTENT.about.heading}
+                {content.about.heading}
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
@@ -54,17 +53,17 @@ export const About: React.FC = () => {
             </Reveal>
             <Reveal delay={0.3}>
               <p className="text-stone-600 leading-relaxed mb-6 font-light">
-                {CONTENT.about.paragraph1}
+                {content.about.paragraph1}
               </p>
             </Reveal>
             <Reveal delay={0.4}>
               <p className="text-stone-600 leading-relaxed mb-10 font-light">
-                {CONTENT.about.paragraph2}
+                {content.about.paragraph2}
               </p>
             </Reveal>
             <Reveal delay={0.5}>
               <a href="#" className="inline-block text-sm border-b border-stone-900 pb-1 text-stone-900 tracking-widest uppercase hover:text-stone-500 hover:border-stone-500 transition-colors">
-                {CONTENT.about.cta}
+                {content.about.cta}
               </a>
             </Reveal>
           </div>

@@ -1,9 +1,11 @@
 import React from 'react';
-import { CONTENT } from '../constants';
+import { useContent } from '../context/ContentContext';
 import { Reveal } from './UI/Reveal';
 import { ArrowUpRight } from 'lucide-react';
 
 export const NewsSection: React.FC = () => {
+  const { content } = useContent();
+
   return (
     <section id="news" className="py-24 bg-stone-50">
       <div className="container mx-auto px-6 md:px-12">
@@ -19,7 +21,7 @@ export const NewsSection: React.FC = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-10">
-           {CONTENT.news.map((item, index) => (
+           {content.news.map((item, index) => (
              <Reveal key={item.id} delay={index * 0.1}>
                <a href={item.link} className="group block">
                  <div className="border-t border-stone-200 pt-6 transition-colors group-hover:border-stone-900">

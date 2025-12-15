@@ -1,5 +1,5 @@
 import React from 'react';
-import { CONTENT } from '../constants';
+import { useContent } from '../context/ContentContext';
 import { Instagram, Linkedin } from 'lucide-react';
 
 const WechatIcon = ({ size = 20, className = "" }: { size?: number, className?: string }) => (
@@ -43,6 +43,7 @@ const WeiboIcon = ({ size = 20, className = "" }: { size?: number, className?: s
 );
 
 export const Footer: React.FC = () => {
+  const { content } = useContent();
   return (
     <footer className="bg-stone-950 text-stone-400 py-16 md:py-24 text-sm font-light">
       <div className="container mx-auto px-6 md:px-12">
@@ -51,15 +52,15 @@ export const Footer: React.FC = () => {
           {/* Brand */}
           <div className="md:col-span-1">
             <h3 className="text-white text-lg font-bold tracking-widest uppercase mb-6">MUQI HOME</h3>
-            <p className="mb-4 leading-relaxed max-w-xs">{CONTENT.company.name}</p>
-            <p className="opacity-60">{CONTENT.company.nameEn}</p>
+            <p className="mb-4 leading-relaxed max-w-xs">{content.company.name}</p>
+            <p className="opacity-60">{content.company.nameEn}</p>
           </div>
 
           {/* Nav */}
           <div className="md:col-span-1">
              <h4 className="text-white text-xs font-bold tracking-widest uppercase mb-6">Sitemap</h4>
              <ul className="flex flex-col gap-3">
-                {CONTENT.nav.map(item => (
+                {content.nav.map(item => (
                    <li key={item.label}>
                       <a href={item.href} className="hover:text-white transition-colors">{item.label}</a>
                    </li>
@@ -71,7 +72,7 @@ export const Footer: React.FC = () => {
           <div className="md:col-span-1">
              <h4 className="text-white text-xs font-bold tracking-widest uppercase mb-6">Contact</h4>
              <p className="mb-2">上海市徐汇区</p>
-             <p className="mb-6">{CONTENT.company.address}</p>
+             <p className="mb-6">{content.company.address}</p>
              <a href="mailto:info@muqi.com" className="hover:text-white transition-colors block mb-2">info@muqi.com</a>
              <a href="tel:+86 15801948991" className="hover:text-white transition-colors">+86 21 1234 5678</a>
           </div>
@@ -80,16 +81,16 @@ export const Footer: React.FC = () => {
            <div className="md:col-span-1 flex flex-col justify-start md:items-end">
               <h4 className="text-white text-xs font-bold tracking-widest uppercase mb-6">Social</h4>
               <div className="flex gap-4">
-                 <a href={CONTENT.company.socials.wechat} className="hover:text-white transition-colors" aria-label="WeChat">
+                 <a href={content.company.socials.wechat} className="hover:text-white transition-colors" aria-label="WeChat">
                     <WechatIcon size={22} />
                  </a>
-                 <a href={CONTENT.company.socials.weibo} className="hover:text-white transition-colors" aria-label="Weibo">
+                 <a href={content.company.socials.weibo} className="hover:text-white transition-colors" aria-label="Weibo">
                     <WeiboIcon size={22} />
                  </a>
-                 <a href={CONTENT.company.socials.linkedin} className="hover:text-white transition-colors" aria-label="LinkedIn">
+                 <a href={content.company.socials.linkedin} className="hover:text-white transition-colors" aria-label="LinkedIn">
                     <Linkedin size={22} strokeWidth={1.5} />
                  </a>
-                 <a href={CONTENT.company.socials.instagram} className="hover:text-white transition-colors" aria-label="Instagram">
+                 <a href={content.company.socials.instagram} className="hover:text-white transition-colors" aria-label="Instagram">
                     <Instagram size={22} strokeWidth={1.5} />
                  </a>
               </div>
@@ -97,9 +98,9 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-stone-800 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs opacity-50">
-           <p>{CONTENT.company.copyright}</p>
+           <p>{content.company.copyright}</p>
            <div className="flex gap-6">
-              <span>{CONTENT.company.icp}</span>
+              <span>{content.company.icp}</span>
               <span>Privacy Policy</span>
               <span>Terms & Conditions</span>
            </div>

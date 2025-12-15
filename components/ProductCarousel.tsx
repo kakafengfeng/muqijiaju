@@ -1,19 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { CONTENT } from '../constants';
+import { useContent } from '../context/ContentContext';
 import { Reveal } from './UI/Reveal';
+import { Link } from 'react-router-dom';
 
 export const ProductCarousel: React.FC = () => {
+  const { content } = useContent();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % CONTENT.products.length);
+    setCurrentIndex((prev) => (prev + 1) % content.products.length);
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + CONTENT.products.length) % CONTENT.products.length);
+    setCurrentIndex((prev) => (prev - 1 + content.products.length) % content.products.length);
   };
 
   useEffect(() => {
@@ -54,8 +56,9 @@ export const ProductCarousel: React.FC = () => {
           className="flex gap-8 transition-transform duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
           style={{ transform: `translateX(-${currentIndex * 340}px)` }} 
         >
-          {CONTENT.products.map((product, index) => (
-             <div 
+          {content.products.map((product, index) => (
+             <Link 
+                to={`/product/${product.id}`}
                 key={product.id} 
                 className={`flex-shrink-0 w-[85vw] md:w-[400px] group cursor-pointer transition-opacity duration-500 ${index === currentIndex ? 'opacity-100' : 'opacity-40 hover:opacity-100'}`}
              >
@@ -80,14 +83,14 @@ export const ProductCarousel: React.FC = () => {
                 
                 <h3 className="text-xl font-medium text-stone-900 mb-2">{product.name}</h3>
                 <p className="text-stone-600 text-sm font-light leading-relaxed line-clamp-2">{product.description}</p>
-             </div>
+             </Link>
           ))}
         </div>
         
         {/* Mobile Controls */}
         <div className="md:hidden flex justify-center gap-6 mt-12">
             <button onClick={prevSlide}><ArrowLeft size={24} /></button>
-            <div className="text-sm tracking-widest">{currentIndex + 1} / {CONTENT.products.length}</div>
+            <div className="text-sm tracking-widest">{currentIndex + 1} / {content.products.length}</div>
             <button onClick={nextSlide}><ArrowRight size={24} /></button>
         </div>
       </div>

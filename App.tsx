@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
@@ -7,21 +8,50 @@ import { ProjectGrid } from './components/ProjectGrid';
 import { TeamSection } from './components/TeamSection';
 import { NewsSection } from './components/NewsSection';
 import { Footer } from './components/Footer';
+import { ProductDetail } from './pages/ProductDetail';
+import { ContentProvider } from './context/ContentContext';
+import { AdminPanel } from './components/AdminPanel';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
+function HomePage() {
+  return (
+    <>
+      <Hero />
+      <About />
+      <ProductCarousel />
+      <ProjectGrid />
+      <TeamSection />
+      <NewsSection />
+    </>
+  );
+}
 
 function App() {
   return (
-    <div className="min-h-screen bg-stone-50 font-sans text-stone-900 selection:bg-stone-900 selection:text-white">
-      <Header />
-      <main>
-        <Hero />
-        <About />
-        <ProductCarousel />
-        <ProjectGrid />
-        <TeamSection />
-        <NewsSection />
-      </main>
-      <Footer />
-    </div>
+    <ContentProvider>
+      <Router>
+        <ScrollToTop />
+        <div className="min-h-screen bg-stone-50 font-sans text-stone-900 selection:bg-stone-900 selection:text-white">
+          <Header />
+          <main>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              {/* Add more routes for other sections as needed */}
+            </Routes>
+          </main>
+          <Footer />
+          <AdminPanel />
+        </div>
+      </Router>
+    </ContentProvider>
   );
 }
 
