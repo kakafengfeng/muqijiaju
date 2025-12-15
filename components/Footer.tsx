@@ -1,6 +1,7 @@
 import React from 'react';
 import { useContent } from '../context/ContentContext';
 import { Instagram, Linkedin } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const WechatIcon = ({ size = 20, className = "" }: { size?: number, className?: string }) => (
   <svg 
@@ -43,7 +44,7 @@ const WeiboIcon = ({ size = 20, className = "" }: { size?: number, className?: s
 );
 
 export const Footer: React.FC = () => {
-  const { content } = useContent();
+  const { content, user } = useContent();
   return (
     <footer className="bg-stone-950 text-stone-400 py-16 md:py-24 text-sm font-light">
       <div className="container mx-auto px-6 md:px-12">
@@ -100,14 +101,15 @@ export const Footer: React.FC = () => {
         <div className="border-t border-stone-800 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs opacity-50">
            <div className="flex gap-2 items-center">
               <p>{content.company.copyright}</p>
-              {/* Secret Admin Trigger */}
-              <button 
-                onClick={() => window.dispatchEvent(new Event('open-admin-login'))}
-                className="opacity-0 hover:opacity-100 transition-opacity px-2 text-stone-700"
-                title="Admin Access"
-              >
-                Admin
-              </button>
+              {!user && (
+                  <Link 
+                    to="/login"
+                    className="opacity-0 hover:opacity-100 transition-opacity px-2 text-stone-700"
+                    title="Admin Access"
+                  >
+                    Admin
+                  </Link>
+              )}
            </div>
            <div className="flex gap-6">
               <span>{content.company.icp}</span>

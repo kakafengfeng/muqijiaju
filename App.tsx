@@ -9,6 +9,7 @@ import { TeamSection } from './components/TeamSection';
 import { NewsSection } from './components/NewsSection';
 import { Footer } from './components/Footer';
 import { ProductDetail } from './pages/ProductDetail';
+import { LoginPage } from './pages/LoginPage';
 import { ContentProvider } from './context/ContentContext';
 import { AdminPanel } from './components/AdminPanel';
 
@@ -23,12 +24,14 @@ function ScrollToTop() {
 function HomePage() {
   return (
     <>
+      <Header />
       <Hero />
       <About />
       <ProductCarousel />
       <ProjectGrid />
       <TeamSection />
       <NewsSection />
+      <Footer />
     </>
   );
 }
@@ -39,15 +42,11 @@ function App() {
       <Router>
         <ScrollToTop />
         <div className="min-h-screen bg-stone-50 font-sans text-stone-900 selection:bg-stone-900 selection:text-white">
-          <Header />
-          <main>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              {/* Add more routes for other sections as needed */}
-            </Routes>
-          </main>
-          <Footer />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/product/:id" element={<><Header /><ProductDetail /><Footer /></>} />
+            <Route path="/login" element={<LoginPage />} />
+          </Routes>
           <AdminPanel />
         </div>
       </Router>
