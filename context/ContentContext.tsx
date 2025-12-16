@@ -2,12 +2,11 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { SiteContent } from '../types';
 import { CONTENT as INITIAL_CONTENT } from '../constants';
 import { db, auth } from '../firebase';
-import { doc, onSnapshot, setDoc, getDoc } from 'firebase/firestore';
-import { onAuthStateChanged, User, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import firebase from 'firebase/app';
 
 interface ContentContextType {
   content: SiteContent;
-  user: User | null;
+  user: firebase.User | null;
   loading: boolean;
   updateContent: (section: keyof SiteContent, data: any) => void;
   updateNestedContent: (path: string[], value: any) => void;
@@ -21,17 +20,31 @@ const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [content, setContent] = useState<SiteContent>(INITIAL_CONTENT);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<firebase.User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // 1. Listen for Auth State Changes
+  // 1. Listen for Auth State Changes & Local Storage for Demo
   useEffect(() => {
+    // Check local storage for demo user first (Mock persistence)
+    const demoUserStr = localStorage.getItem('muqi_demo_user');
+    if (demoUserStr) {
+        setUser(JSON.parse(demoUserStr));
+    }
+
     if (!auth) {
         setLoading(false);
         return;
     }
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+      } else {
+        // Only clear user if not using demo account
+        if (!localStorage.getItem('muqi_demo_user')) {
+             setUser(null);
+        }
+      }
       setLoading(false);
     });
     return () => unsubscribe();
@@ -41,32 +54,40 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
   useEffect(() => {
     if (!db) return;
     
-    const docRef = doc(db, 'site_content', 'main');
-    
-    // Subscribe to live updates
-    const unsubscribe = onSnapshot(docRef, (docSnap) => {
-      if (docSnap.exists()) {
-        setContent(docSnap.data() as SiteContent);
-      } else {
-        // If doc doesn't exist (first run), we might want to initialize it
-        // or just stick with INITIAL_CONTENT until saved
-        console.log("No remote content found, using default.");
-      }
-    }, (error) => {
-        console.error("Firestore sync error:", error);
-    });
-
-    return () => unsubscribe();
+    try {
+        const docRef = db.collection('site_content').doc('main');
+        // Subscribe to live updates
+        const unsubscribe = docRef.onSnapshot((docSnap) => {
+          if (docSnap.exists) {
+            setContent(docSnap.data() as SiteContent);
+          } else {
+            console.log("No remote content found, using default.");
+          }
+        }, (error) => {
+            console.warn("Firestore sync unavailable (expected in demo mode):", error.message);
+        });
+        return () => unsubscribe();
+    } catch (e) {
+        console.warn("Firestore init error", e);
+    }
   }, []);
 
   // Save entire state to Firestore
   const saveContent = async () => {
+    // If using demo user, just show alert
+    if (user && (user as any).isDemo) {
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 800));
+        console.log("Demo Mode: Content saved to local state only.");
+        return;
+    }
+
     if (!db || !user) {
         alert("Database not connected or user not logged in.");
         return;
     }
     try {
-      await setDoc(doc(db, 'site_content', 'main'), content);
+      await db.collection('site_content').doc('main').set(content);
     } catch (e) {
       console.error("Failed to save content", e);
       throw e;
@@ -93,21 +114,42 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const resetContent = () => {
-    if(window.confirm('重置将覆盖数据库中的内容为默认值，确定吗？')) {
+    if(window.confirm('重置将覆盖当前内容为默认值，确定吗？')) {
         setContent(INITIAL_CONTENT);
-        // Optionally immediately save to DB to "hard reset" remote
-        // saveContent(); 
     }
   };
 
   const login = async (email: string, pass: string) => {
-      if (!auth) throw new Error("Auth not initialized");
-      await signInWithEmailAndPassword(auth, email, pass);
+      // --- DEMO ACCOUNT BYPASS ---
+      if (email === 'admin@muqi.com' && pass === '123456') {
+          const mockUser = {
+              uid: 'demo-admin-001',
+              email: 'admin@muqi.com',
+              displayName: 'Demo Administrator',
+              emailVerified: true,
+              isDemo: true // Custom flag
+          } as unknown as firebase.User;
+          
+          localStorage.setItem('muqi_demo_user', JSON.stringify(mockUser));
+          setUser(mockUser);
+          return;
+      }
+      // ---------------------------
+
+      if (!auth) throw new Error("Auth not initialized. Use demo account: admin@muqi.com / 123456");
+      await auth.signInWithEmailAndPassword(email, pass);
   };
 
   const logout = async () => {
-      if (!auth) return;
-      await signOut(auth);
+      localStorage.removeItem('muqi_demo_user');
+      setUser(null);
+      if (auth) {
+          try {
+            await auth.signOut();
+          } catch (e) {
+            console.warn("Firebase signout error", e);
+          }
+      }
   };
 
   return (
@@ -118,7 +160,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         updateContent, 
         updateNestedContent, 
         saveContent, 
-        resetContent,
+        resetContent, 
         login,
         logout
     }}>

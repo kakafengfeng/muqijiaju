@@ -1,6 +1,6 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
 
 // TODO: Replace with your actual Firebase project configuration
 const firebaseConfig = {
@@ -13,15 +13,19 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-// We use a try-catch block to prevent the app from crashing entirely if config is missing in development
 let app;
 let auth;
 let db;
 
 try {
-  app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  db = getFirestore(app);
+  // Check if firebase is already initialized
+  if (!firebase.apps.length) {
+    app = firebase.initializeApp(firebaseConfig);
+  } else {
+    app = firebase.app();
+  }
+  auth = firebase.auth();
+  db = firebase.firestore();
 } catch (error) {
   console.warn("Firebase initialization failed. Please check your firebase.ts config.", error);
 }
