@@ -46,11 +46,19 @@ export interface TeamMember {
   image: string;
 }
 
+export interface DepartmentMember {
+  id: string;
+  name: string;
+  role: string;
+  intro: string;
+  image: string;
+}
+
 export interface Department {
   id: string;
   department: string;
   manager?: string;
-  members: string[];
+  members: DepartmentMember[];
 }
 
 export interface NewsItem {

@@ -1,6 +1,6 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 // TODO: Replace with your actual Firebase project configuration
 const firebaseConfig = {
@@ -18,16 +18,16 @@ let auth;
 let db;
 
 try {
-  // Check if firebase is already initialized
-  if (!firebase.apps.length) {
-    app = firebase.initializeApp(firebaseConfig);
+  // Check if firebase is already initialized to prevent hot-reload errors
+  if (getApps().length === 0) {
+    app = initializeApp(firebaseConfig);
   } else {
-    app = firebase.app();
+    app = getApp();
   }
-  auth = firebase.auth();
-  db = firebase.firestore();
+  auth = getAuth(app);
+  db = getFirestore(app);
 } catch (error) {
-  console.warn("Firebase initialization failed. Please check your firebase.ts config.", error);
+  console.warn("Firebase initialization failed. If you haven't configured your API keys, this is expected.", error);
 }
 
 export { auth, db };

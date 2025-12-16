@@ -110,40 +110,194 @@ export const CONTENT: SiteContent = {
       id: "d1",
       department: "销售部",
       manager: "郑晓博",
-      members: ["王丽娜", "王丽艳", "王南南", "李秦严", "费宏娜"]
+      members: [
+        { 
+          id: "d1-m1", 
+          name: "王丽娜", 
+          role: "销售经理", 
+          intro: "倾听客户需求，提供最温暖的家居方案。", 
+          image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600&h=800" 
+        },
+        { 
+          id: "d1-m2", 
+          name: "王丽艳", 
+          role: "高级顾问", 
+          intro: "专业与热情并重，为您排忧解难。", 
+          image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600&h=800" 
+        },
+        { 
+          id: "d1-m3", 
+          name: "王南南", 
+          role: "客户经理", 
+          intro: "致力于建立长期的客户信任关系。", 
+          image: "https://images.unsplash.com/photo-1598550874175-4d7112ee7f8e?auto=format&fit=crop&q=80&w=600&h=800" 
+        },
+        { 
+          id: "d1-m4", 
+          name: "李秦严", 
+          role: "销售代表", 
+          intro: "用真诚的服务打动每一位客户。", 
+          image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=600&h=800" 
+        },
+        { 
+          id: "d1-m5", 
+          name: "费宏娜", 
+          role: "商务助理", 
+          intro: "细致入微，确保每一个环节完美衔接。", 
+          image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=600&h=800" 
+        }
+      ]
     },
     {
       id: "d2",
       department: "设计部",
       manager: "王广大",
-      members: ["尤艳涛", "石立菊", "王秦琳", "王舒淼", "邢旺", "周颖", "林泉"]
+      members: [
+        { 
+          id: "d2-m1", 
+          name: "尤艳涛", 
+          role: "主案设计师", 
+          intro: "设计不只是视觉，更是生活的艺术。", 
+          image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600&h=800" 
+        },
+        { 
+          id: "d2-m2", 
+          name: "石立菊", 
+          role: "空间规划师", 
+          intro: "在有限的空间里创造无限的可能。", 
+          image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=600&h=800" 
+        },
+        { 
+          id: "d2-m3", 
+          name: "王秦琳", 
+          role: "软装设计师", 
+          intro: "色彩与材质的碰撞，激发生活灵感。", 
+          image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600&h=800" 
+        },
+        { 
+          id: "d2-m4", 
+          name: "王舒淼", 
+          role: "深化设计师", 
+          intro: "专注细节，将设计图纸完美落地。", 
+          image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&q=80&w=600&h=800" 
+        },
+        { 
+          id: "d2-m5", 
+          name: "邢旺", 
+          role: "3D渲染师", 
+          intro: "用光影还原真实的未来家园。", 
+          image: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&q=80&w=600&h=800" 
+        },
+        { 
+          id: "d2-m6", 
+          name: "周颖", 
+          role: "设计师", 
+          intro: "创新是设计的灵魂。", 
+          image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=600&h=800" 
+        },
+        { 
+          id: "d2-m7", 
+          name: "林泉", 
+          role: "设计助理", 
+          intro: "学习与成长，为设计注入新活力。", 
+          image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600&h=800" 
+        }
+      ]
     },
     {
       id: "d3",
       department: "安装部",
       manager: "刘潘潘",
-      members: ["王明鑫", "张雄", "潘小玲", "张靓靓", "韩伪南", "秦超磊", "王华伟", "皇凡磊"]
+      members: [
+        { 
+          id: "d3-m1", 
+          name: "王明鑫", 
+          role: "安装组长", 
+          intro: "精准安装，确保每一毫米的严丝合缝。", 
+          image: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?auto=format&fit=crop&q=80&w=600&h=800" 
+        },
+        { 
+          id: "d3-m2", 
+          name: "张雄", 
+          role: "高级技师", 
+          intro: "经验丰富，解决各种现场难题。", 
+          image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&q=80&w=600&h=800" 
+        },
+        { 
+          id: "d3-m3", 
+          name: "潘小玲", 
+          role: "安装调度", 
+          intro: "统筹安排，保证工期按时交付。", 
+          image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=600&h=800" 
+        },
+        { 
+            id: "d3-m4",
+            name: "张靓靓",
+            role: "技师",
+            intro: "匠心工艺，追求卓越。",
+            image: "https://images.unsplash.com/photo-1530268729831-4b0b9e170218?auto=format&fit=crop&q=80&w=600&h=800"
+        },
+        {
+            id: "d3-m5",
+            name: "韩伪南",
+            role: "技师",
+            intro: "严谨细致，服务至上。",
+            image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=600&h=800"
+        },
+        {
+             id: "d3-m6",
+             name: "秦超磊",
+             role: "技师",
+             intro: "专业技术，品质保障。",
+             image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=600&h=800"
+        },
+        {
+             id: "d3-m7",
+             name: "王华伟",
+             role: "技师",
+             intro: "脚踏实地，精益求精。",
+             image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600&h=800"
+        },
+        {
+             id: "d3-m8",
+             name: "皇凡磊",
+             role: "技师",
+             intro: "用心服务，客户满意。",
+             image: "https://images.unsplash.com/photo-1480429370139-e0132c086e2a?auto=format&fit=crop&q=80&w=600&h=800"
+        }
+      ]
     },
     {
       id: "d4",
       department: "物流部",
       manager: "周阳",
-      members: ["依鹏", "周连成", "王泽有", "王文博"]
+      members: [
+        { id: "d4-m1", name: "依鹏", role: "物流专员", intro: "安全送达，风雨无阻。", image: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=600&h=800" },
+        { id: "d4-m2", name: "周连成", role: "仓储主管", intro: "井井有条，高效流转。", image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=600&h=800" },
+        { id: "d4-m3", name: "王泽有", role: "物流司机", intro: "准时送达，使命必达。", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=600&h=800" },
+        { id: "d4-m4", name: "王文博", role: "配送员", intro: "细心搬运，呵护每一件家具。", image: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&q=80&w=600&h=800" }
+      ]
     },
     {
       id: "d5",
       department: "下单部",
-      members: ["张艳慧"]
+      members: [
+        { id: "d5-m1", name: "张艳慧", role: "下单主管", intro: "精准核对，源头把控。", image: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600&h=800" }
+      ]
     },
     {
       id: "d6",
       department: "调度员",
-      members: ["陈莲红"]
+      members: [
+        { id: "d6-m1", name: "陈莲红", role: "总调度", intro: "运筹帷幄，统筹全局。", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=600&h=800" }
+      ]
     },
     {
       id: "d7",
       department: "财务部",
-      members: ["陈吉"]
+      members: [
+        { id: "d7-m1", name: "陈吉", role: "财务经理", intro: "严谨合规，为企业护航。", image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600&h=800" }
+      ]
     }
   ],
   news: [

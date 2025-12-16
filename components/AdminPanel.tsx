@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
 import { useContent } from '../context/ContentContext';
-import { Settings, X, Image as ImageIcon, ChevronRight, ChevronDown, Trash2, Plus, Save, LogOut, RotateCcw, Lock } from 'lucide-react';
+import { Settings, X, Image as ImageIcon, ChevronRight, ChevronDown, Trash2, Plus, Save, LogOut, RotateCcw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
@@ -39,7 +40,7 @@ export const AdminPanel: React.FC = () => {
     let newItem = {};
 
     switch (sectionId) {
-      case 'team':
+      case 'team': // Legacy flat team array if used
         newItem = { id, name: 'New Member', role: 'Position', intro: 'Introduction...', image: 'https://aistudiocdn.com/images/placeholder-portrait.jpg' };
         break;
       case 'news':
@@ -51,6 +52,7 @@ export const AdminPanel: React.FC = () => {
       case 'projects':
         newItem = { id, name: 'New Project', category: 'Category', year: '2025', image: 'https://aistudiocdn.com/images/placeholder.jpg' };
         break;
+      // Departments are handled separately due to nested complexity
       default: return;
     }
     updateContent(sectionId as any, [...currentArray, newItem]);
@@ -61,6 +63,28 @@ export const AdminPanel: React.FC = () => {
         const currentArray = (content as any)[sectionId];
         updateContent(sectionId as any, currentArray.filter((_: any, idx: number) => idx !== index));
     }
+  };
+
+  const handleAddDepartmentMember = (deptIndex: number) => {
+      const departments = [...content.departments];
+      const newMember = {
+          id: `new-${Date.now()}`,
+          name: "New Member",
+          role: "Role",
+          intro: "Introduction",
+          image: "https://aistudiocdn.com/images/placeholder-portrait.jpg"
+      };
+      if (!departments[deptIndex].members) departments[deptIndex].members = [];
+      departments[deptIndex].members.push(newMember);
+      updateContent('departments', departments);
+  };
+
+  const handleDeleteDepartmentMember = (deptIndex: number, memberIndex: number) => {
+      if (window.confirm('Delete this member?')) {
+          const departments = [...content.departments];
+          departments[deptIndex].members.splice(memberIndex, 1);
+          updateContent('departments', departments);
+      }
   };
 
   // Image Upload (Base64 for simplicity in this demo, ideally upload to Firebase Storage)
@@ -76,9 +100,9 @@ export const AdminPanel: React.FC = () => {
   const sections = [
     { id: 'hero', label: '首页 Hero' },
     { id: 'about', label: '关于 About' },
+    { id: 'departments', label: '团队架构 (Departments)' }, 
     { id: 'products', label: '产品 Products', isArray: true },
     { id: 'projects', label: '项目 Projects', isArray: true },
-    { id: 'team', label: '团队 Team', isArray: true },
     { id: 'news', label: '新闻 News', isArray: true },
     { id: 'company', label: '公司信息 Company' },
   ];
@@ -96,7 +120,7 @@ export const AdminPanel: React.FC = () => {
   }
 
   return (
-    <div className="fixed inset-y-0 right-0 w-[400px] bg-white z-[100] shadow-2xl flex flex-col border-l border-stone-200">
+    <div className="fixed inset-y-0 right-0 w-[450px] bg-white z-[100] shadow-2xl flex flex-col border-l border-stone-200">
       {/* Header */}
       <div className="p-6 bg-stone-900 text-white flex justify-between items-center">
         <div>
@@ -152,6 +176,7 @@ export const AdminPanel: React.FC = () => {
                   className="overflow-hidden"
                 >
                   <div className="pt-4 space-y-4">
+                    {/* --- Single Sections --- */}
                     {section.id === 'hero' && (
                       <>
                         <InputField label="Title" path={['hero', 'title']} />
@@ -174,6 +199,49 @@ export const AdminPanel: React.FC = () => {
                         </>
                      )}
 
+                    {/* --- Departments Special Logic --- */}
+                    {section.id === 'departments' && (
+                        <div className="space-y-6">
+                           {content.departments.map((dept, deptIdx) => (
+                              <div key={dept.id || deptIdx} className="bg-stone-50 border border-stone-200 rounded-lg p-3">
+                                  <div className="flex justify-between items-center mb-2">
+                                     <h4 className="font-bold text-sm">{dept.department}</h4>
+                                     <InputField label="Manager" path={['departments', deptIdx.toString(), 'manager']} />
+                                  </div>
+                                  
+                                  <div className="mt-4 space-y-3">
+                                      <label className="text-[10px] uppercase font-bold text-stone-400">Members List</label>
+                                      {dept.members?.map((member, memIdx) => (
+                                          <div key={member.id || memIdx} className="bg-white p-3 rounded border border-stone-100 relative">
+                                              <button 
+                                                  onClick={() => handleDeleteDepartmentMember(deptIdx, memIdx)}
+                                                  className="absolute top-2 right-2 text-stone-300 hover:text-red-500"
+                                              >
+                                                  <Trash2 size={12} />
+                                              </button>
+                                              <div className="grid grid-cols-2 gap-2 mb-2">
+                                                  <InputField label="Name" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'name']} />
+                                                  <InputField label="Role" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'role']} />
+                                              </div>
+                                              <TextAreaField label="Intro" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'intro']} />
+                                              <div className="mt-2">
+                                                  <ImageUploadField label="Photo" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'image']} />
+                                              </div>
+                                          </div>
+                                      ))}
+                                      <button 
+                                          onClick={() => handleAddDepartmentMember(deptIdx)}
+                                          className="w-full py-2 text-xs border border-dashed border-stone-300 rounded hover:bg-white hover:border-stone-900 transition-colors flex items-center justify-center gap-1"
+                                      >
+                                          <Plus size={12} /> Add Member
+                                      </button>
+                                  </div>
+                              </div>
+                           ))}
+                        </div>
+                    )}
+
+                    {/* --- Standard Array Sections --- */}
                     {section.isArray && (
                       <div className="space-y-6">
                         {(content as any)[section.id].map((item: any, idx: number) => (
@@ -184,14 +252,6 @@ export const AdminPanel: React.FC = () => {
                                         <Trash2 size={14} />
                                     </button>
                                 </div>
-                                {section.id === 'team' && (
-                                    <>
-                                        <InputField label="Name" path={['team', idx.toString(), 'name']} />
-                                        <InputField label="Role" path={['team', idx.toString(), 'role']} />
-                                        <TextAreaField label="Intro" path={['team', idx.toString(), 'intro']} />
-                                        <ImageUploadField label="Photo" path={['team', idx.toString(), 'image']} />
-                                    </>
-                                )}
                                 {section.id === 'news' && (
                                     <>
                                         <InputField label="Title" path={['news', idx.toString(), 'title']} />
@@ -235,15 +295,21 @@ export const AdminPanel: React.FC = () => {
 
   function InputField({ label, path }: { label: string; path: string[] }) {
     let value: any = content;
-    for (const key of path) value = value?.[key];
+    for (const key of path) {
+        if (value && value[key] !== undefined) {
+             value = value[key];
+        } else {
+             value = '';
+        }
+    }
     return (
-      <div className="space-y-1">
-        <label className="text-xs uppercase font-bold text-stone-500">{label}</label>
+      <div className="space-y-1 w-full">
+        <label className="text-[10px] uppercase font-bold text-stone-400">{label}</label>
         <input
           type="text"
           value={value as string || ''}
           onChange={(e) => updateNestedContent(path, e.target.value)}
-          className="w-full p-2 text-sm border border-stone-200 rounded focus:border-stone-900 outline-none"
+          className="w-full p-2 text-sm border border-stone-200 rounded focus:border-stone-900 outline-none bg-white"
         />
       </div>
     );
@@ -251,15 +317,21 @@ export const AdminPanel: React.FC = () => {
 
   function TextAreaField({ label, path }: { label: string; path: string[] }) {
       let value: any = content;
-      for (const key of path) value = value?.[key];
+      for (const key of path) {
+        if (value && value[key] !== undefined) {
+             value = value[key];
+        } else {
+             value = '';
+        }
+    }
       return (
-        <div className="space-y-1">
-          <label className="text-xs uppercase font-bold text-stone-500">{label}</label>
+        <div className="space-y-1 w-full">
+          <label className="text-[10px] uppercase font-bold text-stone-400">{label}</label>
           <textarea
             value={value as string || ''}
             onChange={(e) => updateNestedContent(path, e.target.value)}
-            rows={3}
-            className="w-full p-2 text-sm border border-stone-200 rounded focus:border-stone-900 outline-none resize-none"
+            rows={2}
+            className="w-full p-2 text-sm border border-stone-200 rounded focus:border-stone-900 outline-none resize-none bg-white"
           />
         </div>
       );
@@ -267,17 +339,23 @@ export const AdminPanel: React.FC = () => {
 
   function ImageUploadField({ label, path }: { label: string; path: string[] }) {
      let value: any = content;
-      for (const key of path) value = value?.[key];
+     for (const key of path) {
+        if (value && value[key] !== undefined) {
+             value = value[key];
+        } else {
+             value = '';
+        }
+    }
     return (
-        <div className="space-y-2">
-            <label className="text-xs uppercase font-bold text-stone-500">{label}</label>
-            <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-stone-200 rounded overflow-hidden flex-shrink-0 relative">
-                    {value ? <img src={value as string} className="w-full h-full object-cover" /> : <div className="text-[10px] p-1">No Img</div>}
+        <div className="space-y-2 w-full">
+            <label className="text-[10px] uppercase font-bold text-stone-400">{label}</label>
+            <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-stone-200 rounded overflow-hidden flex-shrink-0 relative border border-stone-300">
+                    {value ? <img src={value as string} className="w-full h-full object-cover" /> : <div className="text-[8px] p-1 text-center mt-2">No Img</div>}
                 </div>
                 <label className="flex-1 cursor-pointer">
-                    <div className="flex items-center justify-center w-full px-3 py-2 text-xs border border-dashed border-stone-300 rounded hover:border-stone-900">
-                        <ImageIcon size={14} className="mr-2" /> <span>Change</span>
+                    <div className="flex items-center justify-center w-full px-2 py-2 text-[10px] border border-dashed border-stone-300 rounded hover:border-stone-900 hover:text-stone-900 text-stone-500 bg-white">
+                        <ImageIcon size={12} className="mr-2" /> <span>Upload</span>
                     </div>
                     <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, path)} />
                 </label>
