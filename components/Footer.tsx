@@ -1,7 +1,7 @@
+
 import React from 'react';
 import { useContent } from '../context/ContentContext';
-import { Instagram, Linkedin, Lock } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Instagram, Linkedin } from 'lucide-react';
 
 const WechatIcon = ({ size = 20, className = "" }: { size?: number, className?: string }) => (
   <svg 
@@ -44,7 +44,7 @@ const WeiboIcon = ({ size = 20, className = "" }: { size?: number, className?: s
 );
 
 export const Footer: React.FC = () => {
-  const { content, user } = useContent();
+  const { content } = useContent();
   return (
     <footer className="bg-stone-950 text-stone-400 py-16 md:py-24 text-sm font-light">
       <div className="container mx-auto px-6 md:px-12">
@@ -103,15 +103,7 @@ export const Footer: React.FC = () => {
               <p>{content.company.copyright}</p>
            </div>
            
-           {!user && (
-              <Link 
-                to="/login"
-                className="flex items-center gap-2 px-4 py-2 bg-stone-800 text-white rounded hover:bg-white hover:text-stone-950 transition-all uppercase tracking-widest text-[10px] font-bold"
-                title="Admin Access"
-              >
-                <Lock size={12} /> Admin Login
-              </Link>
-           )}
+           {/* Admin Link Hidden */}
 
            <div className="flex gap-6 opacity-50">
               <span>{content.company.icp}</span>
