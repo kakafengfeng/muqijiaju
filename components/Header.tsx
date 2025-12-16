@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Globe, Search } from 'lucide-react';
+import { Menu, X, Globe, Search, Lock } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 
 export const Header: React.FC = () => {
-  const { content } = useContent();
+  const { content, user } = useContent();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
@@ -68,6 +68,15 @@ export const Header: React.FC = () => {
 
           {/* Utilities */}
           <div className="hidden md:flex items-center gap-6">
+            {!user && (
+              <Link 
+                to="/login" 
+                className={`hover:opacity-60 transition-opacity ${textColor}`}
+                title="Admin Login"
+              >
+                <Lock size={18} strokeWidth={1.5} />
+              </Link>
+            )}
             <button className={`hover:opacity-60 transition-opacity ${textColor}`}>
                 <Search size={20} strokeWidth={1.5} />
             </button>
@@ -108,6 +117,15 @@ export const Header: React.FC = () => {
                   {item.label}
                 </a>
               ))}
+              {!user && (
+                <Link
+                  to="/login"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-2xl text-stone-900 font-light tracking-widest uppercase flex items-center gap-2 justify-center"
+                >
+                  <Lock size={24} /> Admin
+                </Link>
+              )}
             </nav>
           </motion.div>
         )}

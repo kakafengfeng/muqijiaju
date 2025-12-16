@@ -1,6 +1,6 @@
 import React from 'react';
 import { useContent } from '../context/ContentContext';
-import { Instagram, Linkedin } from 'lucide-react';
+import { Instagram, Linkedin, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const WechatIcon = ({ size = 20, className = "" }: { size?: number, className?: string }) => (
@@ -98,20 +98,22 @@ export const Footer: React.FC = () => {
            </div>
         </div>
 
-        <div className="border-t border-stone-800 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs opacity-50">
-           <div className="flex gap-2 items-center">
+        <div className="border-t border-stone-800 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs">
+           <div className="flex flex-wrap gap-4 items-center opacity-50">
               <p>{content.company.copyright}</p>
-              {!user && (
-                  <Link 
-                    to="/login"
-                    className="opacity-0 hover:opacity-100 transition-opacity px-2 text-stone-700"
-                    title="Admin Access"
-                  >
-                    Admin
-                  </Link>
-              )}
            </div>
-           <div className="flex gap-6">
+           
+           {!user && (
+              <Link 
+                to="/login"
+                className="flex items-center gap-2 px-4 py-2 bg-stone-800 text-white rounded hover:bg-white hover:text-stone-950 transition-all uppercase tracking-widest text-[10px] font-bold"
+                title="Admin Access"
+              >
+                <Lock size={12} /> Admin Login
+              </Link>
+           )}
+
+           <div className="flex gap-6 opacity-50">
               <span>{content.company.icp}</span>
               <span>Privacy Policy</span>
               <span>Terms & Conditions</span>
