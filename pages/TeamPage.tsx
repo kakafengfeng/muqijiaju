@@ -1,9 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useContent } from '../context/ContentContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, User, Star, Database, Lock, X, Plus } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ArrowLeft, Star, Database, Lock, X, Briefcase } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import { CONTENT as DEFAULT_CONTENT } from '../constants';
 import { DepartmentMember } from '../types';
 
@@ -11,6 +11,21 @@ export const TeamPage: React.FC = () => {
   const { content, user, updateContent, saveContent } = useContent();
   const departments = content.departments || [];
   const [selectedMember, setSelectedMember] = useState<DepartmentMember | null>(null);
+  const location = useLocation();
+
+  // Handle Scroll to Hash on Mount
+  useEffect(() => {
+    if (location.hash) {
+        const id = location.hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+            // Slight delay to ensure DOM is ready and animation doesn't conflict
+            setTimeout(() => {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 500);
+        }
+    }
+  }, [location]);
 
   // Lock body scroll when modal is open
   React.useEffect(() => {
@@ -45,7 +60,7 @@ export const TeamPage: React.FC = () => {
           <Link to="/" className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-stone-900 hover:opacity-60 transition-opacity">
              <ArrowLeft size={16} /> Back to Home
           </Link>
-          <span className="text-xs font-bold text-stone-400 uppercase">Our Team</span>
+          <span className="text-xs font-bold text-stone-400 uppercase">Organization</span>
        </div>
 
        <div className="container mx-auto px-6 md:px-12 pt-32 pb-24">
@@ -54,78 +69,58 @@ export const TeamPage: React.FC = () => {
                 initial: { opacity: 0, y: 20 },
                 animate: { opacity: 1, y: 0 }
             } as any)}
-            className="text-center mb-24"
+            className="text-center mb-16"
           >
              <h1 className="text-4xl md:text-5xl font-light text-stone-900 mb-6">团队架构</h1>
              <p className="text-stone-500 max-w-2xl mx-auto font-light leading-relaxed">
-                木栖家居拥有一支专业、高效、富有激情的团队。每一位成员都秉持着匠心精神，致力于为客户创造极致的居家体验。
+                高效协作，专业分工。每一位成员都是木栖大家庭不可或缺的一部分。
              </p>
           </motion.div>
 
-          {/* Departments Loop */}
-          <div className="space-y-32">
+          {/* Department Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
              {departments.map((dept, deptIndex) => (
-                <div key={dept.id || deptIndex}>
-                   {/* Department Header */}
-                   <motion.div 
-                      {...({
-                          initial: { opacity: 0 },
-                          whileInView: { opacity: 1 },
-                          viewport: { once: true }
-                      } as any)}
-                      className="mb-12 flex flex-col md:flex-row md:items-end justify-between border-b border-stone-200 pb-4"
-                   >
-                      <div>
-                          <h2 className="text-3xl font-light text-stone-900 mb-2">{dept.department}</h2>
-                          {dept.manager && (
-                             <div className="flex items-center gap-2 text-stone-500">
-                                <Star size={14} className="text-amber-600" />
-                                <span className="text-sm font-serif italic">Manager: {dept.manager}</span>
-                             </div>
-                          )}
-                      </div>
-                      <span className="text-xs font-bold text-stone-300 uppercase tracking-widest mt-4 md:mt-0">
-                          {dept.members?.length || 0} Members
-                      </span>
-                   </motion.div>
-
-                   {/* Members Grid */}
-                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
-                      {dept.members?.map((member, memberIndex) => (
-                         <motion.div
-                            key={member.id || memberIndex}
-                            layoutId={`member-card-${member.id || memberIndex}`}
-                            {...({
-                                initial: { opacity: 0, y: 20 },
-                                whileInView: { opacity: 1, y: 0 },
-                                viewport: { once: true },
-                                transition: { delay: memberIndex * 0.05 }
-                            } as any)}
-                            className="group cursor-pointer"
-                            onClick={() => setSelectedMember(member)}
-                         >
-                            {/* Card Image */}
-                            <div className="relative aspect-[3/4] bg-stone-200 overflow-hidden mb-4">
-                                <img 
-                                   src={member.image || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'} 
-                                   alt={member.name}
-                                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-out transform group-hover:scale-105"
-                                />
-                                <div className="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 transition-colors duration-500"></div>
-                                <div className="absolute bottom-4 right-4 bg-white text-stone-900 p-2 rounded-full opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                   <Plus size={16} />
-                                </div>
-                            </div>
-
-                            {/* Card Info */}
-                            <div>
-                               <h3 className="text-lg font-bold text-stone-900">{member.name}</h3>
-                               <p className="text-xs text-stone-500 uppercase tracking-wider mt-1">{member.role}</p>
-                            </div>
-                         </motion.div>
-                      ))}
+                <motion.div
+                   id={dept.id} // Added ID for Anchor Scroll
+                   key={dept.id || deptIndex}
+                   {...({
+                       initial: { opacity: 0, y: 20 },
+                       whileInView: { opacity: 1, y: 0 },
+                       viewport: { once: true },
+                       transition: { delay: deptIndex * 0.1 }
+                   } as any)}
+                   className="bg-white p-8 rounded-sm shadow-sm hover:shadow-md transition-shadow duration-300 border border-stone-100 flex flex-col h-full scroll-mt-32" // scroll-mt for sticky header offset
+                >
+                   {/* Header: Dept Name & Manager */}
+                   <div className="mb-6 border-b border-stone-100 pb-4">
+                       <h2 className="text-2xl font-bold text-stone-900 mb-3">{dept.department}</h2>
+                       {dept.manager ? (
+                           <div className="flex items-center gap-2 text-amber-700 bg-amber-50 px-3 py-2 rounded-md w-fit">
+                               <Star size={16} fill="currentColor" className="text-amber-500" />
+                               <span className="text-sm font-bold tracking-wide">Manager: {dept.manager}</span>
+                           </div>
+                       ) : (
+                           <div className="h-9"></div> // Spacer to align cards if no manager
+                       )}
                    </div>
-                </div>
+
+                   {/* Members List - Tag Style */}
+                   <div className="flex-1">
+                       <div className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-3">Members ({dept.members?.length || 0})</div>
+                       <div className="flex flex-wrap gap-2">
+                           {dept.members?.map((member, mIndex) => (
+                               <button 
+                                   key={member.id || mIndex}
+                                   onClick={() => setSelectedMember(member)}
+                                   className="px-3 py-1.5 bg-stone-100 text-stone-600 rounded-full text-sm hover:bg-stone-900 hover:text-white transition-colors duration-200 flex items-center gap-1 group"
+                               >
+                                   <Briefcase size={12} className="opacity-0 w-0 group-hover:w-3 group-hover:opacity-100 transition-all duration-200" />
+                                   {member.name}
+                               </button>
+                           ))}
+                       </div>
+                   </div>
+                </motion.div>
              ))}
           </div>
 
@@ -149,9 +144,6 @@ export const TeamPage: React.FC = () => {
                       <Database size={18} />
                       Reset to Default Data
                    </button>
-                   <p className="text-[10px] text-stone-400 mt-3 max-w-xs">
-                      Updates the database with the defined structure (images, roles, intros).
-                   </p>
                 </div>
              </motion.div>
           )}
@@ -175,45 +167,34 @@ export const TeamPage: React.FC = () => {
                 </button>
 
                 <motion.div
-                   layoutId={`member-card-${selectedMember.id}`}
-                   className="bg-white w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col md:flex-row shadow-2xl"
+                   className="bg-white w-full max-w-lg overflow-hidden flex flex-col shadow-2xl rounded-lg"
                    onClick={(e) => e.stopPropagation()}
+                   initial={{ scale: 0.9, opacity: 0 }}
+                   animate={{ scale: 1, opacity: 1 }}
                 >
                    {/* Modal Image */}
-                   <div className="w-full md:w-1/2 aspect-[4/5] md:aspect-auto bg-stone-200 relative">
+                   <div className="w-full aspect-video bg-stone-200 relative overflow-hidden">
                        <img 
                           src={selectedMember.image} 
                           alt={selectedMember.name} 
                           className="w-full h-full object-cover"
                        />
+                       <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 to-transparent"></div>
+                       <div className="absolute bottom-6 left-6 text-white">
+                           <h2 className="text-3xl font-light mb-1">{selectedMember.name}</h2>
+                           <p className="text-amber-400 text-sm font-bold uppercase tracking-wider">{selectedMember.role}</p>
+                       </div>
                    </div>
 
                    {/* Modal Content */}
-                   <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white">
-                      <span className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-2">Team Member</span>
-                      <h2 className="text-3xl md:text-4xl font-light text-stone-900 mb-2">{selectedMember.name}</h2>
-                      <div className="text-sm font-medium text-amber-600 mb-8 uppercase tracking-wider">{selectedMember.role}</div>
+                   <div className="p-8">
+                      <span className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-4 block">Introduction</span>
+                      <p className="text-stone-600 leading-relaxed font-serif italic text-lg">
+                         "{selectedMember.intro || "暂无个人介绍"}"
+                      </p>
                       
-                      <div className="h-[1px] w-12 bg-stone-200 mb-8"></div>
-                      
-                      <div className="relative">
-                         <span className="absolute -top-4 -left-2 text-6xl text-stone-100 font-serif">"</span>
-                         <p className="text-stone-600 leading-relaxed font-serif italic text-lg relative z-10">
-                            {selectedMember.intro || "暂无个人介绍"}
-                         </p>
-                      </div>
-                      
-                      <div className="mt-12 pt-8 border-t border-stone-100 flex gap-8">
-                         <div>
-                            <span className="block text-[10px] uppercase font-bold text-stone-400">Department</span>
-                            <span className="text-stone-900 text-sm">
-                                {departments.find(d => d.members.find(m => m.id === selectedMember.id))?.department}
-                            </span>
-                         </div>
-                         <div>
-                            <span className="block text-[10px] uppercase font-bold text-stone-400">ID</span>
-                            <span className="text-stone-900 text-sm">{selectedMember.id}</span>
-                         </div>
+                      <div className="mt-8 pt-6 border-t border-stone-100 text-center">
+                         <span className="text-xs text-stone-400">Employee ID: {selectedMember.id}</span>
                       </div>
                    </div>
                 </motion.div>
