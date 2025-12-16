@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
@@ -10,6 +11,7 @@ import { NewsSection } from './components/NewsSection';
 import { Footer } from './components/Footer';
 import { ProductDetail } from './pages/ProductDetail';
 import { LoginPage } from './pages/LoginPage';
+import { TeamPage } from './pages/TeamPage';
 import { ContentProvider } from './context/ContentContext';
 import { AdminPanel } from './components/AdminPanel';
 
@@ -45,6 +47,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/product/:id" element={<><Header /><ProductDetail /><Footer /></>} />
+            <Route path="/team" element={<TeamPage />} />
             <Route path="/login" element={<LoginPage />} />
           </Routes>
           <AdminPanel />

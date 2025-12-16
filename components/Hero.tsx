@@ -33,36 +33,44 @@ export const Hero: React.FC = () => {
       <div className="relative z-20 h-full container mx-auto px-6 md:px-12 flex flex-col justify-center text-white">
         <div className="max-w-4xl">
           <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
+            {...({
+                initial: { opacity: 0, y: 20 },
+                animate: { opacity: 1, y: 0 },
+                transition: { delay: 0.2, duration: 0.8 }
+            } as any)}
             className="text-lg md:text-xl font-serif italic tracking-wider mb-4 text-stone-200"
           >
             {content.hero.subtitle}
           </motion.h2>
 
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
+            {...({
+                initial: { opacity: 0, y: 30 },
+                animate: { opacity: 1, y: 0 },
+                transition: { delay: 0.4, duration: 0.8 }
+            } as any)}
             className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wide leading-tight mb-8"
           >
             {content.hero.title}
           </motion.h1>
 
           <motion.p 
-             initial={{ opacity: 0 }}
-             animate={{ opacity: 1 }}
-             transition={{ delay: 0.6, duration: 1 }}
+             {...({
+                 initial: { opacity: 0 },
+                 animate: { opacity: 1 },
+                 transition: { delay: 0.6, duration: 1 }
+             } as any)}
              className="text-stone-300 text-sm md:text-base max-w-xl leading-relaxed mb-12 border-l-2 border-stone-500 pl-6"
           >
             {content.hero.description}
           </motion.p>
 
           <motion.div
-             initial={{ opacity: 0, y: 20 }}
-             animate={{ opacity: 1, y: 0 }}
-             transition={{ delay: 0.8, duration: 0.6 }}
+             {...({
+                 initial: { opacity: 0, y: 20 },
+                 animate: { opacity: 1, y: 0 },
+                 transition: { delay: 0.8, duration: 0.6 }
+             } as any)}
              className="flex flex-col sm:flex-row gap-6"
           >
             <button className="group relative px-8 py-4 bg-white text-stone-900 text-sm tracking-widest uppercase transition-transform hover:-translate-y-1">
@@ -79,9 +87,11 @@ export const Hero: React.FC = () => {
 
       {/* Scroll Indicator */}
       <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 1 }}
+        {...({
+            initial: { opacity: 0 },
+            animate: { opacity: 1 },
+            transition: { delay: 1.5, duration: 1 }
+        } as any)}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 text-white/50"
       >
         <span className="text-[10px] uppercase tracking-widest">Scroll</span>

@@ -35,9 +35,11 @@ export const ProductDetail: React.FC = () => {
           <div className="grid md:grid-cols-2 gap-12 lg:gap-24">
              {/* Image */}
              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
+                {...({
+                    initial: { opacity: 0, y: 20 },
+                    animate: { opacity: 1, y: 0 },
+                    transition: { duration: 0.8 }
+                } as any)}
                 className="relative aspect-[4/5] bg-stone-200 overflow-hidden"
              >
                 <img 
@@ -49,9 +51,11 @@ export const ProductDetail: React.FC = () => {
 
              {/* Content */}
              <motion.div 
-                 initial={{ opacity: 0, x: 20 }}
-                 animate={{ opacity: 1, x: 0 }}
-                 transition={{ duration: 0.8, delay: 0.2 }}
+                 {...({
+                     initial: { opacity: 0, x: 20 },
+                     animate: { opacity: 1, x: 0 },
+                     transition: { duration: 0.8, delay: 0.2 }
+                 } as any)}
                  className="flex flex-col justify-center"
              >
                 <span className="text-xs font-bold text-stone-400 tracking-widest uppercase mb-4 block">

@@ -1,3 +1,4 @@
+
 import { SiteContent } from './types';
 
 // DATA PANEL: Edit this object to change website content
@@ -102,6 +103,47 @@ export const CONTENT: SiteContent = {
       role: "工艺总监",
       intro: "匠心独运，对材质与细节有着极致的追求，确保每一件作品都经得起时间的考验。",
       image: "https://picsum.photos/id/64/600/800"
+    }
+  ],
+  departments: [
+    {
+      id: "d1",
+      department: "销售部",
+      manager: "郑晓博",
+      members: ["王丽娜", "王丽艳", "王南南", "李秦严", "费宏娜"]
+    },
+    {
+      id: "d2",
+      department: "设计部",
+      manager: "王广大",
+      members: ["尤艳涛", "石立菊", "王秦琳", "王舒淼", "邢旺", "周颖", "林泉"]
+    },
+    {
+      id: "d3",
+      department: "安装部",
+      manager: "刘潘潘",
+      members: ["王明鑫", "张雄", "潘小玲", "张靓靓", "韩伪南", "秦超磊", "王华伟", "皇凡磊"]
+    },
+    {
+      id: "d4",
+      department: "物流部",
+      manager: "周阳",
+      members: ["依鹏", "周连成", "王泽有", "王文博"]
+    },
+    {
+      id: "d5",
+      department: "下单部",
+      members: ["张艳慧"]
+    },
+    {
+      id: "d6",
+      department: "调度员",
+      members: ["陈莲红"]
+    },
+    {
+      id: "d7",
+      department: "财务部",
+      members: ["陈吉"]
     }
   ],
   news: [

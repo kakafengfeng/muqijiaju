@@ -100,10 +100,12 @@ export const Header: React.FC = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "tween", duration: 0.4 }}
+            {...({
+                initial: { opacity: 0, x: "100%" },
+                animate: { opacity: 1, x: 0 },
+                exit: { opacity: 0, x: "100%" },
+                transition: { type: "tween", duration: 0.4 }
+            } as any)}
             className="fixed inset-0 z-40 bg-stone-50 flex flex-col justify-center items-center md:hidden"
           >
             <nav className="flex flex-col gap-8 text-center">

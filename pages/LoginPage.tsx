@@ -38,8 +38,10 @@ export const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-stone-100 flex items-center justify-center p-6">
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        {...({
+            initial: { opacity: 0, y: 20 },
+            animate: { opacity: 1, y: 0 }
+        } as any)}
         className="bg-white p-8 md:p-12 rounded-lg shadow-xl w-full max-w-md"
       >
         <div className="mb-8 text-center">

@@ -23,12 +23,14 @@ export const About: React.FC = () => {
              <Reveal direction="right">
                 <div ref={containerRef} className="aspect-[4/5] bg-stone-200 overflow-hidden relative">
                   <motion.img 
-                    style={{ y, scale: 1.15 }}
+                    style={{ y, scale: 1.15 } as any}
                     src={content.about.image} 
                     alt="About Muqi" 
                     className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.2 }}
-                    transition={{ duration: 1, ease: "easeOut" }}
+                    {...({
+                        whileHover: { scale: 1.2 },
+                        transition: { duration: 1, ease: "easeOut" }
+                    } as any)}
                   />
                 </div>
              </Reveal>

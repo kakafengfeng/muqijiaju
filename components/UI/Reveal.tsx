@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { motion, useInView, useAnimation, Variants } from 'framer-motion';
+import { motion, useInView, useAnimation } from 'framer-motion';
 
 interface Props {
   children: React.ReactNode;
@@ -29,7 +29,7 @@ export const Reveal: React.FC<Props> = ({ children, width = "100%", delay = 0, d
     }
   };
 
-  const variants: Variants = {
+  const variants = {
     hidden: getHiddenVariant(),
     visible: { 
       opacity: 1, 
@@ -42,9 +42,11 @@ export const Reveal: React.FC<Props> = ({ children, width = "100%", delay = 0, d
   return (
     <div ref={ref} style={{ position: "relative", width, overflow: "hidden" }}>
       <motion.div
-        variants={variants}
-        initial="hidden"
-        animate={mainControls}
+        {...({
+            variants,
+            initial: "hidden",
+            animate: mainControls
+        } as any)}
       >
         {children}
       </motion.div>

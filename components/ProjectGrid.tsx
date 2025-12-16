@@ -76,10 +76,12 @@ export const ProjectGrid: React.FC = () => {
       <AnimatePresence>
         {selectedId && selectedProject && (
           <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            {...({
+                initial: { opacity: 0 },
+                animate: { opacity: 1 },
+                exit: { opacity: 0 },
+                transition: { duration: 0.3 }
+            } as any)}
             className="fixed inset-0 z-[100] bg-stone-950/95 backdrop-blur-sm flex items-center justify-center p-6 md:p-12"
             onClick={() => setSelectedId(null)}
           >
@@ -95,10 +97,12 @@ export const ProjectGrid: React.FC = () => {
             </button>
 
             <motion.div 
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+                {...({
+                    initial: { opacity: 0, scale: 0.95, y: 20 },
+                    animate: { opacity: 1, scale: 1, y: 0 },
+                    exit: { opacity: 0, scale: 0.95, y: 20 },
+                    transition: { duration: 0.4, delay: 0.1, ease: "easeOut" }
+                } as any)}
                 className="relative max-w-6xl w-full flex flex-col items-center"
                 onClick={(e) => e.stopPropagation()} // Prevent closing when clicking content
             >

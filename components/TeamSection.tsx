@@ -1,6 +1,9 @@
+
 import React from 'react';
 import { useContent } from '../context/ContentContext';
 import { Reveal } from './UI/Reveal';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 
 export const TeamSection: React.FC = () => {
   const { content } = useContent();
@@ -15,7 +18,7 @@ export const TeamSection: React.FC = () => {
            </Reveal>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-x-8 gap-y-16">
+        <div className="grid md:grid-cols-3 gap-x-8 gap-y-16 mb-16">
           {content.team.map((member, index) => (
              <Reveal key={member.id} delay={index * 0.1}>
                 <div className="group text-center cursor-default">
@@ -41,6 +44,17 @@ export const TeamSection: React.FC = () => {
              </Reveal>
           ))}
         </div>
+
+        <Reveal>
+           <div className="text-center">
+              <Link 
+                to="/team" 
+                className="inline-flex items-center gap-2 px-8 py-3 border border-stone-200 text-stone-500 hover:border-stone-900 hover:text-stone-900 transition-all uppercase text-xs tracking-widest"
+              >
+                 查看完整团队架构 <ArrowRight size={14} />
+              </Link>
+           </div>
+        </Reveal>
       </div>
     </section>
   );

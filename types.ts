@@ -1,3 +1,4 @@
+
 export interface NavItem {
   label: string;
   href: string;
@@ -45,6 +46,13 @@ export interface TeamMember {
   image: string;
 }
 
+export interface Department {
+  id: string;
+  department: string;
+  manager?: string;
+  members: string[];
+}
+
 export interface NewsItem {
   id: string;
   title: string;
@@ -74,6 +82,7 @@ export interface SiteContent {
   products: ProductItem[];
   projects: ProjectItem[];
   team: TeamMember[];
+  departments: Department[];
   news: NewsItem[];
   company: CompanyInfo;
 }

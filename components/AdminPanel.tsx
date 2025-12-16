@@ -144,9 +144,11 @@ export const AdminPanel: React.FC = () => {
             <AnimatePresence>
               {activeSection === section.id && (
                 <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
+                  {...({
+                      initial: { height: 0, opacity: 0 },
+                      animate: { height: 'auto', opacity: 1 },
+                      exit: { height: 0, opacity: 0 }
+                  } as any)}
                   className="overflow-hidden"
                 >
                   <div className="pt-4 space-y-4">
