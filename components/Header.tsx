@@ -29,7 +29,11 @@ export const Header: React.FC = () => {
     : 'bg-transparent py-8 text-white';
 
   const textColor = !isHome || isScrolled ? 'text-stone-900' : 'text-white';
-  const logoColor = !isHome || isScrolled ? 'bg-stone-900' : 'bg-white';
+  
+  // Logic to invert logo color when header is transparent (dark background)
+  // The default logo is dark blue. 
+  // When transparent (isHome && !isScrolled), we need it white -> brightness-0 invert
+  const logoFilterClass = (!isHome || isScrolled) ? '' : 'brightness-0 invert';
 
   return (
     <>
@@ -37,12 +41,19 @@ export const Header: React.FC = () => {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${headerStyle}`}
       >
         <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
-          {/* Logo Placeholder */}
+          {/* Logo */}
           <Link to="/" className="flex items-center gap-2 cursor-pointer z-50">
-            <div className={`h-8 w-8 ${logoColor} rounded-sm`}></div>
-            <span className={`text-xl font-bold tracking-widest uppercase ${textColor}`}>
-              MUQI
-            </span>
+             {content.company.logo ? (
+                 <img 
+                    src={content.company.logo} 
+                    alt={content.company.name} 
+                    className={`h-12 w-auto transition-all duration-300 ${logoFilterClass}`}
+                 />
+             ) : (
+                 <span className={`text-xl font-bold tracking-widest uppercase ${textColor}`}>
+                   MUQI
+                 </span>
+             )}
           </Link>
 
           {/* Desktop Nav */}
