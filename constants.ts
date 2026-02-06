@@ -281,6 +281,7 @@ export const CONTENT: SiteContent = {
     {
       id: "d5",
       department: "下单部",
+      manager: "张艳慧",
       members: [
         { id: "d5-m1", name: "张艳慧", role: "下单主管", intro: "精准核对，源头把控。", image: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600&h=800" }
       ]
@@ -288,6 +289,7 @@ export const CONTENT: SiteContent = {
     {
       id: "d6",
       department: "调度员",
+      manager: "陈莲红",
       members: [
         { id: "d6-m1", name: "陈莲红", role: "总调度", intro: "运筹帷幄，统筹全局。", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=600&h=800" }
       ]
@@ -295,6 +297,7 @@ export const CONTENT: SiteContent = {
     {
       id: "d7",
       department: "财务部",
+      manager: "陈吉",
       members: [
         { id: "d7-m1", name: "陈吉", role: "财务经理", intro: "严谨合规，为企业护航。", image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600&h=800" }
       ]
@@ -302,11 +305,9 @@ export const CONTENT: SiteContent = {
     {
       id: "d8",
       department: "家政部",
-      manager: "王秀兰",
+      manager: "张明巧",
       members: [
-        { id: "d8-m1", name: "王秀兰", role: "家政主管", intro: "细致入微，营造洁净空间。", image: "https://images.unsplash.com/photo-1581579438747-104c53d7fbc4?auto=format&fit=crop&q=80&w=600&h=800" },
-        { id: "d8-m2", name: "李梅", role: "高级保洁", intro: "专业工具，高效服务。", image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=600&h=800" },
-        { id: "d8-m3", name: "赵芳", role: "整理收纳师", intro: "让空间回归秩序之美。", image: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&q=80&w=600&h=800" }
+        { id: "d8-m4", name: "张明巧", role: "金牌管家", intro: "用心服务，细节成就品质。", image: "https://images.unsplash.com/photo-1590650153855-d9e808231d41?auto=format&fit=crop&q=80&w=600&h=800" }
       ]
     }
   ],
