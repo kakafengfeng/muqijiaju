@@ -268,6 +268,17 @@ export const CONTENT: SiteContent = {
       ]
     },
     {
+      id: "d4",
+      department: "物流部",
+      manager: "周阳",
+      members: [
+        { id: "d4-m1", name: "依鹏", role: "物流专员", intro: "安全送达，风雨无阻。", image: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=600&h=800" },
+        { id: "d4-m2", name: "周连成", role: "仓储主管", intro: "井井有条，高效流转。", image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=600&h=800" },
+        { id: "d4-m3", name: "王泽有", role: "物流司机", intro: "准时送达，使命必达。", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=600&h=800" },
+        { id: "d4-m4", name: "王文博", role: "配送员", intro: "细心搬运，呵护每一件家具。", image: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&q=80&w=600&h=800" }
+      ]
+    },
+    {
       id: "d5",
       department: "下单部",
       members: [
@@ -289,14 +300,13 @@ export const CONTENT: SiteContent = {
       ]
     },
     {
-      id: "d4",
-      department: "物流部",
-      manager: "周阳",
+      id: "d8",
+      department: "家政部",
+      manager: "王秀兰",
       members: [
-        { id: "d4-m1", name: "依鹏", role: "物流专员", intro: "安全送达，风雨无阻。", image: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=600&h=800" },
-        { id: "d4-m2", name: "周连成", role: "仓储主管", intro: "井井有条，高效流转。", image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=600&h=800" },
-        { id: "d4-m3", name: "王泽有", role: "物流司机", intro: "准时送达，使命必达。", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=600&h=800" },
-        { id: "d4-m4", name: "王文博", role: "配送员", intro: "细心搬运，呵护每一件家具。", image: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&q=80&w=600&h=800" }
+        { id: "d8-m1", name: "王秀兰", role: "家政主管", intro: "细致入微，营造洁净空间。", image: "https://images.unsplash.com/photo-1581579438747-104c53d7fbc4?auto=format&fit=crop&q=80&w=600&h=800" },
+        { id: "d8-m2", name: "李梅", role: "高级保洁", intro: "专业工具，高效服务。", image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=600&h=800" },
+        { id: "d8-m3", name: "赵芳", role: "整理收纳师", intro: "让空间回归秩序之美。", image: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&q=80&w=600&h=800" }
       ]
     }
   ],
@@ -329,6 +339,8 @@ export const CONTENT: SiteContent = {
     address: "上海市徐汇区宜山路家饰佳4033展位",
     copyright: "© 2025 Muqi Home Technology. All rights reserved.",
     icp: "沪ICP备××××××号",
+    // Data URI for MD&VON Logo (SVG) with Icon and Text
+    logo: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMDAgMTMwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9IiMxNzI1NTQiIHN0cm9rZS13aWR0aD0iOCI+PHBhdGggZD0iTTgwIDYwIEwxMzAgMTAgTDE4MCA2MCIgc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiLz48cGF0aCBkPSJNMTA1IDYwIEwxMzAgMzUgTDE1NSA2MCIgc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiLz48cmVjdCB4PSIxNzAiIHk9IjQ1IiB3aWR0aD0iMTUiIGhlaWdodD0iMTUiIGZpbGw9IiMxNzI1NTQiIHN0cm9rZT0ibm9uZSIvPjwvZz48bGluZSB4MT0iNTAiIHkxPSI3NSIgeDI9IjI1MCIgeTI9Ijc1IiBzdHJva2U9IiMxNzI1NTQiIHN0cm9rZS13aWR0aD0iMyIvPjx0ZXh0IHg9IjE1MCIgeT0iMTA1IiBmaWxsPSIjMTcyNTU0IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjkwMCIgZm9udC1zaXplPSIyNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgbGV0dGVyLXNwYWNpbmc9IjIiPk1EJmFtcDtWT048L3RleHQ+PHRleHQgeD0iMTUwIiB5PSIxMjIiIGZpbGw9IiMxNzI1NTQiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iNTAwIiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGxldHRlci1zcGFjaW5nPSI0Ij5XSE9MRSBIT1VTRSBDVVNUT008L3RleHQ+PC9zdmc+",
     socials: {
       wechat: "#",
       weibo: "#",

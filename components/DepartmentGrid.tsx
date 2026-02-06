@@ -9,22 +9,19 @@ export const DepartmentGrid: React.FC = () => {
   const { content } = useContent();
   const departments = content.departments;
 
-  // Split departments according to requirement: 3 Top (Core), 4 Bottom (Support)
-  const topDepartments = departments.slice(0, 3);
-  const bottomDepartments = departments.slice(3, 7);
+  // Split departments: Top 4, Bottom 4 (Assuming 8 total now including Housekeeping)
+  const topDepartments = departments.slice(0, 4);
+  const bottomDepartments = departments.slice(4, 8);
 
   // Helper to get representative image and name
   const getRepInfo = (dept: any) => {
     // If manager is defined, try to find their specific member entry for an image, 
     // otherwise default to the first member found.
-    // In the provided data, often the manager is not explicitly in the members list with an ID matching 'manager',
-    // so we rely on the visual instruction: "Manager Name" is provided.
-    // For image, we try to find a member with the manager's name, or default to the first member's image.
     
     let repName = dept.manager;
     let repImage = dept.members?.[0]?.image; // Default to first member
 
-    // If no manager name explicitly set (like Order/Dispatch/Finance in data), use first member
+    // If no manager name explicitly set, use first member
     if (!repName && dept.members.length > 0) {
         repName = dept.members[0].name;
     }
@@ -49,7 +46,7 @@ export const DepartmentGrid: React.FC = () => {
             <img 
                 src={image || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80'} 
                 alt={dept.department} 
-                className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
+                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
             />
             {/* Overlay Gradient */}
             <div className="absolute inset-0 bg-gradient-to-t from-stone-900/90 via-stone-900/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
@@ -78,8 +75,8 @@ export const DepartmentGrid: React.FC = () => {
             </div>
 
             <div className="space-y-6">
-                {/* Top Row: 3 Items */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Top Row: 4 Items */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {topDepartments.map((dept, idx) => (
                         <Reveal key={dept.id} delay={idx * 0.1}>
                            <Card dept={dept} heightClass="h-[400px]" />

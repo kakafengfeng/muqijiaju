@@ -75,6 +75,7 @@ export interface CompanyInfo {
   address: string;
   copyright: string;
   icp: string;
+  logo?: string;
   socials: {
     wechat: string;
     weibo: string;

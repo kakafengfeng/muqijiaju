@@ -23,7 +23,7 @@ export const TeamSection: React.FC = () => {
              <Reveal key={member.id} delay={index * 0.1}>
                 <div className="group text-center cursor-default">
                    {/* Image container */}
-                   <div className="relative mb-8 overflow-hidden aspect-[3/4] mx-auto w-full grayscale group-hover:grayscale-0 transition-all duration-700 ease-out bg-stone-100">
+                   <div className="relative mb-8 overflow-hidden aspect-[3/4] mx-auto w-full bg-stone-100">
                       <img
                         src={member.image}
                         alt={member.name}
