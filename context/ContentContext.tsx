@@ -6,7 +6,7 @@ import { User, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'f
 import { doc, onSnapshot, setDoc } from 'firebase/firestore';
 
 // Demo 账号仅在本机开发环境（vite dev）可用；生产构建后 import.meta.env.DEV 为 false，
-// 该分支会被 tree-shake，不留下任何认证后门。
+// 该分支会被 tree-shake，不留下任何认证后门。生产环境使用 Firebase 登录（云端持久化）。
 const DEMO_ENABLED = import.meta.env.DEV;
 const DEMO_EMAIL = 'admin@muqi.com';
 const DEMO_PASSWORD = '123456';
@@ -26,7 +26,15 @@ interface ContentContextType {
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [content, setContent] = useState<SiteContent>(INITIAL_CONTENT);
+  const [content, setContent] = useState<SiteContent>(() => {
+    try {
+      const saved = localStorage.getItem('muqi_site_content');
+      if (saved) return JSON.parse(saved) as SiteContent;
+    } catch (e) {
+      console.warn('Local content load failed', e);
+    }
+    return INITIAL_CONTENT;
+  });
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -82,9 +90,13 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
   // (e.g. TeamPage seed) can save specific sections without racing setState.
   const saveContent = async (override?: Partial<SiteContent>) => {
     if (user && (user as any).isDemo) {
-      // Demo mode: apply override locally, simulate network delay
-      if (override) {
-        setContent((prev) => ({ ...prev, ...override }));
+      // Demo mode: 持久化到本机 localStorage，模拟网络延迟
+      const next = { ...content, ...override };
+      if (override) setContent(next);
+      try {
+        localStorage.setItem('muqi_site_content', JSON.stringify(next));
+      } catch (e) {
+        console.warn('Local save failed', e);
       }
       await new Promise((resolve) => setTimeout(resolve, 400));
       return;
@@ -124,6 +136,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const resetContent = () => {
     if (window.confirm('This will reset all content to defaults. Continue?')) {
+      localStorage.removeItem('muqi_site_content');
       setContent(INITIAL_CONTENT);
     }
   };

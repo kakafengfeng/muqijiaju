@@ -19,7 +19,7 @@ export const CONTENT: SiteContent = {
     ctaPrimary: "了解更多",
     ctaSecondary: "联系我们",
     // 1920x900 placeholder
-    backgroundImage: "https://picsum.photos/id/23/1920/1080" 
+    backgroundImage: "/images/hero.jpg" 
   },
   about: {
     title: "About Us",
@@ -347,7 +347,10 @@ export const CONTENT: SiteContent = {
     // 公司 Logo（透明矢量版，当前使用）
     logo: "/images/logo.svg",
     socials: {
-      wechat: "#",
+      // 微信：可改为微信二维码图片链接或微信号直达链接（如 https://weixin.qq.com/）
+      wechat: "https://weixin.qq.com/",
+      // QQ：wpa.qq.com 加好友链接，uin= 后面的数字换成您自己的 QQ 号即可
+      qq: "https://wpa.qq.com/msgrd?v=3&uin=980763379&site=qq&menu=yes",
       weibo: "#",
       linkedin: "#",
       instagram: "#"

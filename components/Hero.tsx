@@ -22,7 +22,7 @@ export const Hero: React.FC = () => {
         style={{ y, opacity }}
         className="absolute inset-0 w-full h-full"
       >
-         <div className="absolute inset-0 bg-black/40 z-10" />
+         <div className="absolute inset-0 bg-gradient-to-b from-stone-950/65 via-stone-950/30 to-stone-950/60 z-10" />
          <img
             src={content.hero.backgroundImage}
             alt=""

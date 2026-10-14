@@ -59,7 +59,7 @@ export const Header: React.FC = () => {
               <img
                 src={content.company.logo}
                 alt={content.company.name}
-                className="h-12 w-auto transition-all duration-300"
+                className="h-14 w-auto transition-all duration-300"
               />
             ) : (
               <span className={`text-xl font-bold tracking-widest uppercase ${textColor}`}>

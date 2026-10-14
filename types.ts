@@ -81,6 +81,7 @@ export interface CompanyInfo {
   phoneMobile?: string;
   socials: {
     wechat: string;
+    qq: string;
     weibo: string;
     linkedin: string;
     instagram: string;

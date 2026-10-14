@@ -15,10 +15,10 @@ export const LoginPage: React.FC = () => {
   // Demo 凭据提示仅在本地开发环境可见
   const showDemoHint = import.meta.env.DEV;
 
-  // If already logged in, redirect to admin (or home with admin panel open)
+  // If already logged in, redirect to admin panel
   React.useEffect(() => {
     if (user) {
-        navigate('/');
+        navigate('/admin');
     }
   }, [user, navigate]);
 

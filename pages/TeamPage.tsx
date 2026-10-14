@@ -172,12 +172,12 @@ export const TeamPage: React.FC = () => {
                    animate={{ scale: 1, opacity: 1 }}
                 >
                    {/* Modal Image */}
-                   <div className="w-full aspect-video bg-stone-200 relative overflow-hidden">
+                   <div className="w-full aspect-[3/4] bg-stone-200 relative overflow-hidden">
                        <img
                           src={selectedMember.image}
                           alt={selectedMember.name}
                           loading="lazy"
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover object-top"
                        />
                        <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 to-transparent"></div>
                        <div className="absolute bottom-6 left-6 text-white">

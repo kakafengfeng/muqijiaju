@@ -25,6 +25,9 @@ const TeamPage = lazy(() =>
 const AdminPanel = lazy(() =>
   import('./components/AdminPanel').then((m) => ({ default: m.AdminPanel }))
 );
+const AdminPage = lazy(() =>
+  import('./pages/AdminPage').then((m) => ({ default: m.AdminPage }))
+);
 
 function PageFallback() {
   return (
@@ -110,6 +113,7 @@ function App() {
               />
               <Route path="/team" element={<TeamPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/admin" element={<AdminPage />} />
             </Routes>
             <AdminPanel />
           </Suspense>

@@ -26,6 +26,25 @@ const WechatIcon = ({ size = 20, className = '' }: { size?: number; className?: 
   </svg>
 );
 
+
+const QqIcon = ({ size = 20, className = '' }: { size?: number; className?: string }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M12 3.5c2.4 0 4 1.7 4 3.9v2.3c1.7.8 2.8 2.2 3 4l.1.8-1.6-.3.3 1.9c.2 1.2-.5 2.3-1.7 2.9-1.3.6-2.8.9-4.1.9s-2.8-.3-4.1-.9c-1.2-.6-1.9-1.7-1.7-2.9l.3-1.9-1.6.3.1-.8c.2-1.8 1.3-3.2 3-4V7.4c0-2.2 1.6-3.9 4-3.9z" />
+    <circle cx="10" cy="8.6" r=".5" fill="currentColor" />
+    <circle cx="14" cy="8.6" r=".5" fill="currentColor" />
+  </svg>
+);
+
 const WeiboIcon = ({ size = 20, className = '' }: { size?: number; className?: string }) => (
   <svg
     width={size}
@@ -68,10 +87,8 @@ export const Footer: React.FC = () => {
 
   // 社交链接未配置（#）时不渲染可点击链接，避免死链
   const socials = [
-    { key: 'wechat' as const, label: 'WeChat', Icon: WechatIcon },
-    { key: 'weibo' as const, label: 'Weibo', Icon: WeiboIcon },
-    { key: 'linkedin' as const, label: 'LinkedIn', Icon: Linkedin },
-    { key: 'instagram' as const, label: 'Instagram', Icon: Instagram },
+    { key: 'wechat' as const, label: '微信', Icon: WechatIcon },
+    { key: 'qq' as const, label: 'QQ', Icon: QqIcon },
   ];
 
   return (
@@ -171,10 +188,17 @@ export const Footer: React.FC = () => {
             <p>{content.company.copyright}</p>
           </div>
 
-          <div className="flex gap-6 opacity-50">
+          <div className="flex gap-6 opacity-50 items-center">
             <span>{content.company.icp}</span>
             <span>Privacy Policy</span>
             <span>Terms &amp; Conditions</span>
+            <button
+              onClick={() => navigate('/login')}
+              className="hover:text-white transition-colors"
+              aria-label="后台管理"
+            >
+              Admin
+            </button>
           </div>
         </div>
       </div>
