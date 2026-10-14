@@ -8,14 +8,14 @@ export const About: React.FC = () => {
 
   // 四图卡片：后台“关于 About”模块可逐张替换图片与标题；无数据时用默认
   // 标题固定显示为「英文小标题 + 中文大标题」（参考 LAMI 服务页双语样式）
-  const cards = (content.about.cards && content.about.cards.length >= 4
+  const cards = content.about.cards && content.about.cards.length > 0
     ? content.about.cards
     : [
         { titleEn: 'Whole-house Customization', titleZh: '全屋定制', image: content.about.image, more: '了解更多' },
         { titleEn: 'Smart Home', titleZh: '智能家居', image: content.about.image, more: '了解更多' },
         { titleEn: 'Furniture', titleZh: '成品家具', image: content.about.image, more: '了解更多' },
         { titleEn: 'Partial Renovation', titleZh: '家装局改', image: content.about.image, more: '了解更多' },
-      ]).slice(0, 4);
+      ];
 
   return (
     <section id="about" className="py-24 md:py-32 bg-stone-50 overflow-hidden">
