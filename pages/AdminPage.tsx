@@ -96,6 +96,26 @@ export const AdminPage: React.FC = () => {
     }
   };
 
+  const handleAddAboutCard = () => {
+    const cards = [...(content.about.cards || [])];
+    cards.push({
+      id: `c-${Date.now()}`,
+      titleEn: 'English Title',
+      titleZh: '中文标题',
+      image: '',
+      more: '了解更多',
+    });
+    updateContent('about', { ...content.about, cards });
+  };
+
+  const handleDeleteAboutCard = (index: number) => {
+    if (window.confirm('确定删除该卡片？')) {
+      const cards = [...(content.about.cards || [])];
+      cards.splice(index, 1);
+      updateContent('about', { ...content.about, cards });
+    }
+  };
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, path: string[]) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -226,10 +246,41 @@ export const AdminPage: React.FC = () => {
 
             {/* About */}
             {active.id === 'about' && (
-              <div className="bg-white rounded-lg border border-stone-200 p-5 space-y-4">
-                <InputField label="区块标题" path={['about', 'heading']} />
-                <TextAreaField label="正文段落 1" path={['about', 'paragraph1']} />
-                <ImageUploadField label="配图" path={['about', 'image']} />
+              <div className="space-y-4">
+                <div className="bg-white rounded-lg border border-stone-200 p-5 space-y-4">
+                  <InputField label="区块标题" path={['about', 'heading']} />
+                  <TextAreaField label="正文段落 1" path={['about', 'paragraph1']} />
+                  <ImageUploadField label="配图" path={['about', 'image']} />
+                </div>
+                <p className="text-xs font-bold uppercase tracking-widest text-stone-400 pt-2">
+                  四图卡片（每张可单独替换图片 / 中英文标题）
+                </p>
+                {(content.about.cards || []).map((card, cardIdx) => (
+                  <div key={card.id || cardIdx} className="relative bg-white rounded-lg border border-stone-200 p-5 space-y-3">
+                    <div className="flex justify-between items-center mb-1">
+                      <div className="text-xs font-bold text-stone-400 uppercase">卡片 #{cardIdx + 1}</div>
+                      <button
+                        onClick={() => handleDeleteAboutCard(cardIdx)}
+                        className="text-stone-400 hover:text-red-600 p-1 transition-colors"
+                        title="删除卡片"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <InputField label="英文标题" path={['about', 'cards', cardIdx.toString(), 'titleEn']} />
+                      <InputField label="中文标题" path={['about', 'cards', cardIdx.toString(), 'titleZh']} />
+                    </div>
+                    <InputField label="More 文字" path={['about', 'cards', cardIdx.toString(), 'more']} />
+                    <ImageUploadField label="图片" path={['about', 'cards', cardIdx.toString(), 'image']} />
+                  </div>
+                ))}
+                <button
+                  onClick={handleAddAboutCard}
+                  className="w-full py-3 flex items-center justify-center gap-2 border border-dashed border-stone-300 text-stone-500 rounded-lg hover:border-stone-900 hover:text-stone-900 text-sm transition-colors bg-white"
+                >
+                  <Plus size={16} /> 添加卡片
+                </button>
               </div>
             )}
 

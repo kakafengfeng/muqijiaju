@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useContent } from '../context/ContentContext';
+import { useLanguage } from '../context/LanguageContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Instagram, Linkedin } from 'lucide-react';
 import { scrollToSection } from '../lib/nav';
@@ -66,9 +67,21 @@ const WeiboIcon = ({ size = 20, className = '' }: { size?: number; className?: s
 
 export const Footer: React.FC = () => {
   const { content } = useContent();
+  const { lang, t } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
   const isHome = location.pathname === '/';
+
+  // 导航项中英映射
+  const NAV_EN: Record<string, string> = {
+    '关于': 'About',
+    '产品': 'Products',
+    '项目': 'Projects',
+    '团队': 'Team',
+    '新闻': 'News',
+    '联系': 'Contact',
+  };
+  const navLabel = (zh: string) => (lang === 'en' ? NAV_EN[zh] || zh : zh);
 
   const handleNavClick = (e: React.MouseEvent, href: string) => {
     e.preventDefault();
@@ -113,7 +126,7 @@ export const Footer: React.FC = () => {
                     onClick={(e) => handleNavClick(e, item.href)}
                     className="hover:text-white transition-colors"
                   >
-                    {item.label}
+                    {navLabel(item.label)}
                   </a>
                 </li>
               ))}
@@ -128,14 +141,14 @@ export const Footer: React.FC = () => {
               href={`mailto:${content.company.email || ''}`}
               className="hover:text-white transition-colors block mb-2"
             >
-              邮箱:{content.company.email}
+              {t('邮箱', 'Email')}: {content.company.email}
             </a>
             {content.company.phone && (
               <a
                 href={`tel:${(content.company.phone || '').replace(/\s/g, '')}`}
                 className="hover:text-white transition-colors block mb-2"
               >
-                电话: {content.company.phone}
+                {t('电话', 'Tel')}: {content.company.phone}
               </a>
             )}
             {content.company.phoneMobile && (
@@ -143,7 +156,7 @@ export const Footer: React.FC = () => {
                 href={`tel:${content.company.phoneMobile}`}
                 className="hover:text-white transition-colors block"
               >
-                手机: {content.company.phoneMobile}
+                {t('手机', 'Mobile')}: {content.company.phoneMobile}
               </a>
             )}
           </div>

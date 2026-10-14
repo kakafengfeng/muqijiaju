@@ -10,6 +10,7 @@ import { ProjectGrid } from './components/ProjectGrid';
 import { NewsSection } from './components/NewsSection';
 import { Footer } from './components/Footer';
 import { ContentProvider } from './context/ContentContext';
+import { LanguageProvider } from './context/LanguageContext';
 import { SECTION_ROUTES, scrollToSection } from './lib/nav';
 
 // 路由级代码分割：非首屏页面与后台面板按需加载
@@ -87,40 +88,42 @@ function HomePage() {
 
 function App() {
   return (
-    <ContentProvider>
-      <Router>
-        <ScrollToTop />
-        <div className="min-h-screen bg-stone-50 font-sans text-stone-900 selection:bg-stone-900 selection:text-white">
-          <Suspense fallback={<PageFallback />}>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              {/* 单页区块路由别名 */}
-              <Route path="/about" element={<HomePage />} />
-              <Route path="/products" element={<HomePage />} />
-              <Route path="/projects" element={<HomePage />} />
-              <Route path="/news" element={<HomePage />} />
-              <Route path="/contact" element={<HomePage />} />
+    <LanguageProvider>
+      <ContentProvider>
+        <Router>
+          <ScrollToTop />
+          <div className="min-h-screen bg-stone-50 font-sans text-stone-900 selection:bg-stone-900 selection:text-white">
+            <Suspense fallback={<PageFallback />}>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                {/* 单页区块路由别名 */}
+                <Route path="/about" element={<HomePage />} />
+                <Route path="/products" element={<HomePage />} />
+                <Route path="/projects" element={<HomePage />} />
+                <Route path="/news" element={<HomePage />} />
+                <Route path="/contact" element={<HomePage />} />
 
-              {/* 独立页面 */}
-              <Route
-                path="/product/:id"
-                element={
-                  <>
-                    <Header />
-                    <ProductDetail />
-                    <Footer />
-                  </>
-                }
-              />
-              <Route path="/team" element={<TeamPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/admin" element={<AdminPage />} />
-            </Routes>
-            <AdminPanel />
-          </Suspense>
-        </div>
-      </Router>
-    </ContentProvider>
+                {/* 独立页面 */}
+                <Route
+                  path="/product/:id"
+                  element={
+                    <>
+                      <Header />
+                      <ProductDetail />
+                      <Footer />
+                    </>
+                  }
+                />
+                <Route path="/team" element={<TeamPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/admin" element={<AdminPage />} />
+              </Routes>
+              <AdminPanel />
+            </Suspense>
+          </div>
+        </Router>
+      </ContentProvider>
+    </LanguageProvider>
   );
 }
 

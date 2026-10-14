@@ -27,7 +27,38 @@ export const CONTENT: SiteContent = {
     paragraph1: "木栖家居科技（上海）有限公司，致力于提供高品质的居家生活与智能定制解决方案。我们坚信，家是人与世界连接的起点，也是内心回归的终点。",
     paragraph2: "我们汇聚全球顶尖设计力量，融合精湛工艺与现代科技，为您打造独一无二的居住体验。每一处细节，皆是对完美的极致追求。",
     cta: "阅读我们的故事",
-    image: "https://picsum.photos/id/42/800/1000"
+    image: "https://picsum.photos/id/42/800/1000",
+    // 四图卡片：图片可在后台“关于 About”模块逐张替换
+    cards: [
+      {
+        id: "c1",
+        titleEn: "Whole-house Customization",
+        titleZh: "全屋定制",
+        image: "https://picsum.photos/id/42/800/600",
+        more: "了解更多",
+      },
+      {
+        id: "c2",
+        titleEn: "Smart Home",
+        titleZh: "智能家居",
+        image: "https://picsum.photos/id/234/800/600",
+        more: "了解更多",
+      },
+      {
+        id: "c3",
+        titleEn: "Furniture",
+        titleZh: "成品家具",
+        image: "https://picsum.photos/id/352/800/600",
+        more: "了解更多",
+      },
+      {
+        id: "c4",
+        titleEn: "Partial Renovation",
+        titleZh: "家装局改",
+        image: "https://picsum.photos/id/449/800/600",
+        more: "了解更多",
+      },
+    ],
   },
   products: [
     {

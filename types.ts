@@ -20,6 +20,15 @@ export interface AboutContent {
   paragraph2: string;
   cta: string;
   image: string;
+  cards?: AboutCard[];
+}
+
+export interface AboutCard {
+  id?: string;
+  titleEn: string;
+  titleZh: string;
+  image: string;
+  more: string;
 }
 
 export interface ProductItem {

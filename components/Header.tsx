@@ -2,18 +2,32 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
+import { useLanguage } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { scrollToSection } from '../lib/nav';
 
+// 导航项中英映射（导航 label 来自后台，这里按中文 label 做前端翻译）
+const NAV_EN: Record<string, string> = {
+  '关于': 'About',
+  '产品': 'Products',
+  '项目': 'Projects',
+  '团队': 'Team',
+  '新闻': 'News',
+  '联系': 'Contact',
+};
+
 export const Header: React.FC = () => {
   const { content } = useContent();
+  const { lang, toggle } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
   const isHome = location.pathname === '/';
+
+  const navLabel = (zh: string) => (lang === 'en' ? NAV_EN[zh] || zh : zh);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -79,9 +93,22 @@ export const Header: React.FC = () => {
                   !isHome || isScrolled ? 'text-stone-900' : 'text-white/90'
                 }`}
               >
-                {item.label}
+                {navLabel(item.label)}
               </a>
             ))}
+            {/* 语言切换 */}
+            <button
+              type="button"
+              onClick={toggle}
+              aria-label="Switch language"
+              className={`text-xs tracking-widest uppercase px-3 py-1.5 rounded-full border transition-all ${
+                !isHome || isScrolled
+                  ? 'border-stone-900/40 text-stone-900 hover:bg-stone-900 hover:text-white'
+                  : 'border-white/50 text-white/90 hover:bg-white hover:text-stone-900'
+              }`}
+            >
+              {lang === 'zh' ? 'EN' : '中文'}
+            </button>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -116,9 +143,16 @@ export const Header: React.FC = () => {
                   onClick={(e) => handleNavClick(e, item.href)}
                   className="text-2xl text-stone-900 font-light tracking-widest uppercase"
                 >
-                  {item.label}
+                  {navLabel(item.label)}
                 </a>
               ))}
+              <button
+                type="button"
+                onClick={toggle}
+                className="mx-auto text-sm tracking-widest uppercase px-5 py-2 rounded-full border border-stone-900/40 text-stone-900 hover:bg-stone-900 hover:text-white transition-colors"
+              >
+                {lang === 'zh' ? 'EN' : '中文'}
+              </button>
             </nav>
           </motion.div>
         )}
