@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useContent } from '../context/ContentContext';
 import {
   Settings, LogOut, Save, RotateCcw, Eye, Plus, Trash2, Image as ImageIcon,
@@ -22,11 +22,12 @@ export const AdminPage: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
   const navigate = useNavigate();
 
-  // 未登录：跳回登录页
-  if (!user) {
-    navigate('/login');
-    return null;
-  }
+  // 未登录：通过 useEffect 跳回登录页（渲染期间直接 navigate 会导致空白页）
+  useEffect(() => {
+    if (!user) navigate('/login');
+  }, [user, navigate]);
+
+  if (!user) return null;
 
   const handleSave = async () => {
     setIsSaving(true);
