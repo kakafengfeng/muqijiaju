@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -65,6 +65,12 @@ const WeiboIcon = ({ size = 20, className = '' }: { size?: number; className?: s
   </svg>
 );
 
+// 社交配置：微信号 / QQ 号（二维码图片在 public/images/ 下，可直接替换同名文件）
+const WECHAT_ID = 'zhangyanhui95';
+const QQ_NUMBER = '980763379';
+const WECHAT_QR = '/images/wechat-qr.png';
+const QQ_QR = '/images/qq-qr.png';
+
 export const Footer: React.FC = () => {
   const { content } = useContent();
   const { lang, t } = useLanguage();
@@ -72,8 +78,14 @@ export const Footer: React.FC = () => {
   const navigate = useNavigate();
   const isHome = location.pathname === '/';
 
+  // 微信弹窗 / QQ 提示浮层 / 复制成功提示状态
+  const [wechatOpen, setWechatOpen] = useState(false);
+  const [qqTooltip, setQqTooltip] = useState(false);
+  const [wechatCopied, setWechatCopied] = useState(false);
+  const [qqCopied, setQqCopied] = useState(false);
+
   // 导航项中英映射
-  const NAV_EN: Record<string, string> = {
+  const navLabelMap: Record<string, string> = {
     '关于': 'About',
     '产品': 'Products',
     '项目': 'Projects',
@@ -81,20 +93,17 @@ export const Footer: React.FC = () => {
     '新闻': 'News',
     '联系': 'Contact',
   };
-  const navLabel = (zh: string) => (lang === 'en' ? NAV_EN[zh] || zh : zh);
+  const navLabel = (label: string) => (lang === 'en' ? navLabelMap[label] || label : label);
 
-  const handleNavClick = (e: React.MouseEvent, href: string) => {
-    e.preventDefault();
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!href || href === '#') return;
     if (href.startsWith('#')) {
-      const id = href.slice(1);
-      if (!id) return;
+      e.preventDefault();
       if (isHome) {
-        scrollToSection(id);
+        scrollToSection(href.slice(1));
       } else {
-        navigate('/', { state: { scrollTo: id } });
+        navigate('/', { state: { scrollTo: href.slice(1) } });
       }
-    } else {
-      navigate(href);
     }
   };
 
@@ -103,6 +112,42 @@ export const Footer: React.FC = () => {
     { key: 'wechat' as const, label: t('微信', 'WeChat'), Icon: WechatIcon },
     { key: 'qq' as const, label: 'QQ', Icon: QqIcon },
   ];
+
+  // 复制微信号（navigator.clipboard + 唤起微信）
+  const copyWechatId = async () => {
+    try {
+      await navigator.clipboard.writeText(WECHAT_ID);
+      setWechatCopied(true);
+      setTimeout(() => setWechatCopied(false), 2500);
+      // 尝试唤起微信客户端（仅 PC 桌面微信 / 移动端）
+      window.location.href = 'weixin://';
+    } catch {
+      // clipboard 不可用（非 https）时回退
+      setWechatCopied(true);
+      setTimeout(() => setWechatCopied(false), 2500);
+    }
+  };
+
+  // 复制 QQ 号
+  const copyQQ = async () => {
+    try {
+      await navigator.clipboard.writeText(QQ_NUMBER);
+      setQqCopied(true);
+      setTimeout(() => setQqCopied(false), 2000);
+    } catch {
+      setQqCopied(true);
+      setTimeout(() => setQqCopied(false), 2000);
+    }
+  };
+
+  // QQ 点击：按设备唤起加好友协议
+  const openQQ = () => {
+    const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    const url = isMobile
+      ? `mqqwpa://im/chat?chat_type=wpa&uin=${QQ_NUMBER}&version=1&src_type=web`
+      : `tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=${QQ_NUMBER}`;
+    window.location.href = url;
+  };
 
   return (
     <footer id="contact" className="bg-stone-950 text-stone-400 py-16 md:py-24 text-sm font-light">
@@ -166,30 +211,64 @@ export const Footer: React.FC = () => {
             <h4 className="text-white text-xs font-bold tracking-widest uppercase mb-6">Social</h4>
             <div className="flex gap-4">
               {socials.map(({ key, label, Icon }) => {
-                const href = content.company.socials[key];
-                if (!href || href === '#') {
+                // 微信：点击 / 悬停打开扫码弹窗
+                if (key === 'wechat') {
                   return (
-                    <span
+                    <button
                       key={key}
-                      className="text-stone-600 cursor-not-allowed"
+                      type="button"
+                      onClick={() => setWechatOpen(true)}
+                      onMouseEnter={() => setWechatOpen(true)}
+                      className="hover:text-white transition-colors cursor-pointer"
                       aria-label={label}
-                      title={t('待配置', 'Not configured')}
+                      title={t('扫码添加微信', 'Scan to add on WeChat')}
                     >
                       <Icon size={22} />
-                    </span>
+                    </button>
                   );
                 }
+                // QQ：点击唤起加好友；PC 悬停显示二维码浮层
                 return (
-                  <a
+                  <span
                     key={key}
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-white transition-colors"
-                    aria-label={label}
+                    className="relative"
+                    onMouseEnter={() => setQqTooltip(true)}
+                    onMouseLeave={() => setQqTooltip(false)}
                   >
-                    <Icon size={22} />
-                  </a>
+                    <button
+                      type="button"
+                      onClick={openQQ}
+                      className="hover:text-white transition-colors cursor-pointer"
+                      aria-label={label}
+                      title={t('点击添加 QQ 好友', 'Add on QQ')}
+                    >
+                      <Icon size={22} />
+                    </button>
+                    {qqTooltip && (
+                      <div className="absolute bottom-full mb-3 right-0 w-44 bg-stone-900 border border-white/10 rounded-xl p-4 shadow-2xl z-[150]">
+                        <img
+                          src={QQ_QR}
+                          alt="QQ QR"
+                          className="w-32 h-32 mx-auto bg-white p-1 rounded-lg mb-3"
+                        />
+                        <p className="text-white/80 text-xs text-center mb-3 break-words">
+                          {t('QQ 号', 'QQ Number')}: <span className="font-semibold text-white">{QQ_NUMBER}</span>
+                        </p>
+                        <button
+                          type="button"
+                          onClick={copyQQ}
+                          className="w-full py-2 bg-white text-stone-900 text-xs font-medium tracking-widest uppercase rounded hover:bg-stone-200 transition-colors"
+                        >
+                          {t('复制 QQ 号', 'Copy QQ Number')}
+                        </button>
+                        {qqCopied && (
+                          <p className="text-center text-green-400 text-[11px] mt-2">
+                            {t('QQ 号已复制', 'QQ Number copied!')}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </span>
                 );
               })}
             </div>
@@ -215,6 +294,53 @@ export const Footer: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* 微信扫码弹窗（暗黑极简卡片） */}
+      {wechatOpen && (
+        <div
+          className="fixed inset-0 z-[200] bg-stone-950/75 backdrop-blur-sm flex items-center justify-center p-6"
+          onClick={() => setWechatOpen(false)}
+        >
+          <div
+            className="bg-stone-900 border border-white/10 rounded-2xl p-8 w-full max-w-sm shadow-2xl relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setWechatOpen(false)}
+              className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors text-xl leading-none"
+              aria-label={t('关闭', 'Close')}
+            >
+              ×
+            </button>
+            <p className="text-white/50 text-xs uppercase tracking-widest mb-2">
+              {t('扫码添加微信', 'Scan to Add WeChat')}
+            </p>
+            <h3 className="text-white text-2xl font-light mb-6">WeChat</h3>
+            <img
+              src={WECHAT_QR}
+              alt="WeChat QR"
+              className="w-56 h-56 mx-auto bg-white p-2 rounded-lg mb-6"
+            />
+            <p className="text-center text-white/80 text-sm mb-6 break-words">
+              {t('微信号', 'WeChat ID')}:{' '}
+              <span className="font-semibold text-white">{WECHAT_ID}</span>
+            </p>
+            <button
+              type="button"
+              onClick={copyWechatId}
+              className="w-full py-3 bg-white text-stone-900 text-sm font-medium tracking-widest uppercase rounded-lg hover:bg-stone-200 transition-colors"
+            >
+              {t('复制微信号', 'Copy WeChat ID')}
+            </button>
+            {wechatCopied && (
+              <p className="text-center text-green-400 text-xs mt-3">
+                {t('微信号已复制，请打开微信添加', 'WeChat ID copied!')}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
     </footer>
   );
 };
