@@ -75,7 +75,7 @@ export const Header: React.FC = () => {
                 key={item.label}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className={`text-sm tracking-widest uppercase hover:opacity-60 transition-opacity ${
+                className={`text-base tracking-widest uppercase hover:opacity-60 transition-opacity ${
                   !isHome || isScrolled ? 'text-stone-900' : 'text-white/90'
                 }`}
               >
