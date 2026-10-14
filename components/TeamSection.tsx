@@ -1,12 +1,16 @@
 
 import React from 'react';
 import { useContent } from '../context/ContentContext';
+import { useLanguage } from '../context/LanguageContext';
 import { Reveal } from './UI/Reveal';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 export const TeamSection: React.FC = () => {
   const { content } = useContent();
+  const { lang } = useLanguage();
+  const isEn = lang === 'en';
+  const t = (zh: string, en: string) => (isEn ? en : zh);
 
   return (
     <section id="team" className="py-24 bg-white">
@@ -14,7 +18,7 @@ export const TeamSection: React.FC = () => {
         <div className="mb-16 md:mb-24 text-center">
            <Reveal>
               <span className="text-xs font-bold text-stone-400 tracking-widest uppercase mb-4 block">Our Team</span>
-              <h2 className="text-3xl md:text-4xl font-light text-stone-900">核心团队</h2>
+              <h2 className="text-3xl md:text-4xl font-light text-stone-900">{t('核心团队', 'Core Team')}</h2>
            </Reveal>
         </div>
 
@@ -36,9 +40,9 @@ export const TeamSection: React.FC = () => {
                    <div className="space-y-3">
                      <h3 className="text-xl font-medium text-stone-900">{member.name}</h3>
                      <div className="w-8 h-[1px] bg-stone-300 mx-auto transition-all duration-500 group-hover:w-16 group-hover:bg-stone-900"></div>
-                     <div className="text-xs font-bold text-stone-400 uppercase tracking-widest">{member.role}</div>
-                     <p className="text-stone-500 font-light text-sm leading-relaxed max-w-xs mx-auto pt-2 opacity-80 group-hover:opacity-100 transition-opacity">
-                        {member.intro}
+                     <div className="text-xs font-bold text-stone-400 uppercase tracking-widest">{isEn ? (member.roleEn || member.role) : member.role}</div>
+                     <p className="text-stone-500 font-light text-sm leading-relaxed max-w-xs mx-auto pt-2 opacity-80 group-hover:opacity-100 transition-opacity break-words">
+                        {isEn ? (member.introEn || member.intro) : member.intro}
                      </p>
                    </div>
                 </div>
@@ -52,7 +56,7 @@ export const TeamSection: React.FC = () => {
                 to="/team" 
                 className="inline-flex items-center gap-2 px-8 py-3 border border-stone-200 text-stone-500 hover:border-stone-900 hover:text-stone-900 transition-all uppercase text-xs tracking-widest"
               >
-                 查看完整团队架构 <ArrowRight size={14} />
+                 {t('查看完整团队架构', 'View Full Team Structure')} <ArrowRight size={14} />
               </Link>
            </div>
         </Reveal>

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useContent } from '../context/ContentContext';
+import { useLanguage } from '../context/LanguageContext';
 import { Reveal } from './UI/Reveal';
 import { Plus, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export const ProjectGrid: React.FC = () => {
   const { content } = useContent();
+  const { lang } = useLanguage();
+  const isEn = lang === 'en';
+  const t = (zh: string, en: string) => (isEn ? en : zh);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   // Lock body scroll when modal is open
@@ -28,7 +32,7 @@ export const ProjectGrid: React.FC = () => {
         <div className="text-center mb-16 md:mb-24">
            <Reveal direction="down">
               <span className="text-xs font-bold text-stone-400 tracking-widest uppercase mb-4 block">Selected Works</span>
-              <h2 className="text-3xl md:text-5xl font-light text-stone-900">经典案例</h2>
+              <h2 className="text-3xl md:text-5xl font-light text-stone-900">{t('经典案例', 'Featured Projects')}</h2>
            </Reveal>
         </div>
 
@@ -56,8 +60,8 @@ export const ProjectGrid: React.FC = () => {
                 
                 <div className="mt-6 flex justify-between items-start">
                    <div>
-                      <h3 className="text-lg font-medium text-stone-900 mb-1">{project.name}</h3>
-                      <p className="text-xs text-stone-500 uppercase tracking-wider">{project.category}</p>
+                      <h3 className="text-lg font-medium text-stone-900 mb-1 break-words">{isEn ? (project.nameEn || project.name) : project.name}</h3>
+                      <p className="text-xs text-stone-500 uppercase tracking-wider">{isEn ? (project.categoryEn || project.category) : project.category}</p>
                    </div>
                    <span className="text-sm font-serif italic text-stone-400">{project.year}</span>
                 </div>
@@ -68,7 +72,7 @@ export const ProjectGrid: React.FC = () => {
 
         <div className="text-center mt-16">
             <button className="px-10 py-4 border border-stone-900 text-stone-900 text-sm tracking-widest uppercase hover:bg-stone-900 hover:text-white transition-colors">
-               更多案例
+               {t('更多案例', 'More Projects')}
             </button>
         </div>
       </div>
@@ -89,7 +93,7 @@ export const ProjectGrid: React.FC = () => {
             {/* Close Button */}
             <button
                 className="absolute top-6 right-6 md:top-10 md:right-10 text-white/50 hover:text-white transition-colors z-50 p-2"
-                aria-label="关闭案例大图"
+                aria-label={t('关闭案例大图', 'Close case image')}
                 onClick={(e) => {
                     e.stopPropagation();
                     setSelectedId(null);
@@ -118,8 +122,8 @@ export const ProjectGrid: React.FC = () => {
                
                <div className="w-full mt-8 flex flex-col md:flex-row justify-between items-start md:items-center text-white border-t border-white/10 pt-6">
                  <div>
-                    <h3 className="text-2xl md:text-4xl font-light mb-2">{selectedProject.name}</h3>
-                    <p className="text-sm font-bold text-white/40 tracking-widest uppercase">{selectedProject.category}</p>
+                    <h3 className="text-2xl md:text-4xl font-light mb-2 break-words">{isEn ? (selectedProject.nameEn || selectedProject.name) : selectedProject.name}</h3>
+                    <p className="text-sm font-bold text-white/40 tracking-widest uppercase">{isEn ? (selectedProject.categoryEn || selectedProject.category) : selectedProject.category}</p>
                  </div>
                  <div className="mt-4 md:mt-0 font-serif italic text-3xl text-white/60">
                     {selectedProject.year}

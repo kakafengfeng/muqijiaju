@@ -238,8 +238,15 @@ export const AdminPage: React.FC = () => {
             {active.id === 'hero' && (
               <div className="bg-white rounded-lg border border-stone-200 p-5 space-y-4">
                 <InputField label="主标题" path={['hero', 'title']} />
+                <InputField label="英文主标题" path={['hero', 'titleEn']} />
                 <InputField label="副标题" path={['hero', 'subtitle']} />
+                <InputField label="英文副标题" path={['hero', 'subtitleEn']} />
                 <TextAreaField label="描述文字" path={['hero', 'description']} />
+                <TextAreaField label="英文描述" path={['hero', 'descriptionEn']} />
+                <InputField label="主按钮文字" path={['hero', 'ctaPrimary']} />
+                <InputField label="英文主按钮" path={['hero', 'ctaPrimaryEn']} />
+                <InputField label="次按钮文字" path={['hero', 'ctaSecondary']} />
+                <InputField label="英文次按钮" path={['hero', 'ctaSecondaryEn']} />
                 <ImageUploadField label="背景大图" path={['hero', 'backgroundImage']} />
               </div>
             )}
@@ -249,7 +256,13 @@ export const AdminPage: React.FC = () => {
               <div className="space-y-4">
                 <div className="bg-white rounded-lg border border-stone-200 p-5 space-y-4">
                   <InputField label="区块标题" path={['about', 'heading']} />
+                  <InputField label="英文区块标题" path={['about', 'headingEn']} />
                   <TextAreaField label="正文段落 1" path={['about', 'paragraph1']} />
+                  <TextAreaField label="英文段落 1" path={['about', 'paragraph1En']} />
+                  <TextAreaField label="正文段落 2" path={['about', 'paragraph2']} />
+                  <TextAreaField label="英文段落 2" path={['about', 'paragraph2En']} />
+                  <InputField label="CTA 文字" path={['about', 'cta']} />
+                  <InputField label="英文 CTA" path={['about', 'ctaEn']} />
                   <ImageUploadField label="配图" path={['about', 'image']} />
                 </div>
                 <p className="text-xs font-bold uppercase tracking-widest text-stone-400 pt-2">
@@ -292,6 +305,8 @@ export const AdminPage: React.FC = () => {
                     <div className="flex items-center justify-between mb-4">
                       <h4 className="font-bold text-sm text-stone-900">{dept.department}</h4>
                       <div className="w-48">
+                        <InputField label="部门名称" path={['departments', deptIdx.toString(), 'department']} />
+                        <InputField label="英文部门名称" path={['departments', deptIdx.toString(), 'departmentEn']} />
                         <InputField label="负责人" path={['departments', deptIdx.toString(), 'manager']} />
                       </div>
                     </div>
@@ -309,8 +324,10 @@ export const AdminPage: React.FC = () => {
                           <div className="grid grid-cols-2 gap-2 mb-2">
                             <InputField label="姓名" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'name']} />
                             <InputField label="职位" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'role']} />
+                            <InputField label="英文职位" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'roleEn']} />
                           </div>
                           <TextAreaField label="个人介绍" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'intro']} />
+                          <TextAreaField label="英文个人介绍" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'introEn']} />
                           <div className="mt-2">
                             <ImageUploadField label="照片" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'image']} />
                           </div>
@@ -334,6 +351,7 @@ export const AdminPage: React.FC = () => {
                 <InputField label="公司名称" path={['company', 'name']} />
                 <InputField label="英文名称" path={['company', 'nameEn']} />
                 <InputField label="地址" path={['company', 'address']} />
+                <InputField label="英文地址" path={['company', 'addressEn']} />
                 <InputField label="邮箱" path={['company', 'email']} />
                 <InputField label="电话" path={['company', 'phone']} />
                 <InputField label="手机" path={['company', 'phoneMobile']} />
@@ -362,6 +380,7 @@ export const AdminPage: React.FC = () => {
                     {active.id === 'news' && (
                       <>
                         <InputField label="标题" path={['news', idx.toString(), 'title']} />
+                        <InputField label="英文标题" path={['news', idx.toString(), 'titleEn']} />
                         <div className="grid grid-cols-2 gap-2">
                           <InputField label="日期" path={['news', idx.toString(), 'date']} />
                           <InputField label="分类" path={['news', idx.toString(), 'category']} />
@@ -371,14 +390,17 @@ export const AdminPage: React.FC = () => {
                     {active.id === 'products' && (
                       <>
                         <InputField label="名称" path={['products', idx.toString(), 'name']} />
+                        <InputField label="英文名称" path={['products', idx.toString(), 'nameEn']} />
                         <InputField label="分类" path={['products', idx.toString(), 'category']} />
                         <TextAreaField label="描述" path={['products', idx.toString(), 'description']} />
+                        <TextAreaField label="英文描述" path={['products', idx.toString(), 'descriptionEn']} />
                         <ImageUploadField label="图片" path={['products', idx.toString(), 'image']} />
                       </>
                     )}
                     {active.id === 'projects' && (
                       <>
                         <InputField label="名称" path={['projects', idx.toString(), 'name']} />
+                        <InputField label="英文名称" path={['projects', idx.toString(), 'nameEn']} />
                         <div className="grid grid-cols-2 gap-2">
                           <InputField label="分类" path={['projects', idx.toString(), 'category']} />
                           <InputField label="年份" path={['projects', idx.toString(), 'year']} />

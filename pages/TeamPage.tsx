@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useContent } from '../context/ContentContext';
+import { useLanguage } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Star, Database, Lock, X, Briefcase } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -9,6 +10,9 @@ import { DepartmentMember } from '../types';
 
 export const TeamPage: React.FC = () => {
   const { content, user, saveContent } = useContent();
+  const { lang } = useLanguage();
+  const isEn = lang === 'en';
+  const t = (zh: string, en: string) => (isEn ? en : zh);
   const departments = content.departments || [];
   const [selectedMember, setSelectedMember] = useState<DepartmentMember | null>(null);
   const location = useLocation();
@@ -74,9 +78,11 @@ export const TeamPage: React.FC = () => {
             } as any)}
             className="text-center mb-16"
           >
-             <h1 className="text-4xl md:text-5xl font-light text-stone-900 mb-6">团队架构</h1>
+             <h1 className="text-4xl md:text-5xl font-light text-stone-900 mb-6">{t('团队架构', 'Team Structure')}</h1>
              <p className="text-stone-500 max-w-2xl mx-auto font-light leading-relaxed">
-                高效协作，专业分工。每一位成员都是木栖大家庭不可或缺的一部分。
+                {isEn
+                  ? 'Efficient collaboration, professional specialization. Every member is an indispensable part of the Muqi family.'
+                  : '高效协作，专业分工。每一位成员都是木栖大家庭不可或缺的一部分。'}
              </p>
           </motion.div>
 
@@ -96,7 +102,7 @@ export const TeamPage: React.FC = () => {
                 >
                    {/* Header: Dept Name & Manager */}
                    <div className="mb-6 border-b border-stone-100 pb-4">
-                       <h2 className="text-2xl font-bold text-stone-900 mb-3">{dept.department}</h2>
+                       <h2 className="text-2xl font-bold text-stone-900 mb-3 break-words">{isEn ? (dept.departmentEn || dept.department) : dept.department}</h2>
                        {dept.manager ? (
                            <div className="flex items-center gap-2 text-amber-700 bg-amber-50 px-3 py-2 rounded-md w-fit">
                                <Star size={16} fill="currentColor" className="text-amber-500" />
@@ -164,7 +170,7 @@ export const TeamPage: React.FC = () => {
              >
                 <button
                    className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
-                   aria-label="关闭成员详情"
+                   aria-label={t('关闭成员详情', 'Close member details')}
                    onClick={() => setSelectedMember(null)}
                 >
                    <X size={32} strokeWidth={1} />
@@ -187,7 +193,7 @@ export const TeamPage: React.FC = () => {
                        <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 to-transparent"></div>
                        <div className="absolute bottom-6 left-6 text-white">
                            <h2 className="text-3xl font-light mb-1">{selectedMember.name}</h2>
-                           <p className="text-amber-400 text-sm font-bold uppercase tracking-wider">{selectedMember.role}</p>
+                           <p className="text-amber-400 text-sm font-bold uppercase tracking-wider">{isEn ? (selectedMember.roleEn || selectedMember.role) : selectedMember.role}</p>
                        </div>
                    </div>
 
@@ -195,7 +201,7 @@ export const TeamPage: React.FC = () => {
                    <div className="p-8">
                       <span className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-4 block">Introduction</span>
                       <p className="text-stone-600 leading-relaxed font-serif italic text-lg">
-                         "{selectedMember.intro || "暂无个人介绍"}"
+                         "{isEn ? (selectedMember.introEn || selectedMember.intro || 'No introduction yet') : (selectedMember.intro || '暂无个人介绍')}"
                       </p>
                       
                       <div className="mt-8 pt-6 border-t border-stone-100 text-center">

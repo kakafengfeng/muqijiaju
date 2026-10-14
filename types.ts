@@ -11,6 +11,11 @@ export interface HeroContent {
   ctaPrimary: string;
   ctaSecondary: string;
   backgroundImage: string;
+  titleEn?: string;
+  subtitleEn?: string;
+  descriptionEn?: string;
+  ctaPrimaryEn?: string;
+  ctaSecondaryEn?: string;
 }
 
 export interface AboutContent {
@@ -21,6 +26,10 @@ export interface AboutContent {
   cta: string;
   image: string;
   cards?: AboutCard[];
+  headingEn?: string;
+  paragraph1En?: string;
+  paragraph2En?: string;
+  ctaEn?: string;
 }
 
 export interface AboutCard {
@@ -37,6 +46,9 @@ export interface ProductItem {
   name: string;
   description: string;
   image: string;
+  nameEn?: string;
+  categoryEn?: string;
+  descriptionEn?: string;
 }
 
 export interface ProjectItem {
@@ -45,6 +57,8 @@ export interface ProjectItem {
   category: string;
   image: string;
   year: string;
+  nameEn?: string;
+  categoryEn?: string;
 }
 
 export interface TeamMember {
@@ -53,6 +67,8 @@ export interface TeamMember {
   role: string;
   intro: string;
   image: string;
+  roleEn?: string;
+  introEn?: string;
 }
 
 export interface DepartmentMember {
@@ -61,6 +77,8 @@ export interface DepartmentMember {
   role: string;
   intro: string;
   image: string;
+  roleEn?: string;
+  introEn?: string;
 }
 
 export interface Department {
@@ -68,6 +86,7 @@ export interface Department {
   department: string;
   manager?: string;
   members: DepartmentMember[];
+  departmentEn?: string;
 }
 
 export interface NewsItem {
@@ -76,12 +95,15 @@ export interface NewsItem {
   date: string;
   category: string;
   link: string;
+  titleEn?: string;
+  categoryEn?: string;
 }
 
 export interface CompanyInfo {
   name: string;
   nameEn: string;
   address: string;
+  addressEn?: string;
   copyright: string;
   icp: string;
   logo?: string;

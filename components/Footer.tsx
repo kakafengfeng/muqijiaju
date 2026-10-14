@@ -100,7 +100,7 @@ export const Footer: React.FC = () => {
 
   // 社交链接未配置（#）时不渲染可点击链接，避免死链
   const socials = [
-    { key: 'wechat' as const, label: '微信', Icon: WechatIcon },
+    { key: 'wechat' as const, label: t('微信', 'WeChat'), Icon: WechatIcon },
     { key: 'qq' as const, label: 'QQ', Icon: QqIcon },
   ];
 
@@ -136,7 +136,7 @@ export const Footer: React.FC = () => {
           {/* Contact */}
           <div className="md:col-span-1">
             <h4 className="text-white text-xs font-bold tracking-widest uppercase mb-6">Contact</h4>
-            <p className="mb-2">{content.company.address}</p>
+            <p className="mb-2 break-words">{lang === 'en' ? (content.company.addressEn || content.company.address) : content.company.address}</p>
             <a
               href={`mailto:${content.company.email || ''}`}
               className="hover:text-white transition-colors block mb-2"
@@ -173,7 +173,7 @@ export const Footer: React.FC = () => {
                       key={key}
                       className="text-stone-600 cursor-not-allowed"
                       aria-label={label}
-                      title={`${label}（待配置）`}
+                      title={t('待配置', 'Not configured')}
                     >
                       <Icon size={22} />
                     </span>
@@ -208,7 +208,7 @@ export const Footer: React.FC = () => {
             <button
               onClick={() => navigate('/login')}
               className="hover:text-white transition-colors"
-              aria-label="后台管理"
+              aria-label={t('后台管理', 'Admin panel')}
             >
               Admin
             </button>

@@ -1,12 +1,16 @@
 
 import React from 'react';
 import { useContent } from '../context/ContentContext';
+import { useLanguage } from '../context/LanguageContext';
 import { Reveal } from './UI/Reveal';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 export const DepartmentGrid: React.FC = () => {
   const { content } = useContent();
+  const { lang } = useLanguage();
+  const isEn = lang === 'en';
+  const t = (zh: string, en: string) => (isEn ? en : zh);
   const departments = content.departments;
 
   // 部门卡片自动均分为上下两行，不再写死前 4 / 后 4
@@ -62,7 +66,7 @@ export const DepartmentGrid: React.FC = () => {
             {/* Content */}
             <div className="absolute bottom-0 left-0 w-full p-6 text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                 <div className="text-[10px] font-bold tracking-widest uppercase text-stone-400 mb-1">Department</div>
-                <h3 className="text-xl md:text-2xl font-light mb-1">{dept.department}</h3>
+                <h3 className="text-xl md:text-2xl font-light mb-1 break-words">{isEn ? (dept.departmentEn || dept.department) : dept.department}</h3>
                 <div className="flex items-center justify-between mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 border-t border-white/20 pt-4">
                     <span className="text-sm font-serif italic text-stone-300">{name}</span>
                     <ArrowRight size={16} className="text-white" />
@@ -78,7 +82,7 @@ export const DepartmentGrid: React.FC = () => {
             <div className="mb-16 text-center">
                 <Reveal>
                     <span className="text-xs font-bold text-stone-400 tracking-widest uppercase mb-4 block">Organization</span>
-                    <h2 className="text-3xl md:text-4xl font-light text-stone-900">部门架构</h2>
+                    <h2 className="text-3xl md:text-4xl font-light text-stone-900">{t('部门架构', 'Department Structure')}</h2>
                 </Reveal>
             </div>
 

@@ -1,12 +1,15 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useContent } from '../context/ContentContext';
+import { useLanguage } from '../context/LanguageContext';
 import { ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export const ProductDetail: React.FC = () => {
   const { id } = useParams();
   const { content } = useContent();
+  const { lang } = useLanguage();
+  const isEn = lang === 'en';
   
   const product = content.products.find(p => p.id === id);
 
@@ -28,7 +31,7 @@ export const ProductDetail: React.FC = () => {
           <Link to="/" className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-stone-900 hover:opacity-60 transition-opacity">
              <ArrowLeft size={16} /> Back to Home
           </Link>
-          <span className="text-xs font-bold text-stone-400 uppercase">{product.category}</span>
+          <span className="text-xs font-bold text-stone-400 uppercase">{isEn ? (product.categoryEn || product.category) : product.category}</span>
        </div>
 
        <div className="container mx-auto px-6 md:px-12 pt-32 pb-24">
@@ -62,16 +65,17 @@ export const ProductDetail: React.FC = () => {
                 <span className="text-xs font-bold text-stone-400 tracking-widest uppercase mb-4 block">
                     Product ID: {product.id}
                 </span>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-stone-900 mb-8 leading-tight">
-                    {product.name}
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-stone-900 mb-8 leading-tight break-words">
+                    {isEn ? (product.nameEn || product.name) : product.name}
                 </h1>
                 <div className="h-[1px] w-20 bg-stone-900 mb-8"></div>
                 <p className="text-lg text-stone-600 leading-relaxed mb-10 font-light">
-                    {product.description}
+                    {isEn ? (product.descriptionEn || product.description) : product.description}
                 </p>
                 <p className="text-sm text-stone-500 leading-relaxed mb-12 font-light">
-                    这里是详细的产品介绍文案。在后台系统中，您可以添加更多关于该产品的材质、尺寸、工艺细节等信息。
-                    Here would be detailed specifications, dimensions, and material information for the product.
+                    {isEn
+                      ? 'Detailed specifications, dimensions, materials and craftsmanship details can be added here from the admin panel.'
+                      : '这里是详细的产品介绍文案。在后台系统中，您可以添加更多关于该产品的材质、尺寸、工艺细节等信息。'}
                 </p>
                 
                 <div className="grid grid-cols-2 gap-8 mb-12">

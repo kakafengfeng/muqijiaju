@@ -1,12 +1,15 @@
 
 import React, { useState } from 'react';
 import { useContent } from '../context/ContentContext';
+import { useLanguage } from '../context/LanguageContext';
 import { Settings, X, Image as ImageIcon, ChevronRight, ChevronDown, Trash2, Plus, Save, LogOut, RotateCcw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
 export const AdminPanel: React.FC = () => {
   const { content, updateContent, updateNestedContent, saveContent, resetContent, user, logout } = useContent();
+  const { lang } = useLanguage();
+  const t = (zh: string, en: string) => (lang === 'en' ? en : zh);
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -136,7 +139,7 @@ export const AdminPanel: React.FC = () => {
         onClick={() => setIsOpen(true)}
         className="fixed bottom-6 right-6 z-[120] bg-amber-600 text-white p-4 rounded-full shadow-2xl hover:bg-amber-700 transition-colors animate-bounce"
         title="Admin Panel"
-        aria-label="打开管理面板"
+        aria-label={t('打开管理面板', 'Open admin panel')}
       >
         <Settings size={24} />
       </button>
@@ -154,10 +157,10 @@ export const AdminPanel: React.FC = () => {
            </div>
         </div>
         <div className="flex gap-4">
-            <button onClick={handleLogout} className="hover:text-red-400 transition-colors" title="Logout" aria-label="退出登录">
+            <button onClick={handleLogout} className="hover:text-red-400 transition-colors" title="Logout" aria-label={t('退出登录', 'Log out')}>
                 <LogOut size={20} />
             </button>
-            <button onClick={() => setIsOpen(false)} className="hover:opacity-70" aria-label="关闭管理面板">
+            <button onClick={() => setIsOpen(false)} className="hover:opacity-70" aria-label={t('关闭管理面板', 'Close admin panel')}>
                 <X size={24} />
             </button>
         </div>

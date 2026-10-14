@@ -20,6 +20,7 @@ const NAV_EN: Record<string, string> = {
 export const Header: React.FC = () => {
   const { content } = useContent();
   const { lang, toggle } = useLanguage();
+  const t = (zh: string, en: string) => (lang === 'en' ? en : zh);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
@@ -116,7 +117,7 @@ export const Header: React.FC = () => {
           {/* Mobile Menu Button */}
           <button
             type="button"
-            aria-label={isMenuOpen ? '关闭菜单' : '打开菜单'}
+            aria-label={isMenuOpen ? t('关闭菜单', 'Close menu') : t('打开菜单', 'Open menu')}
             className={`md:hidden z-50 hover:opacity-60 transition-opacity ${isMenuOpen ? 'text-stone-900' : textColor}`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >

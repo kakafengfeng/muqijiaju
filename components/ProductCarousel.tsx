@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
+import { useLanguage } from '../context/LanguageContext';
 import { Reveal } from './UI/Reveal';
 import { Link } from 'react-router-dom';
 
@@ -8,6 +9,9 @@ const GAP = 32; // 与 className="gap-8" 一致（Tailwind gap-8 = 2rem）
 
 export const ProductCarousel: React.FC = () => {
   const { content } = useContent();
+  const { lang } = useLanguage();
+  const isEn = lang === 'en';
+  const t = (zh: string, en: string) => (isEn ? en : zh);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [step, setStep] = useState(0); // 单张卡片 + gap 的实际步长（px）
@@ -53,20 +57,20 @@ export const ProductCarousel: React.FC = () => {
         <Reveal>
           <div>
             <span className="text-xs font-bold text-stone-400 tracking-widest uppercase mb-2 block">Collections</span>
-            <h2 className="text-3xl md:text-4xl font-light text-stone-900">精工产品</h2>
+            <h2 className="text-3xl md:text-4xl font-light text-stone-900">{t('精工产品', 'Precision Craftsmanship')}</h2>
           </div>
         </Reveal>
         <div className="hidden md:flex gap-4">
           <button
             onClick={prevSlide}
-            aria-label="上一个产品"
+            aria-label={t('上一个产品', 'Previous product')}
             className="p-3 border border-stone-200 hover:bg-stone-900 hover:text-white transition-colors"
           >
             <ArrowLeft size={20} />
           </button>
           <button
             onClick={nextSlide}
-            aria-label="下一个产品"
+            aria-label={t('下一个产品', 'Next product')}
             className="p-3 border border-stone-200 hover:bg-stone-900 hover:text-white transition-colors"
           >
             <ArrowRight size={20} />
@@ -105,23 +109,23 @@ export const ProductCarousel: React.FC = () => {
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center items-center backdrop-blur-[1px]">
                   <div className="flex flex-col items-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">
-                    <span className="text-stone-200 text-sm font-serif italic mb-3">{product.category}</span>
-                    <span className="text-white text-xs tracking-widest uppercase border-b border-white/70 pb-1">View Details</span>
+                    <span className="text-stone-200 text-sm font-serif italic mb-3">{isEn ? (product.categoryEn || product.category) : product.category}</span>
+                    <span className="text-white text-xs tracking-widest uppercase border-b border-white/70 pb-1">{t('View Details', 'View Details')}</span>
                   </div>
                 </div>
               </div>
 
-              <h3 className="text-xl font-medium text-stone-900 mb-2">{product.name}</h3>
-              <p className="text-stone-600 text-sm font-light leading-relaxed line-clamp-2">{product.description}</p>
+              <h3 className="text-xl font-medium text-stone-900 mb-2 break-words">{isEn ? (product.nameEn || product.name) : product.name}</h3>
+              <p className="text-stone-600 text-sm font-light leading-relaxed line-clamp-2 break-words">{isEn ? (product.descriptionEn || product.description) : product.description}</p>
             </Link>
           ))}
         </div>
 
         {/* Mobile Controls */}
         <div className="md:hidden flex justify-center gap-6 mt-12">
-          <button onClick={prevSlide} aria-label="上一个产品"><ArrowLeft size={24} /></button>
+          <button onClick={prevSlide} aria-label={t('上一个产品', 'Previous product')}><ArrowLeft size={24} /></button>
           <div className="text-sm tracking-widest">{currentIndex + 1} / {total}</div>
-          <button onClick={nextSlide} aria-label="下一个产品"><ArrowRight size={24} /></button>
+          <button onClick={nextSlide} aria-label={t('下一个产品', 'Next product')}><ArrowRight size={24} /></button>
         </div>
       </div>
     </section>
