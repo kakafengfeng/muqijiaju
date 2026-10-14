@@ -73,7 +73,7 @@ export const DepartmentGrid: React.FC = () => {
   };
 
   return (
-    <section className="py-24 bg-white border-b border-stone-100">
+    <section id="departments" className="py-24 bg-white border-b border-stone-100">
         <div className="container mx-auto px-6 md:px-12">
             <div className="mb-16 text-center">
                 <Reveal>

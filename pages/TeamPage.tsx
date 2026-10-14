@@ -10,6 +10,11 @@ import { DepartmentMember } from '../types';
 export const TeamPage: React.FC = () => {
   const { content, user, saveContent } = useContent();
   const departments = content.departments || [];
+  // 带部门锚点（如 /team#d1）时只显示目标部门；无锚点显示全部
+  const hashId = location.hash.replace('#', '');
+  const visibleDepartments = hashId
+    ? departments.filter((d: any) => d.id === hashId)
+    : departments;
   const [selectedMember, setSelectedMember] = useState<DepartmentMember | null>(null);
   const location = useLocation();
 
@@ -55,7 +60,7 @@ export const TeamPage: React.FC = () => {
     <div className="bg-stone-50 min-h-screen">
        {/* Nav Strip */}
        <div className="fixed top-0 left-0 w-full z-40 bg-white/90 backdrop-blur-md border-b border-stone-200 py-4 px-6 md:px-12 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-stone-900 hover:opacity-60 transition-opacity">
+          <Link to="/" state={{ scrollTo: 'departments' }} className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-stone-900 hover:opacity-60 transition-opacity">
              <ArrowLeft size={16} /> Back to Home
           </Link>
           <span className="text-xs font-bold text-stone-400 uppercase">Organization</span>
@@ -76,8 +81,8 @@ export const TeamPage: React.FC = () => {
           </motion.div>
 
           {/* Department Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-             {departments.map((dept, deptIndex) => (
+             <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${visibleDepartments.length === 1 ? 'lg:grid-cols-1 max-w-2xl mx-auto' : 'lg:grid-cols-3'}`}>
+             {visibleDepartments.map((dept, deptIndex) => (
                 <motion.div
                    id={dept.id} // Added ID for Anchor Scroll
                    key={dept.id || deptIndex}

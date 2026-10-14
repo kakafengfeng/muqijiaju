@@ -99,6 +99,13 @@ export const AdminPage: React.FC = () => {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, path: string[]) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    // SVG 矢量图：直接保留原始文件（透明背景），不做 canvas 压缩
+    if (file.type === 'image/svg+xml' || file.name.toLowerCase().endsWith('.svg')) {
+      const reader = new FileReader();
+      reader.onload = () => updateNestedContent(path, reader.result as string);
+      reader.readAsDataURL(file);
+      return;
+    }
     const img = new Image();
     const objectUrl = URL.createObjectURL(file);
     img.onload = () => {
