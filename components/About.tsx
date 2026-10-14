@@ -54,8 +54,10 @@ export const About: React.FC = () => {
             </Link>
           </Reveal>
         </div>
+      </div>
 
-        {/* 四张大图卡片（模仿 LAMI 服务页：全宽大图 + 双语标题 + More，纵向排列） */}
+      {/* 四张大图卡片：全出血宽度（与 Hero 背景图同宽），纵向排列 */}
+      <div className="w-full">
         <div className="space-y-6 lg:space-y-8">
           {cards.map((card, idx) => (
             <Reveal key={card.id || idx} delay={idx * 0.05}>
@@ -69,7 +71,7 @@ export const About: React.FC = () => {
                 {/* 底部深色渐变，保证文字可读 */}
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-stone-950/25 to-transparent"></div>
                 {/* 图上内容：英文小标题在上、中文大标题在下（双语固定显示） */}
-                <div className="absolute inset-x-0 bottom-0 p-6 md:p-10">
+                <div className="absolute inset-x-0 bottom-0 p-6 md:p-12">
                   <p className="text-xs md:text-base font-bold text-white/70 tracking-[0.25em] uppercase mb-2 md:mb-3">
                     {card.titleEn}
                   </p>
