@@ -10,13 +10,13 @@ import { DepartmentMember } from '../types';
 export const TeamPage: React.FC = () => {
   const { content, user, saveContent } = useContent();
   const departments = content.departments || [];
+  const [selectedMember, setSelectedMember] = useState<DepartmentMember | null>(null);
+  const location = useLocation();
   // 带部门锚点（如 /team#d1）时只显示目标部门；无锚点显示全部
   const hashId = location.hash.replace('#', '');
   const visibleDepartments = hashId
     ? departments.filter((d: any) => d.id === hashId)
     : departments;
-  const [selectedMember, setSelectedMember] = useState<DepartmentMember | null>(null);
-  const location = useLocation();
 
   // Handle Scroll to Hash on Mount
   useEffect(() => {
