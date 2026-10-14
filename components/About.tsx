@@ -1,21 +1,20 @@
 import React from 'react';
 import { useContent } from '../context/ContentContext';
-import { useLanguage } from '../context/LanguageContext';
 import { Reveal } from './UI/Reveal';
 import { Link } from 'react-router-dom';
 
 export const About: React.FC = () => {
   const { content } = useContent();
-  const { lang, t } = useLanguage();
 
   // 四图卡片：后台“关于 About”模块可逐张替换图片与标题；无数据时用默认
+  // 标题固定显示为「英文小标题 + 中文大标题」（参考 LAMI 服务页双语样式）
   const cards = (content.about.cards && content.about.cards.length >= 4
     ? content.about.cards
     : [
-        { titleEn: 'Whole-house Customization', titleZh: '全屋定制', image: content.about.image, more: t('了解更多', 'Learn More') },
-        { titleEn: 'Smart Home', titleZh: '智能家居', image: content.about.image, more: t('了解更多', 'Learn More') },
-        { titleEn: 'Furniture', titleZh: '成品家具', image: content.about.image, more: t('了解更多', 'Learn More') },
-        { titleEn: 'Partial Renovation', titleZh: '家装局改', image: content.about.image, more: t('了解更多', 'Learn More') },
+        { titleEn: 'Whole-house Customization', titleZh: '全屋定制', image: content.about.image, more: '了解更多' },
+        { titleEn: 'Smart Home', titleZh: '智能家居', image: content.about.image, more: '了解更多' },
+        { titleEn: 'Furniture', titleZh: '成品家具', image: content.about.image, more: '了解更多' },
+        { titleEn: 'Partial Renovation', titleZh: '家装局改', image: content.about.image, more: '了解更多' },
       ]).slice(0, 4);
 
   return (
@@ -56,11 +55,11 @@ export const About: React.FC = () => {
           </Reveal>
         </div>
 
-        {/* 四图卡片（模仿 LAMI 服务页：大图 + 双语标题 + More） */}
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+        {/* 四张大图卡片（模仿 LAMI 服务页：全宽大图 + 双语标题 + More，纵向排列） */}
+        <div className="space-y-6 lg:space-y-8">
           {cards.map((card, idx) => (
-            <Reveal key={card.id || idx} delay={idx * 0.1}>
-              <div className="group relative aspect-[4/3] overflow-hidden bg-stone-900">
+            <Reveal key={card.id || idx} delay={idx * 0.05}>
+              <div className="group relative w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden bg-stone-900">
                 <img
                   src={card.image}
                   alt={card.titleZh}
@@ -69,18 +68,18 @@ export const About: React.FC = () => {
                 />
                 {/* 底部深色渐变，保证文字可读 */}
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-stone-950/25 to-transparent"></div>
-                {/* 图上内容 */}
-                <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
-                  <p className="text-xs md:text-sm font-bold text-white/70 tracking-[0.2em] uppercase mb-2">
+                {/* 图上内容：英文小标题在上、中文大标题在下（双语固定显示） */}
+                <div className="absolute inset-x-0 bottom-0 p-6 md:p-10">
+                  <p className="text-xs md:text-base font-bold text-white/70 tracking-[0.25em] uppercase mb-2 md:mb-3">
                     {card.titleEn}
                   </p>
                   <div className="flex items-end justify-between gap-4">
-                    <h3 className="text-2xl md:text-3xl font-light text-white leading-tight">
-                      {lang === 'en' && card.titleEn !== card.titleZh ? card.titleEn : card.titleZh}
+                    <h3 className="text-2xl md:text-4xl lg:text-5xl font-light text-white leading-tight">
+                      {card.titleZh}
                     </h3>
-                    <span className="inline-flex items-center gap-1.5 text-xs tracking-widest uppercase text-white/85 border-b border-white/40 pb-0.5 whitespace-nowrap">
+                    <span className="inline-flex items-center gap-1.5 text-xs md:text-sm tracking-widest uppercase text-white/85 border-b border-white/40 pb-1 whitespace-nowrap">
                       {card.more}
-                      <span className="text-base leading-none">+</span>
+                      <span className="text-base md:text-xl leading-none">+</span>
                     </span>
                   </div>
                 </div>

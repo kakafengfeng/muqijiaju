@@ -96,18 +96,20 @@ export const Header: React.FC = () => {
                 {navLabel(item.label)}
               </a>
             ))}
-            {/* 语言切换 */}
+            {/* 语言切换：始终显示「中 / EN」，当前语言高亮 */}
             <button
               type="button"
               onClick={toggle}
               aria-label="Switch language"
-              className={`text-xs tracking-widest uppercase px-3 py-1.5 rounded-full border transition-all ${
+              className={`flex items-center gap-1.5 text-xs tracking-widest uppercase px-3 py-1.5 rounded-full border transition-all ${
                 !isHome || isScrolled
                   ? 'border-stone-900/40 text-stone-900 hover:bg-stone-900 hover:text-white'
                   : 'border-white/50 text-white/90 hover:bg-white hover:text-stone-900'
               }`}
             >
-              {lang === 'zh' ? 'EN' : '中文'}
+              <span className={lang === 'zh' ? 'font-bold' : 'opacity-50'}>中</span>
+              <span className="opacity-40">/</span>
+              <span className={lang === 'en' ? 'font-bold' : 'opacity-50'}>EN</span>
             </button>
           </nav>
 
@@ -149,9 +151,11 @@ export const Header: React.FC = () => {
               <button
                 type="button"
                 onClick={toggle}
-                className="mx-auto text-sm tracking-widest uppercase px-5 py-2 rounded-full border border-stone-900/40 text-stone-900 hover:bg-stone-900 hover:text-white transition-colors"
+                className="mx-auto flex items-center gap-1.5 text-sm tracking-widest uppercase px-5 py-2 rounded-full border border-stone-900/40 text-stone-900 hover:bg-stone-900 hover:text-white transition-colors"
               >
-                {lang === 'zh' ? 'EN' : '中文'}
+                <span className={lang === 'zh' ? 'font-bold' : 'opacity-50'}>中</span>
+                <span className="opacity-40">/</span>
+                <span className={lang === 'en' ? 'font-bold' : 'opacity-50'}>EN</span>
               </button>
             </nav>
           </motion.div>
