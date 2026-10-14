@@ -38,13 +38,15 @@ function PageFallback() {
 }
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
   const isSectionAlias = SECTION_ROUTES[pathname.replace('/', '')] !== undefined;
+  const hasScrollTarget = !!(state as { scrollTo?: string } | null)?.scrollTo;
 
   React.useEffect(() => {
     // 区块别名路由由 HomePage 负责滚动，避免“先跳顶再滚动”的闪烁
-    if (!isSectionAlias) window.scrollTo(0, 0);
-  }, [pathname, isSectionAlias]);
+    // 带滚动目标 state 的导航（如从团队页返回部门架构）同样不做跳顶
+    if (!isSectionAlias && !hasScrollTarget) window.scrollTo(0, 0);
+  }, [pathname, isSectionAlias, hasScrollTarget]);
   return null;
 }
 
@@ -58,8 +60,7 @@ function HomePage() {
     const stateTarget = (location.state as { scrollTo?: string } | null)?.scrollTo;
     if (stateTarget) {
       target = stateTarget;
-      // 滚动后清理 state，避免刷新/返回时重复滚动
-      navigate(location.pathname, { replace: true, state: null });
+      // 保留 state：滚动定时器依赖本 effect 不重跑，且刷新/返回后仍定位到目标区块
     } else {
       const alias = location.pathname.replace('/', '');
       if (SECTION_ROUTES[alias]) target = SECTION_ROUTES[alias];
