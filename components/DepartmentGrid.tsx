@@ -31,6 +31,12 @@ export const DepartmentGrid: React.FC = () => {
     const managerMember = dept.members.find((m: any) => m.name === repName);
     if (managerMember) {
         repImage = managerMember.image;
+    } else if (repName) {
+        // 经理不在本部门成员列表时，回退到团队(team)中查找（如设计部经理王广大）
+        const teamMember = content.team.find((t: any) => t.name === repName);
+        if (teamMember) {
+            repImage = teamMember.image;
+        }
     }
 
     return { name: repName, image: repImage };

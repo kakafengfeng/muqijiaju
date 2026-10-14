@@ -95,7 +95,7 @@ export const CONTENT: SiteContent = {
       name: "王广大",
       role: "设计总监",
       intro: "前意大利著名家居品牌主理人，专注于极简主义美学与功能性的完美融合。",
-      image: "https://picsum.photos/id/338/600/800"
+      image: "/images/wangguangda.jpg"
     },
     {
       id: "t3",
@@ -172,21 +172,21 @@ export const CONTENT: SiteContent = {
           name: "王秦琳", 
           role: "软装设计师", 
           intro: "色彩与材质的碰撞，激发生活灵感。", 
-          image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600&h=800" 
+          image: "/images/wangqinlin.jpg" 
         },
         { 
           id: "d2-m4", 
           name: "王舒淼", 
           role: "深化设计师", 
           intro: "专注细节，将设计图纸完美落地。", 
-          image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&q=80&w=600&h=800" 
+          image: "/images/wangshumiao.jpg" 
         },
         { 
           id: "d2-m5", 
           name: "邢旺", 
           role: "3D渲染师", 
           intro: "用光影还原真实的未来家园。", 
-          image: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&q=80&w=600&h=800" 
+          image: "/images/xingwang.jpg" 
         },
         { 
           id: "d2-m6", 
@@ -200,7 +200,7 @@ export const CONTENT: SiteContent = {
           name: "林泉", 
           role: "设计助理", 
           intro: "学习与成长，为设计注入新活力。", 
-          image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600&h=800" 
+          image: "/images/linquan.jpg" 
         }
       ]
     },
@@ -344,7 +344,8 @@ export const CONTENT: SiteContent = {
     email: "980763379@qq.com",
     phone: "021-54242017",
     phoneMobile: "15801948991",
-    // 待提供真实公司 Logo 后，放入 public/logo.png 并在此填入路径
+    // 公司 Logo（透明矢量版，当前使用）
+    logo: "/images/logo.svg",
     socials: {
       wechat: "#",
       weibo: "#",
