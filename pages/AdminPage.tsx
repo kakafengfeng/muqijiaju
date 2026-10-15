@@ -16,6 +16,75 @@ const SECTION_META: { id: string; label: string; Icon: any; isArray?: boolean }[
   { id: 'company', label: '公司信息', Icon: Building2 },
 ];
 
+// 按路径读取字段值（模块级工具，组件不再依赖 content 闭包）
+const getByPath = (obj: any, path: string[]): string => {
+  let value: any = obj;
+  for (const key of path) {
+    if (value && value[key] !== undefined && value[key] !== null) value = value[key];
+    else return '';
+  }
+  return (value as string) || '';
+};
+
+// 以下字段组件定义在模块级（修复关键：不能定义在页面组件内部，
+// 否则每次输入后重渲染会生成全新组件类型，输入框被卸载重建、失去焦点）
+interface FieldProps {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+}
+
+const InputField: React.FC<FieldProps> = ({ label, value, onChange }) => (
+  <div className="space-y-1 w-full">
+    <label className="block text-[10px] uppercase tracking-widest font-bold text-stone-400">{label}</label>
+    <input
+      type="text"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className="w-full p-2.5 text-sm border border-stone-200 rounded focus:border-stone-900 outline-none bg-white"
+    />
+  </div>
+);
+
+const TextAreaField: React.FC<FieldProps> = ({ label, value, onChange }) => (
+  <div className="space-y-1 w-full">
+    <label className="block text-[10px] uppercase tracking-widest font-bold text-stone-400">{label}</label>
+    <textarea
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      rows={3}
+      className="w-full p-2.5 text-sm border border-stone-200 rounded focus:border-stone-900 outline-none resize-y bg-white"
+    />
+  </div>
+);
+
+interface ImageFieldProps {
+  label: string;
+  value: string;
+  onFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const ImageUploadField: React.FC<ImageFieldProps> = ({ label, value, onFile }) => (
+  <div className="space-y-2 w-full">
+    <label className="block text-[10px] uppercase tracking-widest font-bold text-stone-400">{label}</label>
+    <div className="flex items-center gap-3">
+      <div className="w-14 h-14 bg-stone-100 rounded overflow-hidden flex-shrink-0 relative border border-stone-200">
+        {value ? (
+          <img src={value} alt={label} className="w-full h-full object-cover" />
+        ) : (
+          <div className="text-[8px] p-1 text-center mt-4 text-stone-400">无图</div>
+        )}
+      </div>
+      <label className="flex-1 cursor-pointer">
+        <div className="flex items-center justify-center w-full px-3 py-2 text-xs border border-dashed border-stone-300 rounded hover:border-stone-900 hover:text-stone-900 text-stone-500 bg-white transition-colors">
+          <ImageIcon size={14} className="mr-2" /> 上传图片（自动压缩至 800px）
+        </div>
+        <input type="file" accept="image/*" className="hidden" onChange={onFile} />
+      </label>
+    </div>
+  </div>
+);
+
 export const AdminPage: React.FC = () => {
   const { content, updateContent, updateNestedContent, saveContent, resetContent, user, logout } = useContent();
   const [activeSection, setActiveSection] = useState('hero');
@@ -29,11 +98,23 @@ export const AdminPage: React.FC = () => {
 
   if (!user) return null;
 
+  // 绑定文本字段：值从 content 读取，修改写入本地草稿（点保存才写云端）
+  const bind = (path: string[]) => ({
+    value: getByPath(content, path),
+    onChange: (v: string) => updateNestedContent(path, v),
+  });
+
+  // 绑定图片字段
+  const bindImage = (path: string[]) => ({
+    value: getByPath(content, path),
+    onFile: (e: React.ChangeEvent<HTMLInputElement>) => handleImageUpload(e, path),
+  });
+
   const handleSave = async () => {
     setIsSaving(true);
     try {
       await saveContent();
-      window.alert('保存成功（已写入本机浏览器存储）');
+      window.alert('保存成功（已同步至云端数据库，全设备生效）');
     } catch (e) {
       console.error(e);
       window.alert('保存失败，请查看控制台');
@@ -53,13 +134,13 @@ export const AdminPage: React.FC = () => {
     let newItem: any = {};
     switch (sectionId) {
       case 'news':
-        newItem = { id, title: '新文章标题', date: new Date().toISOString().slice(0, 7), category: '新闻', link: '#' };
+        newItem = { id, title: '新文章标题', titleEn: 'New Article Title', date: new Date().toISOString().slice(0, 7), category: '新闻', link: '#' };
         break;
       case 'products':
-        newItem = { id, category: '系列', name: '新产品名称', description: '产品描述…', image: '' };
+        newItem = { id, category: '系列', name: '新产品名称', nameEn: 'New Product', description: '产品描述…', descriptionEn: 'Product description…', image: '' };
         break;
       case 'projects':
-        newItem = { id, name: '新项目名称', category: '分类', year: '2026', image: '' };
+        newItem = { id, name: '新项目名称', nameEn: 'New Project', category: '分类', year: '2026', image: '' };
         break;
       default:
         return;
@@ -80,7 +161,9 @@ export const AdminPage: React.FC = () => {
       id: `new-${Date.now()}`,
       name: '新成员',
       role: '职位',
+      roleEn: 'Position',
       intro: '介绍…',
+      introEn: '',
       image: '',
     };
     if (!departments[deptIndex].members) departments[deptIndex].members = [];
@@ -222,9 +305,9 @@ export const AdminPage: React.FC = () => {
             );
           })}
           <div className="mt-auto px-5 pt-4 text-[10px] text-stone-400 leading-relaxed">
-            数据保存在本机浏览器。
+            修改后点右上角「保存」
             <br />
-            刷新/重新打开不丢失。
+            同步至云端、全设备生效。
           </div>
         </aside>
 
@@ -232,22 +315,22 @@ export const AdminPage: React.FC = () => {
         <main className="flex-1 overflow-y-auto p-6 md:p-8">
           <div className="max-w-3xl">
             <h2 className="text-xl font-bold text-stone-900 mb-1">{active.label}</h2>
-            <p className="text-xs text-stone-400 mb-6">修改后点击右上角「保存」生效</p>
+            <p className="text-xs text-stone-400 mb-6">修改后点击右上角「保存」同步到云端</p>
 
             {/* Hero */}
             {active.id === 'hero' && (
               <div className="bg-white rounded-lg border border-stone-200 p-5 space-y-4">
-                <InputField label="主标题" path={['hero', 'title']} />
-                <InputField label="英文主标题" path={['hero', 'titleEn']} />
-                <InputField label="副标题" path={['hero', 'subtitle']} />
-                <InputField label="英文副标题" path={['hero', 'subtitleEn']} />
-                <TextAreaField label="描述文字" path={['hero', 'description']} />
-                <TextAreaField label="英文描述" path={['hero', 'descriptionEn']} />
-                <InputField label="主按钮文字" path={['hero', 'ctaPrimary']} />
-                <InputField label="英文主按钮" path={['hero', 'ctaPrimaryEn']} />
-                <InputField label="次按钮文字" path={['hero', 'ctaSecondary']} />
-                <InputField label="英文次按钮" path={['hero', 'ctaSecondaryEn']} />
-                <ImageUploadField label="背景大图" path={['hero', 'backgroundImage']} />
+                <InputField label="主标题" {...bind(['hero', 'title'])} />
+                <InputField label="英文主标题" {...bind(['hero', 'titleEn'])} />
+                <InputField label="副标题" {...bind(['hero', 'subtitle'])} />
+                <InputField label="英文副标题" {...bind(['hero', 'subtitleEn'])} />
+                <TextAreaField label="描述文字" {...bind(['hero', 'description'])} />
+                <TextAreaField label="英文描述" {...bind(['hero', 'descriptionEn'])} />
+                <InputField label="主按钮文字" {...bind(['hero', 'ctaPrimary'])} />
+                <InputField label="英文主按钮" {...bind(['hero', 'ctaPrimaryEn'])} />
+                <InputField label="次按钮文字" {...bind(['hero', 'ctaSecondary'])} />
+                <InputField label="英文次按钮" {...bind(['hero', 'ctaSecondaryEn'])} />
+                <ImageUploadField label="背景大图" {...bindImage(['hero', 'backgroundImage'])} />
               </div>
             )}
 
@@ -255,18 +338,18 @@ export const AdminPage: React.FC = () => {
             {active.id === 'about' && (
               <div className="space-y-4">
                 <div className="bg-white rounded-lg border border-stone-200 p-5 space-y-4">
-                  <InputField label="区块标题" path={['about', 'heading']} />
-                  <InputField label="英文区块标题" path={['about', 'headingEn']} />
-                  <TextAreaField label="正文段落 1" path={['about', 'paragraph1']} />
-                  <TextAreaField label="英文段落 1" path={['about', 'paragraph1En']} />
-                  <TextAreaField label="正文段落 2" path={['about', 'paragraph2']} />
-                  <TextAreaField label="英文段落 2" path={['about', 'paragraph2En']} />
-                  <InputField label="CTA 文字" path={['about', 'cta']} />
-                  <InputField label="英文 CTA" path={['about', 'ctaEn']} />
-                  <ImageUploadField label="配图" path={['about', 'image']} />
+                  <InputField label="区块标题" {...bind(['about', 'heading'])} />
+                  <InputField label="英文区块标题" {...bind(['about', 'headingEn'])} />
+                  <TextAreaField label="正文段落 1" {...bind(['about', 'paragraph1'])} />
+                  <TextAreaField label="英文段落 1" {...bind(['about', 'paragraph1En'])} />
+                  <TextAreaField label="正文段落 2" {...bind(['about', 'paragraph2'])} />
+                  <TextAreaField label="英文段落 2" {...bind(['about', 'paragraph2En'])} />
+                  <InputField label="CTA 文字" {...bind(['about', 'cta'])} />
+                  <InputField label="英文 CTA" {...bind(['about', 'ctaEn'])} />
+                  <ImageUploadField label="配图" {...bindImage(['about', 'image'])} />
                 </div>
                 <p className="text-xs font-bold uppercase tracking-widest text-stone-400 pt-2">
-                  四图卡片（每张可单独替换图片 / 中英文标题）
+                  图卡片（每张可单独替换图片 / 中英文标题）
                 </p>
                 {(content.about.cards || []).map((card, cardIdx) => (
                   <div key={card.id || cardIdx} className="relative bg-white rounded-lg border border-stone-200 p-5 space-y-3">
@@ -281,11 +364,11 @@ export const AdminPage: React.FC = () => {
                       </button>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
-                      <InputField label="英文标题" path={['about', 'cards', cardIdx.toString(), 'titleEn']} />
-                      <InputField label="中文标题" path={['about', 'cards', cardIdx.toString(), 'titleZh']} />
+                      <InputField label="英文标题" {...bind(['about', 'cards', cardIdx.toString(), 'titleEn'])} />
+                      <InputField label="中文标题" {...bind(['about', 'cards', cardIdx.toString(), 'titleZh'])} />
                     </div>
-                    <InputField label="More 文字" path={['about', 'cards', cardIdx.toString(), 'more']} />
-                    <ImageUploadField label="图片" path={['about', 'cards', cardIdx.toString(), 'image']} />
+                    <InputField label="More 文字" {...bind(['about', 'cards', cardIdx.toString(), 'more'])} />
+                    <ImageUploadField label="图片" {...bindImage(['about', 'cards', cardIdx.toString(), 'image'])} />
                   </div>
                 ))}
                 <button
@@ -302,13 +385,13 @@ export const AdminPage: React.FC = () => {
               <div className="space-y-5">
                 {content.departments.map((dept, deptIdx) => (
                   <div key={dept.id || deptIdx} className="bg-white rounded-lg border border-stone-200 p-5">
-                    <div className="flex items-center justify-between mb-4">
-                      <h4 className="font-bold text-sm text-stone-900">{dept.department}</h4>
-                      <div className="w-48">
-                        <InputField label="部门名称" path={['departments', deptIdx.toString(), 'department']} />
-                        <InputField label="英文部门名称" path={['departments', deptIdx.toString(), 'departmentEn']} />
-                        <InputField label="负责人" path={['departments', deptIdx.toString(), 'manager']} />
+                    <div className="space-y-2 mb-4">
+                      <div className="flex items-center justify-between">
+                        <h4 className="font-bold text-sm text-stone-900">{dept.department}</h4>
                       </div>
+                      <InputField label="部门名称" {...bind(['departments', deptIdx.toString(), 'department'])} />
+                      <InputField label="英文部门名称" {...bind(['departments', deptIdx.toString(), 'departmentEn'])} />
+                      <InputField label="负责人" {...bind(['departments', deptIdx.toString(), 'manager'])} />
                     </div>
                     <div className="space-y-3">
                       <p className="text-[10px] uppercase tracking-widest text-stone-400 font-bold">成员列表</p>
@@ -322,14 +405,14 @@ export const AdminPage: React.FC = () => {
                             <Trash2 size={13} />
                           </button>
                           <div className="grid grid-cols-2 gap-2 mb-2">
-                            <InputField label="姓名" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'name']} />
-                            <InputField label="职位" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'role']} />
-                            <InputField label="英文职位" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'roleEn']} />
+                            <InputField label="姓名" {...bind(['departments', deptIdx.toString(), 'members', memIdx.toString(), 'name'])} />
+                            <InputField label="职位" {...bind(['departments', deptIdx.toString(), 'members', memIdx.toString(), 'role'])} />
+                            <InputField label="英文职位" {...bind(['departments', deptIdx.toString(), 'members', memIdx.toString(), 'roleEn'])} />
                           </div>
-                          <TextAreaField label="个人介绍" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'intro']} />
-                          <TextAreaField label="英文个人介绍" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'introEn']} />
+                          <TextAreaField label="个人介绍" {...bind(['departments', deptIdx.toString(), 'members', memIdx.toString(), 'intro'])} />
+                          <TextAreaField label="英文个人介绍" {...bind(['departments', deptIdx.toString(), 'members', memIdx.toString(), 'introEn'])} />
                           <div className="mt-2">
-                            <ImageUploadField label="照片" path={['departments', deptIdx.toString(), 'members', memIdx.toString(), 'image']} />
+                            <ImageUploadField label="照片" {...bindImage(['departments', deptIdx.toString(), 'members', memIdx.toString(), 'image'])} />
                           </div>
                         </div>
                       ))}
@@ -348,20 +431,20 @@ export const AdminPage: React.FC = () => {
             {/* Company */}
             {active.id === 'company' && (
               <div className="bg-white rounded-lg border border-stone-200 p-5 space-y-4">
-                <InputField label="公司名称" path={['company', 'name']} />
-                <InputField label="英文名称" path={['company', 'nameEn']} />
-                <InputField label="地址" path={['company', 'address']} />
-                <InputField label="英文地址" path={['company', 'addressEn']} />
-                <InputField label="邮箱" path={['company', 'email']} />
-                <InputField label="电话" path={['company', 'phone']} />
-                <InputField label="手机" path={['company', 'phoneMobile']} />
-                <InputField label="备案号 ICP" path={['company', 'icp']} />
-                <InputField label="版权信息" path={['company', 'copyright']} />
-                <ImageUploadField label="公司 Logo" path={['company', 'logo']} />
+                <InputField label="公司名称" {...bind(['company', 'name'])} />
+                <InputField label="英文名称" {...bind(['company', 'nameEn'])} />
+                <InputField label="地址" {...bind(['company', 'address'])} />
+                <InputField label="英文地址" {...bind(['company', 'addressEn'])} />
+                <InputField label="邮箱" {...bind(['company', 'email'])} />
+                <InputField label="电话" {...bind(['company', 'phone'])} />
+                <InputField label="手机" {...bind(['company', 'phoneMobile'])} />
+                <InputField label="备案号 ICP" {...bind(['company', 'icp'])} />
+                <InputField label="版权信息" {...bind(['company', 'copyright'])} />
+                <ImageUploadField label="公司 Logo" {...bindImage(['company', 'logo'])} />
                 <div className="border-t border-stone-100 pt-4 space-y-4">
                   <p className="text-[10px] uppercase tracking-widest text-stone-400 font-bold">社交链接（可配置加人）</p>
-                  <InputField label="微信链接" path={['company', 'socials', 'wechat']} />
-                  <InputField label="QQ 链接" path={['company', 'socials', 'qq']} />
+                  <InputField label="微信链接" {...bind(['company', 'socials', 'wechat'])} />
+                  <InputField label="QQ 链接" {...bind(['company', 'socials', 'qq'])} />
                 </div>
               </div>
             )}
@@ -379,33 +462,33 @@ export const AdminPage: React.FC = () => {
                     </div>
                     {active.id === 'news' && (
                       <>
-                        <InputField label="标题" path={['news', idx.toString(), 'title']} />
-                        <InputField label="英文标题" path={['news', idx.toString(), 'titleEn']} />
+                        <InputField label="标题" {...bind(['news', idx.toString(), 'title'])} />
+                        <InputField label="英文标题" {...bind(['news', idx.toString(), 'titleEn'])} />
                         <div className="grid grid-cols-2 gap-2">
-                          <InputField label="日期" path={['news', idx.toString(), 'date']} />
-                          <InputField label="分类" path={['news', idx.toString(), 'category']} />
+                          <InputField label="日期" {...bind(['news', idx.toString(), 'date'])} />
+                          <InputField label="分类" {...bind(['news', idx.toString(), 'category'])} />
                         </div>
                       </>
                     )}
                     {active.id === 'products' && (
                       <>
-                        <InputField label="名称" path={['products', idx.toString(), 'name']} />
-                        <InputField label="英文名称" path={['products', idx.toString(), 'nameEn']} />
-                        <InputField label="分类" path={['products', idx.toString(), 'category']} />
-                        <TextAreaField label="描述" path={['products', idx.toString(), 'description']} />
-                        <TextAreaField label="英文描述" path={['products', idx.toString(), 'descriptionEn']} />
-                        <ImageUploadField label="图片" path={['products', idx.toString(), 'image']} />
+                        <InputField label="名称" {...bind(['products', idx.toString(), 'name'])} />
+                        <InputField label="英文名称" {...bind(['products', idx.toString(), 'nameEn'])} />
+                        <InputField label="分类" {...bind(['products', idx.toString(), 'category'])} />
+                        <TextAreaField label="描述" {...bind(['products', idx.toString(), 'description'])} />
+                        <TextAreaField label="英文描述" {...bind(['products', idx.toString(), 'descriptionEn'])} />
+                        <ImageUploadField label="图片" {...bindImage(['products', idx.toString(), 'image'])} />
                       </>
                     )}
                     {active.id === 'projects' && (
                       <>
-                        <InputField label="名称" path={['projects', idx.toString(), 'name']} />
-                        <InputField label="英文名称" path={['projects', idx.toString(), 'nameEn']} />
+                        <InputField label="名称" {...bind(['projects', idx.toString(), 'name'])} />
+                        <InputField label="英文名称" {...bind(['projects', idx.toString(), 'nameEn'])} />
                         <div className="grid grid-cols-2 gap-2">
-                          <InputField label="分类" path={['projects', idx.toString(), 'category']} />
-                          <InputField label="年份" path={['projects', idx.toString(), 'year']} />
+                          <InputField label="分类" {...bind(['projects', idx.toString(), 'category'])} />
+                          <InputField label="年份" {...bind(['projects', idx.toString(), 'year'])} />
                         </div>
-                        <ImageUploadField label="图片" path={['projects', idx.toString(), 'image']} />
+                        <ImageUploadField label="图片" {...bindImage(['projects', idx.toString(), 'image'])} />
                       </>
                     )}
                   </div>
@@ -423,72 +506,6 @@ export const AdminPage: React.FC = () => {
       </div>
     </div>
   );
-
-  function InputField({ label, path }: { label: string; path: string[] }) {
-    let value: any = content;
-    for (const key of path) {
-      if (value && value[key] !== undefined) value = value[key];
-      else value = '';
-    }
-    return (
-      <div className="space-y-1 w-full">
-        <label className="block text-[10px] uppercase tracking-widest font-bold text-stone-400">{label}</label>
-        <input
-          type="text"
-          value={value as string || ''}
-          onChange={(e) => updateNestedContent(path, e.target.value)}
-          className="w-full p-2.5 text-sm border border-stone-200 rounded focus:border-stone-900 outline-none bg-white"
-        />
-      </div>
-    );
-  }
-
-  function TextAreaField({ label, path }: { label: string; path: string[] }) {
-    let value: any = content;
-    for (const key of path) {
-      if (value && value[key] !== undefined) value = value[key];
-      else value = '';
-    }
-    return (
-      <div className="space-y-1 w-full">
-        <label className="block text-[10px] uppercase tracking-widest font-bold text-stone-400">{label}</label>
-        <textarea
-          value={value as string || ''}
-          onChange={(e) => updateNestedContent(path, e.target.value)}
-          rows={3}
-          className="w-full p-2.5 text-sm border border-stone-200 rounded focus:border-stone-900 outline-none resize-y bg-white"
-        />
-      </div>
-    );
-  }
-
-  function ImageUploadField({ label, path }: { label: string; path: string[] }) {
-    let value: any = content;
-    for (const key of path) {
-      if (value && value[key] !== undefined) value = value[key];
-      else value = '';
-    }
-    return (
-      <div className="space-y-2 w-full">
-        <label className="block text-[10px] uppercase tracking-widest font-bold text-stone-400">{label}</label>
-        <div className="flex items-center gap-3">
-          <div className="w-14 h-14 bg-stone-100 rounded overflow-hidden flex-shrink-0 relative border border-stone-200">
-            {value ? (
-              <img src={value as string} alt={label} className="w-full h-full object-cover" />
-            ) : (
-              <div className="text-[8px] p-1 text-center mt-4 text-stone-400">无图</div>
-            )}
-          </div>
-          <label className="flex-1 cursor-pointer">
-            <div className="flex items-center justify-center w-full px-3 py-2 text-xs border border-dashed border-stone-300 rounded hover:border-stone-900 hover:text-stone-900 text-stone-500 bg-white transition-colors">
-              <ImageIcon size={14} className="mr-2" /> 上传图片（自动压缩至 800px）
-            </div>
-            <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, path)} />
-          </label>
-        </div>
-      </div>
-    );
-  }
 };
 
 export default AdminPage;
