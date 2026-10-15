@@ -87,7 +87,7 @@ export const TeamPage: React.FC = () => {
           </motion.div>
 
           {/* Department Grid */}
-             <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${visibleDepartments.length === 1 ? 'lg:grid-cols-1 max-w-6xl mx-auto' : 'lg:grid-cols-3'}`}>
+             <div className={`grid gap-8 ${visibleDepartments.length === 1 ? 'grid-cols-1 max-w-6xl mx-auto' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
              {visibleDepartments.map((dept, deptIndex) => (
                 <motion.div
                    id={dept.id} // Added ID for Anchor Scroll
