@@ -66,10 +66,11 @@ const WeiboIcon = ({ size = 20, className = '' }: { size?: number; className?: s
 );
 
 // 社交配置：微信号 / QQ 号（二维码图片在 public/images/ 下，可直接替换同名文件）
+// 路径拼接 BASE_URL，兼容 GitHub Pages 子路径部署（/muqijiaju/）与 Cloudflare 根路径部署
 const WECHAT_ID = 'zhangyanhui95';
 const QQ_NUMBER = '980763379';
-const WECHAT_QR = '/images/wechat-qr.png';
-const QQ_QR = '/images/qq-qr.png';
+const WECHAT_QR = `${import.meta.env.BASE_URL}images/wechat-qr.png`;
+const QQ_QR = `${import.meta.env.BASE_URL}images/qq-qr.png`;
 
 export const Footer: React.FC = () => {
   const { content } = useContent();
@@ -301,7 +302,7 @@ export const Footer: React.FC = () => {
             <img
               src={WECHAT_QR}
               alt="WeChat QR"
-              className="w-56 h-56 mx-auto bg-white p-2 rounded-lg mb-6"
+              className="w-56 h-72 mx-auto bg-white p-2 rounded-lg mb-6 object-contain"
             />
             <p className="text-center text-white/80 text-sm mb-6 break-words">
               {t('微信号', 'WeChat ID')}:{' '}
@@ -348,7 +349,7 @@ export const Footer: React.FC = () => {
             <img
               src={QQ_QR}
               alt="QQ QR"
-              className="w-56 h-56 mx-auto bg-white p-2 rounded-lg mb-6"
+              className="w-56 h-72 mx-auto bg-white p-2 rounded-lg mb-6 object-contain"
             />
             <p className="text-center text-white/80 text-sm mb-6 break-words">
               {t('QQ 号', 'QQ Number')}:{' '}
