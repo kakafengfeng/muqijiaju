@@ -74,7 +74,13 @@ export const Header: React.FC = () => {
               <img
                 src={content.company.logo}
                 alt={content.company.name}
-                className="h-14 w-auto object-contain transition-all duration-300"
+                className={`h-14 w-auto object-contain transition-all duration-500 ${
+                  // 顶部深色背景（首页未滚动、且移动端菜单未打开）时，把单色 logo 转为白色；
+                  // 浅色背景时恢复原色
+                  isHome && !isScrolled && !isMenuOpen
+                    ? 'brightness-0 invert opacity-95'
+                    : ''
+                }`}
               />
             ) : (
               <span className={`text-xl font-bold tracking-widest uppercase ${textColor}`}>
