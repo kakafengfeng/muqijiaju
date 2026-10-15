@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useContent } from '../context/ContentContext';
+import { storage } from '../firebase';
+import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 import {
   Settings, LogOut, Save, RotateCcw, Eye, Plus, Trash2, Image as ImageIcon,
   ChevronRight, Building2, Home, Users, Sofa, FolderKanban, Newspaper, CircleUserRound
@@ -61,10 +63,11 @@ const TextAreaField: React.FC<FieldProps> = ({ label, value, onChange }) => (
 interface ImageFieldProps {
   label: string;
   value: string;
+  uploading?: boolean;
   onFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const ImageUploadField: React.FC<ImageFieldProps> = ({ label, value, onFile }) => (
+const ImageUploadField: React.FC<ImageFieldProps> = ({ label, value, uploading, onFile }) => (
   <div className="space-y-2 w-full">
     <label className="block text-[10px] uppercase tracking-widest font-bold text-stone-400">{label}</label>
     <div className="flex items-center gap-3">
@@ -76,10 +79,13 @@ const ImageUploadField: React.FC<ImageFieldProps> = ({ label, value, onFile }) =
         )}
       </div>
       <label className="flex-1 cursor-pointer">
-        <div className="flex items-center justify-center w-full px-3 py-2 text-xs border border-dashed border-stone-300 rounded hover:border-stone-900 hover:text-stone-900 text-stone-500 bg-white transition-colors">
-          <ImageIcon size={14} className="mr-2" /> 上传图片（自动压缩至 800px）
+        <div className={`flex items-center justify-center w-full px-3 py-2 text-xs border border-dashed rounded text-stone-500 bg-white transition-colors ${
+          uploading ? 'border-amber-400 text-amber-500' : 'border-stone-300 hover:border-stone-900 hover:text-stone-900'
+        }`}>
+          <ImageIcon size={14} className="mr-2" />
+          {uploading ? '上传中…' : '上传图片（自动压缩，存云端存储）'}
         </div>
-        <input type="file" accept="image/*" className="hidden" onChange={onFile} />
+        <input type="file" accept="image/*" className="hidden" onChange={onFile} disabled={uploading} />
       </label>
     </div>
   </div>
@@ -89,6 +95,7 @@ export const AdminPage: React.FC = () => {
   const { content, updateContent, updateNestedContent, saveContent, resetContent, user, logout } = useContent();
   const [activeSection, setActiveSection] = useState('hero');
   const [isSaving, setIsSaving] = useState(false);
+  const [uploadingPath, setUploadingPath] = useState<string | null>(null);
   const navigate = useNavigate();
 
   // 未登录：通过 useEffect 跳回登录页（渲染期间直接 navigate 会导致空白页）
@@ -107,6 +114,7 @@ export const AdminPage: React.FC = () => {
   // 绑定图片字段
   const bindImage = (path: string[]) => ({
     value: getByPath(content, path),
+    uploading: uploadingPath === path.join('.'),
     onFile: (e: React.ChangeEvent<HTMLInputElement>) => handleImageUpload(e, path),
   });
 
@@ -199,42 +207,71 @@ export const AdminPage: React.FC = () => {
     }
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, path: string[]) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, path: string[]) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    // SVG 矢量图：直接保留原始文件（透明背景），不做 canvas 压缩
-    if (file.type === 'image/svg+xml' || file.name.toLowerCase().endsWith('.svg')) {
-      const reader = new FileReader();
-      reader.onload = () => updateNestedContent(path, reader.result as string);
-      reader.readAsDataURL(file);
-      return;
-    }
-    const img = new Image();
-    const objectUrl = URL.createObjectURL(file);
-    img.onload = () => {
-      try {
-        const MAX_EDGE = 800;
-        let { width, height } = img;
-        if (Math.max(width, height) > MAX_EDGE) {
-          const scale = MAX_EDGE / Math.max(width, height);
-          width = Math.round(width * scale);
-          height = Math.round(height * scale);
-        }
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-        ctx.drawImage(img, 0, 0, width, height);
-        const mime = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
-        const dataUrl = canvas.toDataURL(mime, 0.82);
-        updateNestedContent(path, dataUrl);
-      } finally {
-        URL.revokeObjectURL(objectUrl);
+    const pathKey = path.join('.');
+    setUploadingPath(pathKey);
+    try {
+      let dataUrl: string;
+      // SVG 矢量图：直接保留原始文件（透明背景），不做 canvas 压缩
+      if (file.type === 'image/svg+xml' || file.name.toLowerCase().endsWith('.svg')) {
+        dataUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = () => reject(new Error('读取文件失败'));
+          reader.readAsDataURL(file);
+        });
+      } else {
+        dataUrl = await new Promise<string>((resolve, reject) => {
+          const img = new Image();
+          const objectUrl = URL.createObjectURL(file);
+          img.onload = () => {
+            try {
+              const MAX_EDGE = 1200;
+              let { width, height } = img;
+              if (Math.max(width, height) > MAX_EDGE) {
+                const scale = MAX_EDGE / Math.max(width, height);
+                width = Math.round(width * scale);
+                height = Math.round(height * scale);
+              }
+              const canvas = document.createElement('canvas');
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext('2d');
+              if (!ctx) { reject(new Error('Canvas 初始化失败')); return; }
+              ctx.drawImage(img, 0, 0, width, height);
+              const mime = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+              resolve(canvas.toDataURL(mime, 0.85));
+            } finally {
+              URL.revokeObjectURL(objectUrl);
+            }
+          };
+          img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error('图片解析失败')); };
+          img.src = objectUrl;
+        });
       }
-    };
-    img.onerror = () => URL.revokeObjectURL(objectUrl);
-    img.src = objectUrl;
+
+      // 上传到 Firebase Storage（不再写入 Firestore 文档，避免 1MiB 容量上限）
+      const ext = file.name.includes('.') ? file.name.split('.').pop() : (file.type === 'image/svg+xml' ? 'svg' : 'png');
+      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const sRef = storageRef(storage, `images/${fileName}`);
+      const blob = await (await fetch(dataUrl)).blob();
+      await uploadBytes(sRef, blob, { contentType: file.type || 'image/png' });
+      const url = await getDownloadURL(sRef);
+      // 同步将图片 URL 写入内容草稿（点保存才写 Firestore 文档，文档只存 URL 不再存 base64）
+      updateNestedContent(path, url);
+      window.alert('✅ 图片已上传至云端存储');
+    } catch (err: any) {
+      console.error('Upload failed:', err);
+      const msg =
+        err?.code === 'storage/unauthorized' || (err && String(err.message).includes('Permission'))
+          ? '上传被拒绝：请确认 Firebase Storage 安全规则已允许登录用户写入（需在 Firebase 控制台设置规则）'
+          : `上传失败：${err?.message || err}`;
+      window.alert(msg);
+    } finally {
+      setUploadingPath(null);
+    }
   };
 
   const active = SECTION_META.find((s) => s.id === activeSection) || SECTION_META[0];
