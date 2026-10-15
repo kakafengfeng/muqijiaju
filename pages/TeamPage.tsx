@@ -87,7 +87,7 @@ export const TeamPage: React.FC = () => {
           </motion.div>
 
           {/* Department Grid */}
-             <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${visibleDepartments.length === 1 ? 'lg:grid-cols-1 max-w-2xl mx-auto' : 'lg:grid-cols-3'}`}>
+             <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 ${visibleDepartments.length === 1 ? 'lg:grid-cols-1 max-w-6xl mx-auto' : 'lg:grid-cols-3'}`}>
              {visibleDepartments.map((dept, deptIndex) => (
                 <motion.div
                    id={dept.id} // Added ID for Anchor Scroll
@@ -113,27 +113,29 @@ export const TeamPage: React.FC = () => {
                        )}
                    </div>
 
-                   {/* Members List - Avatar Style */}
+                   {/* Members List - 与首页一致的大卡片样式 */}
                    <div className="flex-1">
-                       <div className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-4">Members ({dept.members?.length || 0})</div>
-                       <div className="flex flex-wrap gap-4">
+                       <div className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-6">Members ({dept.members?.length || 0})</div>
+                       <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
                            {dept.members?.map((member, mIndex) => (
                                <button
                                    key={member.id || mIndex}
                                    onClick={() => setSelectedMember(member)}
-                                   className="flex flex-col items-center gap-2 group"
+                                   className="group text-center flex flex-col"
                                    title={member.name}
                                >
-                                   <div className="w-16 h-16 rounded-full overflow-hidden bg-stone-200 ring-2 ring-transparent group-hover:ring-stone-900 transition-shadow duration-200">
+                                   <div className="relative mb-4 overflow-hidden aspect-[3/4] w-full bg-stone-100">
                                        <img
                                            src={member.image}
                                            alt={member.name}
                                            loading="lazy"
-                                           className="w-full h-full object-cover object-top"
+                                           className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                                        />
                                    </div>
-                                   <span className="text-sm text-stone-600 group-hover:text-stone-900 transition-colors max-w-[80px] text-center break-words leading-tight">{member.name}</span>
+                                   <h3 className="text-base md:text-lg font-medium text-stone-900">{member.name}</h3>
+                                   <div className="w-8 h-[1px] bg-stone-300 mx-auto mt-2 transition-all duration-500 group-hover:w-12 group-hover:bg-stone-900"></div>
+                                   <div className="text-[10px] md:text-xs font-bold text-stone-400 uppercase tracking-widest mt-2 break-words">{isEn ? (member.roleEn || member.role) : member.role}</div>
                                </button>
                            ))}
                        </div>
