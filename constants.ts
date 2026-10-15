@@ -19,7 +19,7 @@ export const CONTENT: SiteContent = {
     ctaPrimary: "了解更多",
     ctaSecondary: "联系我们",
     // 1920x900 placeholder
-    backgroundImage: "/images/hero.jpg",
+    backgroundImage: "images/hero.jpg",
     titleEn: "MUQI HOME — For Better Connections",
     subtitleEn: "Make better connections",
     descriptionEn: "Redefining spatial order in every detail, we interpret Eastern philosophy through minimalist aesthetics. We create more than furniture — we craft enduring warmth for life.",
@@ -146,7 +146,7 @@ export const CONTENT: SiteContent = {
       name: "王广大",
       role: "设计总监",
       intro: "前意大利著名家居品牌主理人，专注于极简主义美学与功能性的完美融合。",
-      image: "/images/wangguangda.jpg"
+      image: "images/wangguangda.jpg"
     },
     {
       id: "t3",
@@ -223,21 +223,21 @@ export const CONTENT: SiteContent = {
           name: "王秦琳", 
           role: "软装设计师", roleEn: "Soft Furnishing Designer", 
           intro: "色彩与材质的碰撞，激发生活灵感。", 
-          image: "/images/wangqinlin.jpg" 
+          image: "images/wangqinlin.jpg" 
         },
         { 
           id: "d2-m4", 
           name: "王舒淼", 
           role: "深化设计师", roleEn: "Detail Designer", 
           intro: "专注细节，将设计图纸完美落地。", 
-          image: "/images/wangshumiao.jpg" 
+          image: "images/wangshumiao.jpg" 
         },
         { 
           id: "d2-m5", 
           name: "邢旺", 
           role: "3D渲染师", roleEn: "3D Renderer", 
           intro: "用光影还原真实的未来家园。", 
-          image: "/images/xingwang.jpg" 
+          image: "images/xingwang.jpg" 
         },
         { 
           id: "d2-m6", 
@@ -251,7 +251,7 @@ export const CONTENT: SiteContent = {
           name: "林泉", 
           role: "设计助理", roleEn: "Design Assistant", 
           intro: "学习与成长，为设计注入新活力。", 
-          image: "/images/linquan.jpg" 
+          image: "images/linquan.jpg" 
         }
       ]
     },
@@ -334,7 +334,7 @@ export const CONTENT: SiteContent = {
       department: "下单部", departmentEn: "Order Processing Dept.",
       manager: "张艳慧",
       members: [
-        { id: "d5-m1", name: "张艳慧", role: "下单主管", roleEn: "Order Processing Lead", intro: "精准核对，源头把控。", image: "/images/zhangyanhui.jpg" }
+        { id: "d5-m1", name: "张艳慧", role: "下单主管", roleEn: "Order Processing Lead", intro: "精准核对，源头把控。", image: "images/zhangyanhui.jpg" }
       ]
     },
     {
@@ -400,7 +400,7 @@ export const CONTENT: SiteContent = {
     phone: "021-54242017",
     phoneMobile: "15801948991",
     // 公司 Logo（透明矢量版，当前使用）
-    logo: "/images/logo.svg",
+    logo: "images/logo.svg",
     socials: {
       // 微信：可改为微信二维码图片链接或微信号直达链接（如 https://weixin.qq.com/）
       wechat: "https://weixin.qq.com/",

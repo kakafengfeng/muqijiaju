@@ -8,6 +8,28 @@ import { Link, useLocation } from 'react-router-dom';
 import { CONTENT as DEFAULT_CONTENT } from '../constants';
 import { DepartmentMember } from '../types';
 
+// 健壮的成员图片：src 变化时自动重置错误状态；加载失败时显示占位，不永久隐藏
+const MemberImage: React.FC<{ src: string; alt: string; className?: string; lazy?: boolean }> = ({ src, alt, className = '', lazy = true }) => {
+  const [error, setError] = useState(false);
+  useEffect(() => { setError(false); }, [src]);
+  if (error || !src) {
+    return (
+      <div className={`${className} flex items-center justify-center bg-stone-200 text-stone-400`}>
+        <Briefcase size={28} strokeWidth={1} />
+      </div>
+    );
+  }
+  return (
+    <img
+      src={src}
+      alt={alt}
+      loading={lazy ? 'lazy' : 'eager'}
+      className={className}
+      onError={() => setError(true)}
+    />
+  );
+};
+
 export const TeamPage: React.FC = () => {
   const { content, user, saveContent } = useContent();
   const { lang } = useLanguage();
@@ -125,12 +147,10 @@ export const TeamPage: React.FC = () => {
                                    title={member.name}
                                >
                                    <div className="relative mb-4 overflow-hidden aspect-[3/4] w-full bg-stone-100">
-                                       <img
+                                       <MemberImage
                                            src={member.image}
                                            alt={member.name}
-                                           loading="lazy"
                                            className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                                           onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                                        />
                                    </div>
                                    <h3 className="text-base md:text-lg font-medium text-stone-900">{member.name}</h3>
@@ -195,10 +215,10 @@ export const TeamPage: React.FC = () => {
                 >
                    {/* Modal Image */}
                    <div className="w-full aspect-[3/4] bg-stone-200 relative overflow-hidden">
-                       <img
+                       <MemberImage
                           src={selectedMember.image}
                           alt={selectedMember.name}
-                          loading="lazy"
+                          lazy={false}
                           className="w-full h-full object-cover object-top"
                        />
                        <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 to-transparent"></div>
