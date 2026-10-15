@@ -39,7 +39,7 @@ export const TeamSection: React.FC = () => {
                    {/* Text Info */}
                    <div className="space-y-3">
                      <h3 className="text-xl font-medium text-stone-900">{member.name}</h3>
-                     <div className="w-8 h-[1px] bg-stone-300 mx-auto transition-all duration-500 group-hover:w-16 group-hover:bg-stone-900"></div>
+                     <div className="w-8 h-[1px] bg-stone-300 mx-auto transition-[width,background-color] duration-500 group-hover:w-16 group-hover:bg-stone-900"></div>
                      <div className="text-xs font-bold text-stone-400 uppercase tracking-widest">{isEn ? (member.roleEn || member.role) : member.role}</div>
                      <p className="text-stone-500 font-light text-sm leading-relaxed max-w-xs mx-auto pt-2 opacity-80 group-hover:opacity-100 transition-opacity break-words">
                         {isEn ? (member.introEn || member.intro) : member.intro}
@@ -54,7 +54,7 @@ export const TeamSection: React.FC = () => {
            <div className="text-center">
               <Link 
                 to="/team" 
-                className="inline-flex items-center gap-2 px-8 py-3 border border-stone-200 text-stone-500 hover:border-stone-900 hover:text-stone-900 transition-all uppercase text-xs tracking-widest"
+                className="inline-flex items-center gap-2 px-8 py-3 border border-stone-200 text-stone-500 hover:border-stone-900 hover:text-stone-900 transition-[border-color,color,transform] duration-200 uppercase text-xs tracking-widest active:scale-[0.98]"
               >
                  {t('查看完整团队架构', 'View Full Team Structure')} <ArrowRight size={14} />
               </Link>

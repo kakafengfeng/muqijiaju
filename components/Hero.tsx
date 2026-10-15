@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -9,6 +9,7 @@ export const Hero: React.FC = () => {
   const { content } = useContent();
   const { lang } = useLanguage();
   const ref = useRef(null);
+  const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -19,6 +20,9 @@ export const Hero: React.FC = () => {
 
   const isEn = lang === 'en';
   const hero = content.hero;
+
+  // 减少动态效果偏好：入场动画直接呈现
+  const entrance = (props: object) => (reduceMotion ? {} : props);
 
   return (
     <section ref={ref} className="relative h-screen w-full overflow-hidden bg-stone-900">
@@ -40,49 +44,49 @@ export const Hero: React.FC = () => {
       <div className="relative z-20 h-full container mx-auto px-6 md:px-12 flex flex-col justify-center text-white">
         <div className="max-w-4xl">
           <motion.h2 
-            {...({
+            {...(entrance({
                 initial: { opacity: 0, y: 20 },
                 animate: { opacity: 1, y: 0 },
-                transition: { delay: 0.2, duration: 0.8 }
-            } as any)}
+                transition: { delay: 0.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+            }) as any)}
             className="text-lg md:text-xl font-serif italic tracking-wider mb-4 text-stone-200"
           >
             {isEn ? (hero.subtitleEn || hero.subtitle) : hero.subtitle}
           </motion.h2>
 
           <motion.h1
-            {...({
+            {...(entrance({
                 initial: { opacity: 0, y: 30 },
                 animate: { opacity: 1, y: 0 },
-                transition: { delay: 0.4, duration: 0.8 }
-            } as any)}
+                transition: { delay: 0.4, duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+            }) as any)}
             className="text-4xl md:text-6xl lg:text-7xl font-light tracking-wide leading-tight mb-8"
           >
             {isEn ? (hero.titleEn || hero.title) : hero.title}
           </motion.h1>
 
           <motion.p 
-             {...({
+             {...(entrance({
                  initial: { opacity: 0 },
                  animate: { opacity: 1 },
                  transition: { delay: 0.6, duration: 1 }
-             } as any)}
+             }) as any)}
              className="text-stone-300 text-sm md:text-base max-w-xl leading-relaxed mb-12 border-l-2 border-stone-500 pl-6"
           >
             {isEn ? (hero.descriptionEn || hero.description) : hero.description}
           </motion.p>
 
           <motion.div
-             {...({
+             {...(entrance({
                  initial: { opacity: 0, y: 20 },
                  animate: { opacity: 1, y: 0 },
-                 transition: { delay: 0.8, duration: 0.6 }
-             } as any)}
+                 transition: { delay: 0.8, duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+             }) as any)}
              className="flex flex-col sm:flex-row gap-6"
           >
             <button
               onClick={() => scrollToSection('about')}
-              className="group relative px-8 py-4 bg-white text-stone-900 text-sm tracking-widest uppercase transition-transform hover:-translate-y-1"
+              className="group relative px-8 py-4 bg-white text-stone-900 text-sm tracking-widest uppercase transition-[transform,background-color] duration-200 ease-out hover:-translate-y-1 active:translate-y-0 active:scale-[0.97]"
             >
               <span className="relative z-10 flex items-center gap-2 font-medium">
                 {isEn ? (hero.ctaPrimaryEn || hero.ctaPrimary) : hero.ctaPrimary} <ArrowRight size={16} />
@@ -90,7 +94,7 @@ export const Hero: React.FC = () => {
             </button>
             <button
               onClick={() => scrollToSection('contact')}
-              className="px-8 py-4 border border-white/30 text-white text-sm tracking-widest uppercase hover:bg-white hover:text-stone-900 transition-all hover:-translate-y-1"
+              className="px-8 py-4 border border-white/30 text-white text-sm tracking-widest uppercase transition-[transform,background-color,color] duration-200 ease-out hover:bg-white hover:text-stone-900 hover:-translate-y-1 active:translate-y-0 active:scale-[0.97]"
             >
               {isEn ? (hero.ctaSecondaryEn || hero.ctaSecondary) : hero.ctaSecondary}
             </button>
@@ -100,12 +104,13 @@ export const Hero: React.FC = () => {
 
       {/* Scroll Indicator */}
       <motion.div 
-        {...({
+        {...(entrance({
             initial: { opacity: 0 },
             animate: { opacity: 1 },
             transition: { delay: 1.5, duration: 1 }
-        } as any)}
+        }) as any)}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 text-white/50"
+        aria-hidden="true"
       >
         <span className="text-[10px] uppercase tracking-widest">Scroll</span>
         <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>

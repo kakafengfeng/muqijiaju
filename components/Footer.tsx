@@ -1,9 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Instagram, Linkedin } from 'lucide-react';
+import { Instagram, Linkedin, X } from 'lucide-react';
 import { scrollToSection } from '../lib/nav';
 
 const WechatIcon = ({ size = 20, className = '' }: { size?: number; className?: string }) => (
@@ -84,6 +84,19 @@ export const Footer: React.FC = () => {
   const [qqOpen, setQqOpen] = useState(false);
   const [wechatCopied, setWechatCopied] = useState(false);
   const [qqCopied, setQqCopied] = useState(false);
+
+  // Esc 关闭弹窗
+  useEffect(() => {
+    if (!wechatOpen && !qqOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setWechatOpen(false);
+        setQqOpen(false);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [wechatOpen, qqOpen]);
 
   // 导航项中英映射
   const navLabelMap: Record<string, string> = {
@@ -282,6 +295,9 @@ export const Footer: React.FC = () => {
         <div
           className="fixed inset-0 z-[200] bg-stone-950/75 backdrop-blur-sm flex items-center justify-center p-6"
           onClick={() => setWechatOpen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={t('扫码添加微信', 'Scan to Add WeChat')}
         >
           <div
             className="bg-stone-900 border border-white/10 rounded-2xl p-8 w-full max-w-sm shadow-2xl relative"
@@ -290,10 +306,10 @@ export const Footer: React.FC = () => {
             <button
               type="button"
               onClick={() => setWechatOpen(false)}
-              className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors text-xl leading-none"
+              className="absolute top-4 right-4 min-w-[44px] min-h-[44px] flex items-center justify-center text-white/40 hover:text-white transition-colors"
               aria-label={t('关闭', 'Close')}
             >
-              ×
+              <X size={20} />
             </button>
             <p className="text-white/50 text-xs uppercase tracking-widest mb-2">
               {t('扫码添加微信', 'Scan to Add WeChat')}
@@ -329,6 +345,9 @@ export const Footer: React.FC = () => {
         <div
           className="fixed inset-0 z-[200] bg-stone-950/75 backdrop-blur-sm flex items-center justify-center p-6"
           onClick={() => setQqOpen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={t('添加 QQ 好友', 'Add on QQ')}
         >
           <div
             className="bg-stone-900 border border-white/10 rounded-2xl p-8 w-full max-w-sm shadow-2xl relative"
@@ -337,10 +356,10 @@ export const Footer: React.FC = () => {
             <button
               type="button"
               onClick={() => setQqOpen(false)}
-              className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors text-xl leading-none"
+              className="absolute top-4 right-4 min-w-[44px] min-h-[44px] flex items-center justify-center text-white/40 hover:text-white transition-colors"
               aria-label={t('关闭', 'Close')}
             >
-              ×
+              <X size={20} />
             </button>
             <p className="text-white/50 text-xs uppercase tracking-widest mb-2">
               {t('添加 QQ 好友', 'Add on QQ')}

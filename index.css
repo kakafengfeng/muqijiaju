@@ -11,3 +11,32 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+/* 主题化文本选区：用品牌深色代替浏览器默认蓝 */
+::selection {
+  background-color: #1c1917; /* stone-900 */
+  color: #fafaf9; /* stone-50 */
+}
+
+/* 全局可见焦点环（键盘导航可感知，鼠标点击不打扰） */
+:focus-visible {
+  outline: 2px solid #1c1917;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.bg-stone-950 :focus-visible,
+.bg-stone-900 :focus-visible {
+  outline-color: #fafaf9;
+}
+
+/* 尊重系统「减少动态效果」偏好：停用 CSS 过渡与动画 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

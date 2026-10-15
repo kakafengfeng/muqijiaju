@@ -64,14 +64,14 @@ export const ProductCarousel: React.FC = () => {
           <button
             onClick={prevSlide}
             aria-label={t('上一个产品', 'Previous product')}
-            className="p-3 border border-stone-200 hover:bg-stone-900 hover:text-white transition-colors"
+            className="p-3 border border-stone-200 hover:bg-stone-900 hover:text-white transition-[background-color,color,transform] duration-200 active:scale-95"
           >
             <ArrowLeft size={20} />
           </button>
           <button
             onClick={nextSlide}
             aria-label={t('下一个产品', 'Next product')}
-            className="p-3 border border-stone-200 hover:bg-stone-900 hover:text-white transition-colors"
+            className="p-3 border border-stone-200 hover:bg-stone-900 hover:text-white transition-[background-color,color,transform] duration-200 active:scale-95"
           >
             <ArrowRight size={20} />
           </button>
@@ -107,10 +107,10 @@ export const ProductCarousel: React.FC = () => {
                 </div>
 
                 {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center items-center backdrop-blur-[1px]">
-                  <div className="flex flex-col items-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">
+                <div className="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-500 flex flex-col justify-center items-center backdrop-blur-[1px]">
+                  <div className="flex flex-col items-center transform translate-y-4 group-hover:translate-y-0 group-focus-within:translate-y-0 transition-transform duration-500 delay-75">
                     <span className="text-stone-200 text-sm font-serif italic mb-3">{isEn ? (product.categoryEn || product.category) : product.category}</span>
-                    <span className="text-white text-xs tracking-widest uppercase border-b border-white/70 pb-1">{t('View Details', 'View Details')}</span>
+                    <span className="text-white text-xs tracking-widest uppercase border-b border-white/70 pb-1">{t('查看详情', 'View Details')}</span>
                   </div>
                 </div>
               </div>
@@ -121,11 +121,23 @@ export const ProductCarousel: React.FC = () => {
           ))}
         </div>
 
-        {/* Mobile Controls */}
-        <div className="md:hidden flex justify-center gap-6 mt-12">
-          <button onClick={prevSlide} aria-label={t('上一个产品', 'Previous product')}><ArrowLeft size={24} /></button>
-          <div className="text-sm tracking-widest">{currentIndex + 1} / {total}</div>
-          <button onClick={nextSlide} aria-label={t('下一个产品', 'Next product')}><ArrowRight size={24} /></button>
+        {/* Mobile Controls：保证 44px 触摸目标 */}
+        <div className="md:hidden flex justify-center items-center gap-6 mt-12">
+          <button
+            onClick={prevSlide}
+            aria-label={t('上一个产品', 'Previous product')}
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center text-stone-900 active:scale-95 transition-transform"
+          >
+            <ArrowLeft size={24} />
+          </button>
+          <div className="text-sm tracking-widest" aria-live="polite">{currentIndex + 1} / {total}</div>
+          <button
+            onClick={nextSlide}
+            aria-label={t('下一个产品', 'Next product')}
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center text-stone-900 active:scale-95 transition-transform"
+          >
+            <ArrowRight size={24} />
+          </button>
         </div>
       </div>
     </section>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { motion, useInView, useAnimation } from 'framer-motion';
+import { motion, useInView, useAnimation, useReducedMotion } from 'framer-motion';
 
 interface Props {
   children: React.ReactNode;
@@ -8,10 +8,14 @@ interface Props {
   direction?: "up" | "down" | "left" | "right";
 }
 
+// 指数型 ease-out：进入干脆利落，比通用 cubic 更有高级感
+const EASE_OUT_EXPO: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
 export const Reveal: React.FC<Props> = ({ children, width = "100%", delay = 0, direction = "up" }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px -10% 0px" });
   const mainControls = useAnimation();
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (isInView) {
@@ -19,9 +23,18 @@ export const Reveal: React.FC<Props> = ({ children, width = "100%", delay = 0, d
     }
   }, [isInView, mainControls]);
 
+  // 减少动态效果偏好：直接呈现，不做位移动画
+  if (reduceMotion) {
+    return (
+      <div ref={ref} style={{ position: "relative", width }}>
+        {children}
+      </div>
+    );
+  }
+
   const getHiddenVariant = () => {
     switch (direction) {
-      case "up": return { opacity: 0, y: 30 }; // Increased distance for drama
+      case "up": return { opacity: 0, y: 30 };
       case "down": return { opacity: 0, y: -30 };
       case "left": return { opacity: 0, x: 30 };
       case "right": return { opacity: 0, x: -30 };
@@ -31,16 +44,19 @@ export const Reveal: React.FC<Props> = ({ children, width = "100%", delay = 0, d
 
   const variants = {
     hidden: getHiddenVariant(),
-    visible: { 
-      opacity: 1, 
-      y: 0, 
+    visible: {
+      opacity: 1,
+      y: 0,
       x: 0,
-      transition: { duration: 0.8, ease: [0.25, 0.25, 0.25, 0.75], delay: delay } // Custom easing
+      transition: { duration: 0.8, ease: EASE_OUT_EXPO, delay: delay }
     },
   };
 
+  // 只有左右位移才需要裁剪横向溢出；纵向位移不裁剪，避免吃掉子元素的阴影与焦点环
+  const needsClip = direction === "left" || direction === "right";
+
   return (
-    <div ref={ref} style={{ position: "relative", width, overflow: "hidden" }}>
+    <div ref={ref} style={{ position: "relative", width, overflow: needsClip ? "hidden" : "visible" }}>
       <motion.div
         {...({
             variants,

@@ -41,7 +41,7 @@ export const NewsSection: React.FC = () => {
                     <h3 className="text-xl font-light text-stone-900 leading-snug group-hover:translate-x-2 transition-transform duration-300 break-words">
                       {isEn ? (item.titleEn || item.title) : item.title}
                     </h3>
-                    <div className="mt-6 flex items-center gap-2 text-xs text-stone-400 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="mt-6 flex items-center gap-2 text-xs text-stone-400 uppercase tracking-widest opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300">
                       {t('Read More', 'Read More')} <ArrowUpRight size={12} />
                     </div>
                  </div>

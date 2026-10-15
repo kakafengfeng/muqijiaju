@@ -38,6 +38,14 @@ export const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // 移动端菜单打开时锁定背景滚动
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
   const headerStyle = !isHome || isScrolled
     ? 'bg-stone-50/90 backdrop-blur-md py-4 text-stone-900 shadow-sm'
     : 'bg-transparent py-8 text-white';
@@ -65,7 +73,7 @@ export const Header: React.FC = () => {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${headerStyle}`}
+        className={`fixed top-0 left-0 w-full z-50 transition-[background-color,padding,color,box-shadow] duration-500 ease-out ${headerStyle}`}
       >
         <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
           {/* Logo */}
@@ -74,7 +82,7 @@ export const Header: React.FC = () => {
               <img
                 src={content.company.logo}
                 alt={content.company.name}
-                className={`h-14 w-auto object-contain transition-all duration-500 ${
+                className={`h-14 w-auto object-contain transition-[filter,opacity] duration-500 ${
                   // 顶部深色背景（首页未滚动、且移动端菜单未打开）时，把单色 logo 转为白色；
                   // 浅色背景时恢复原色
                   isHome && !isScrolled && !isMenuOpen
@@ -120,11 +128,12 @@ export const Header: React.FC = () => {
             </button>
           </nav>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button：保证 44px 触摸目标 */}
           <button
             type="button"
             aria-label={isMenuOpen ? t('关闭菜单', 'Close menu') : t('打开菜单', 'Open menu')}
-            className={`md:hidden z-50 hover:opacity-60 transition-opacity ${isMenuOpen ? 'text-stone-900' : textColor}`}
+            aria-expanded={isMenuOpen}
+            className={`md:hidden z-50 min-w-[44px] min-h-[44px] flex items-center justify-center hover:opacity-60 transition-opacity ${isMenuOpen ? 'text-stone-900' : textColor}`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
