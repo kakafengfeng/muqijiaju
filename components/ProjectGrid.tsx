@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
 import { Reveal } from './UI/Reveal';
-import { Plus, X } from 'lucide-react';
+import { Plus, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export const ProjectGrid: React.FC = () => {
@@ -11,6 +11,24 @@ export const ProjectGrid: React.FC = () => {
   const isEn = lang === 'en';
   const t = (zh: string, en: string) => (isEn ? en : zh);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [imageIndex, setImageIndex] = useState(0);
+
+  const selectedProject = content.projects.find(p => p.id === selectedId);
+
+  // 兼容旧数据：无 images 数组时退回单图
+  const getImages = (p: { image: string; images?: string[] }) =>
+    p.images && p.images.length > 0 ? p.images : [p.image];
+
+  const currentImages = selectedProject ? getImages(selectedProject) : [];
+  const total = currentImages.length;
+
+  const nextImage = useCallback(() => {
+    if (total > 1) setImageIndex(i => (i + 1) % total);
+  }, [total]);
+
+  const prevImage = useCallback(() => {
+    if (total > 1) setImageIndex(i => (i - 1 + total) % total);
+  }, [total]);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -24,7 +42,21 @@ export const ProjectGrid: React.FC = () => {
     };
   }, [selectedId]);
 
-  const selectedProject = content.projects.find(p => p.id === selectedId);
+  // 打开时重置索引；键盘左右切换 / Esc 关闭
+  useEffect(() => {
+    if (selectedId) setImageIndex(0);
+  }, [selectedId]);
+
+  useEffect(() => {
+    if (!selectedId) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') nextImage();
+      else if (e.key === 'ArrowLeft') prevImage();
+      else if (e.key === 'Escape') setSelectedId(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [selectedId, nextImage, prevImage]);
 
   return (
     <section id="projects" className="py-24 md:py-32 bg-stone-100">
@@ -45,7 +77,7 @@ export const ProjectGrid: React.FC = () => {
               >
                 <div className="aspect-square bg-stone-300 overflow-hidden relative">
                    <img
-                      src={project.image}
+                      src={getImages(project)[0]}
                       alt={project.name}
                       loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -77,7 +109,7 @@ export const ProjectGrid: React.FC = () => {
         </div>
       </div>
       
-      {/* Lightbox Modal */}
+      {/* Lightbox Modal — 多图浏览 */}
       <AnimatePresence>
         {selectedId && selectedProject && (
           <motion.div 
@@ -87,7 +119,7 @@ export const ProjectGrid: React.FC = () => {
                 exit: { opacity: 0 },
                 transition: { duration: 0.3 }
             } as any)}
-            className="fixed inset-0 z-[100] bg-stone-950/95 backdrop-blur-sm flex items-center justify-center p-6 md:p-12"
+            className="fixed inset-0 z-[100] bg-stone-950/95 backdrop-blur-sm flex items-center justify-center p-4 md:p-12"
             onClick={() => setSelectedId(null)}
           >
             {/* Close Button */}
@@ -112,15 +144,75 @@ export const ProjectGrid: React.FC = () => {
                 className="relative max-w-6xl w-full flex flex-col items-center"
                 onClick={(e) => e.stopPropagation()} // Prevent closing when clicking content
             >
-               <div className="relative w-full overflow-hidden shadow-2xl bg-stone-900">
-                   <img 
-                     src={selectedProject.image} 
-                     className="w-full h-full object-contain max-h-[70vh] md:max-h-[75vh]"
-                     alt={selectedProject.name}
-                   />
+               {/* 主图区域 */}
+               <div className="relative w-full overflow-hidden shadow-2xl bg-stone-900 select-none">
+                  <div className="relative w-full" style={{ minHeight: '40vh' }}>
+                     <AnimatePresence mode="wait">
+                        <motion.img 
+                           key={imageIndex}
+                           {...({
+                              initial: { opacity: 0, x: 40 },
+                              animate: { opacity: 1, x: 0 },
+                              exit: { opacity: 0, x: -40 },
+                              transition: { duration: 0.35, ease: "easeOut" }
+                           } as any)}
+                           src={currentImages[imageIndex]}
+                           className="w-full h-full object-contain max-h-[60vh] md:max-h-[68vh]"
+                           alt={`${selectedProject.name} ${imageIndex + 1}`}
+                           draggable={false}
+                        />
+                     </AnimatePresence>
+                  </div>
+
+                  {/* 左右切换箭头 */}
+                  {total > 1 && (
+                     <>
+                        <button
+                           aria-label={t('上一张', 'Previous image')}
+                           onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                           className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 w-11 h-11 md:w-14 md:h-14 rounded-full border border-white/25 bg-stone-950/40 backdrop-blur-sm flex items-center justify-center text-white/80 hover:text-white hover:border-white/60 hover:bg-stone-950/70 transition-all z-10"
+                        >
+                           <ChevronLeft size={22} />
+                        </button>
+                        <button
+                           aria-label={t('下一张', 'Next image')}
+                           onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                           className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 w-11 h-11 md:w-14 md:h-14 rounded-full border border-white/25 bg-stone-950/40 backdrop-blur-sm flex items-center justify-center text-white/80 hover:text-white hover:border-white/60 hover:bg-stone-950/70 transition-all z-10"
+                        >
+                           <ChevronRight size={22} />
+                        </button>
+                     </>
+                  )}
+
+                  {/* 页码指示 */}
+                  {total > 1 && (
+                     <div className="absolute bottom-4 right-4 z-10 px-3 py-1 rounded-full bg-stone-950/60 backdrop-blur-sm text-white/70 text-xs tracking-widest">
+                        {imageIndex + 1} / {total}
+                     </div>
+                  )}
                </div>
+
+               {/* 缩略图条 */}
+               {total > 1 && (
+                  <div className="w-full mt-4 flex gap-3 overflow-x-auto pb-1" onClick={(e) => e.stopPropagation()}>
+                     {currentImages.map((img, i) => (
+                        <button
+                           key={i}
+                           onClick={() => setImageIndex(i)}
+                           aria-label={`${t('查看第', 'View image ')}${i + 1}`}
+                           className={`flex-shrink-0 w-20 h-14 md:w-28 md:h-20 overflow-hidden rounded transition-all duration-300 ${
+                              i === imageIndex
+                                 ? 'ring-2 ring-white/90 opacity-100'
+                                 : 'opacity-50 hover:opacity-90 ring-1 ring-white/15'
+                           }`}
+                        >
+                           <img src={img} alt="" className="w-full h-full object-cover" loading="lazy" />
+                        </button>
+                     ))}
+                  </div>
+               )}
                
-               <div className="w-full mt-8 flex flex-col md:flex-row justify-between items-start md:items-center text-white border-t border-white/10 pt-6">
+               <div className="w-full mt-6 flex flex-col md:flex-row justify-between items-start md:items-center text-white border-t border-white/10 pt-6">
                  <div>
                     <h3 className="text-2xl md:text-4xl font-light mb-2 break-words">{isEn ? (selectedProject.nameEn || selectedProject.name) : selectedProject.name}</h3>
                     <p className="text-sm font-bold text-white/40 tracking-widest uppercase">{isEn ? (selectedProject.categoryEn || selectedProject.category) : selectedProject.category}</p>

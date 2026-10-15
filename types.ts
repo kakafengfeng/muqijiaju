@@ -56,6 +56,8 @@ export interface ProjectItem {
   name: string;
   category: string;
   image: string;
+  /** 多图数组：详情弹窗可切换浏览；兼容旧数据（无该字段时退回单图） */
+  images?: string[];
   year: string;
   nameEn?: string;
   categoryEn?: string;

@@ -89,6 +89,53 @@ const ImageUploadField: React.FC<ImageFieldProps> = ({ label, value, uploading, 
   </div>
 );
 
+interface ImageListFieldProps {
+  label: string;
+  values: string[];
+  uploading?: boolean;
+  onFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onRemove: (index: number) => void;
+}
+
+/** 多图列表编辑：缩略图 + 删除 + 追加上传（用于案例多图等数组字段） */
+const ImageListField: React.FC<ImageListFieldProps> = ({ label, values, uploading, onFile, onRemove }) => (
+  <div className="space-y-2 w-full">
+    <label className="block text-[10px] uppercase tracking-widest font-bold text-stone-400">
+      {label}（{values.length} 张）
+    </label>
+    {values.length > 0 ? (
+      <div className="flex flex-wrap gap-2">
+        {values.map((v, i) => (
+          <div key={i} className="relative w-20 h-20 bg-stone-100 rounded overflow-hidden border border-stone-200 group">
+            <img src={v} alt="" className="w-full h-full object-cover" />
+            <button
+              type="button"
+              onClick={() => onRemove(i)}
+              aria-label={`删除第 ${i + 1} 张`}
+              className="absolute top-1 right-1 w-6 h-6 rounded-full bg-stone-900/70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+            >
+              <Trash2 size={12} />
+            </button>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div className="text-xs text-stone-400 bg-stone-50 rounded px-3 py-2 border border-dashed border-stone-200">
+        暂无图片，上传后作为多图展示（首张为封面）
+      </div>
+    )}
+    <label className="cursor-pointer">
+      <div className={`flex items-center justify-center w-full px-3 py-2 text-xs border border-dashed rounded text-stone-500 bg-white transition-colors ${
+        uploading ? 'border-amber-400 text-amber-500' : 'border-stone-300 hover:border-stone-900 hover:text-stone-900'
+      }`}>
+        <ImageIcon size={14} className="mr-2" />
+        {uploading ? '上传中…' : '添加一张图片（自动压缩至 600px）'}
+      </div>
+      <input type="file" accept="image/*" className="hidden" onChange={onFile} disabled={uploading} />
+    </label>
+  </div>
+);
+
 export const AdminPage: React.FC = () => {
   const { content, updateContent, updateNestedContent, saveContent, resetContent, user, logout } = useContent();
   const [activeSection, setActiveSection] = useState('hero');
@@ -115,6 +162,76 @@ export const AdminPage: React.FC = () => {
     uploading: uploadingPath === path.join('.'),
     onFile: (e: React.ChangeEvent<HTMLInputElement>) => handleImageUpload(e, path),
   });
+
+  // 绑定多图数组字段
+  const bindImageList = (path: string[]) => ({
+    values: Array.isArray(getByPath(content, path)) ? getByPath(content, path) : [],
+    uploading: uploadingPath === path.join('.'),
+    onFile: (e: React.ChangeEvent<HTMLInputElement>) => handleImageListUpload(e, path),
+    onRemove: (index: number) => handleRemoveImageAt(path, index),
+  });
+
+  // 多图上传：压缩后追加到数组末尾
+  const handleImageListUpload = async (e: React.ChangeEvent<HTMLInputElement>, path: string[]) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const pathKey = path.join('.');
+    setUploadingPath(pathKey);
+    try {
+      let dataUrl: string;
+      if (file.type === 'image/svg+xml' || file.name.toLowerCase().endsWith('.svg')) {
+        dataUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = () => reject(new Error('读取文件失败'));
+          reader.readAsDataURL(file);
+        });
+      } else {
+        dataUrl = await new Promise<string>((resolve, reject) => {
+          const img = new Image();
+          const objectUrl = URL.createObjectURL(file);
+          img.onload = () => {
+            try {
+              const MAX_EDGE = 600;
+              let { width, height } = img;
+              if (Math.max(width, height) > MAX_EDGE) {
+                const scale = MAX_EDGE / Math.max(width, height);
+                width = Math.round(width * scale);
+                height = Math.round(height * scale);
+              }
+              const canvas = document.createElement('canvas');
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext('2d');
+              if (!ctx) { reject(new Error('Canvas 初始化失败')); return; }
+              ctx.drawImage(img, 0, 0, width, height);
+              const mime = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+              resolve(canvas.toDataURL(mime, 0.65));
+            } finally {
+              URL.revokeObjectURL(objectUrl);
+            }
+          };
+          img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error('图片解析失败')); };
+          img.src = objectUrl;
+        });
+      }
+      const current = Array.isArray(getByPath(content, path)) ? getByPath(content, path) : [];
+      updateNestedContent(path, [...current, dataUrl]);
+      window.alert('✅ 图片已添加（多图共 ' + (current.length + 1) + ' 张）');
+    } catch (err: any) {
+      console.error('Upload failed:', err);
+      window.alert(`上传失败：${err?.message || err}`);
+    } finally {
+      setUploadingPath(null);
+    }
+  };
+
+  // 删除多图中某一张
+  const handleRemoveImageAt = (path: string[], index: number) => {
+    const current = Array.isArray(getByPath(content, path)) ? getByPath(content, path) : [];
+    const next = current.filter((_: any, i: number) => i !== index);
+    updateNestedContent(path, next);
+  };
 
   const handleSave = async () => {
     setIsSaving(true);
@@ -513,7 +630,8 @@ export const AdminPage: React.FC = () => {
                           <InputField label="分类" {...bind(['projects', idx.toString(), 'category'])} />
                           <InputField label="年份" {...bind(['projects', idx.toString(), 'year'])} />
                         </div>
-                        <ImageUploadField label="图片" {...bindImage(['projects', idx.toString(), 'image'])} />
+                        <ImageUploadField label="封面图" {...bindImage(['projects', idx.toString(), 'image'])} />
+                        <ImageListField label="案例多图（详情页轮播）" {...bindImageList(['projects', idx.toString(), 'images'])} />
                       </>
                     )}
                   </div>
