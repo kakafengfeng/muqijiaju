@@ -175,6 +175,11 @@ export const AdminPage: React.FC = () => {
   const handleImageListUpload = async (e: React.ChangeEvent<HTMLInputElement>, path: string[]) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (file.size > 15 * 1024 * 1024) {
+      window.alert('图片超过 15MB，请先压缩或改用 JPG/PNG 后重试');
+      e.target.value = '';
+      return;
+    }
     const pathKey = path.join('.');
     setUploadingPath(pathKey);
     try {
@@ -192,7 +197,7 @@ export const AdminPage: React.FC = () => {
           const objectUrl = URL.createObjectURL(file);
           img.onload = () => {
             try {
-              const MAX_EDGE = 600;
+              const MAX_EDGE = 1280;
               let { width, height } = img;
               if (Math.max(width, height) > MAX_EDGE) {
                 const scale = MAX_EDGE / Math.max(width, height);
@@ -206,7 +211,7 @@ export const AdminPage: React.FC = () => {
               if (!ctx) { reject(new Error('Canvas 初始化失败')); return; }
               ctx.drawImage(img, 0, 0, width, height);
               const mime = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
-              resolve(canvas.toDataURL(mime, 0.65));
+              resolve(canvas.toDataURL(mime, 0.82));
             } finally {
               URL.revokeObjectURL(objectUrl);
             }
@@ -220,7 +225,11 @@ export const AdminPage: React.FC = () => {
       window.alert('✅ 图片已添加（多图共 ' + (current.length + 1) + ' 张）');
     } catch (err: any) {
       console.error('Upload failed:', err);
-      window.alert(`上传失败：${err?.message || err}`);
+      const msg = String(err?.message || err).includes('解析')
+        ? '图片解析失败：请使用 JPG / PNG 格式（iPhone 的 HEIC 格式需先在相册导出为 JPG）'
+        : `上传失败：${err?.message || err}`;
+      window.alert(msg);
+      e.target.value = '';
     } finally {
       setUploadingPath(null);
     }
@@ -238,9 +247,22 @@ export const AdminPage: React.FC = () => {
     try {
       await saveContent();
       window.alert('保存成功（已同步至云端数据库，全设备生效）');
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
-      window.alert('保存失败，请查看控制台');
+      // 网络抖动自动重试一次
+      try {
+        await new Promise((r) => setTimeout(r, 1200));
+        await saveContent();
+        window.alert('保存成功（首次连接失败，已自动重试成功）');
+        return;
+      } catch (e2) {
+        console.error('Save retry failed', e2);
+        const detail =
+          (e2 as any)?.code === 'resource-exhausted'
+            ? '内容超过数据库单文档 1MiB 上限，请减少图片数量或压缩后再试'
+            : '请检查网络后重试（Firebase 在中国大陆偶发连接不稳定）；如反复失败，可减少本次保存的图片数量';
+        window.alert(`保存失败：${detail}`);
+      }
     } finally {
       setIsSaving(false);
     }
@@ -325,6 +347,11 @@ export const AdminPage: React.FC = () => {
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, path: string[]) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (file.size > 15 * 1024 * 1024) {
+      window.alert('图片超过 15MB，请先压缩或改用 JPG/PNG 后重试');
+      e.target.value = '';
+      return;
+    }
     const pathKey = path.join('.');
     setUploadingPath(pathKey);
     try {
@@ -343,8 +370,8 @@ export const AdminPage: React.FC = () => {
           const objectUrl = URL.createObjectURL(file);
           img.onload = () => {
             try {
-              // 压缩至 600px/质量 0.65：单张约 40~60KB，控制 Firestore 文档体积（1MiB 上限）
-              const MAX_EDGE = 600;
+              // 压缩至 1280px / 质量 0.82：保证网页大图清晰，单张约 150~250KB
+              const MAX_EDGE = 1280;
               let { width, height } = img;
               if (Math.max(width, height) > MAX_EDGE) {
                 const scale = MAX_EDGE / Math.max(width, height);
@@ -358,7 +385,7 @@ export const AdminPage: React.FC = () => {
               if (!ctx) { reject(new Error('Canvas 初始化失败')); return; }
               ctx.drawImage(img, 0, 0, width, height);
               const mime = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
-              resolve(canvas.toDataURL(mime, 0.65));
+              resolve(canvas.toDataURL(mime, 0.82));
             } finally {
               URL.revokeObjectURL(objectUrl);
             }
@@ -368,12 +395,16 @@ export const AdminPage: React.FC = () => {
         });
       }
 
-      // 压缩后的 base64 直接写入内容草稿（点保存后存 Firestore；单张已压缩至 40~60KB）
+      // 压缩后的 base64 直接写入内容草稿（点保存后存 Firestore；单张已压缩）
       updateNestedContent(path, dataUrl);
-      window.alert('✅ 图片已压缩并保存（约 40~60KB/张）');
+      window.alert('✅ 图片已压缩并保存');
     } catch (err: any) {
       console.error('Upload failed:', err);
-      window.alert(`上传失败：${err?.message || err}`);
+      const msg = String(err?.message || err).includes('解析')
+        ? '图片解析失败：请使用 JPG / PNG 格式（iPhone 的 HEIC 格式需先在相册导出为 JPG）'
+        : `上传失败：${err?.message || err}`;
+      window.alert(msg);
+      e.target.value = '';
     } finally {
       setUploadingPath(null);
     }
