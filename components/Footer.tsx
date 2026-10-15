@@ -78,9 +78,9 @@ export const Footer: React.FC = () => {
   const navigate = useNavigate();
   const isHome = location.pathname === '/';
 
-  // 微信弹窗 / QQ 提示浮层 / 复制成功提示状态
+  // 微信弹窗 / QQ 弹窗（两者大小位置一致）/ 复制成功提示状态
   const [wechatOpen, setWechatOpen] = useState(false);
-  const [qqTooltip, setQqTooltip] = useState(false);
+  const [qqOpen, setQqOpen] = useState(false);
   const [wechatCopied, setWechatCopied] = useState(false);
   const [qqCopied, setQqCopied] = useState(false);
 
@@ -227,48 +227,29 @@ export const Footer: React.FC = () => {
                     </button>
                   );
                 }
-                // QQ：点击唤起加好友；PC 悬停显示二维码浮层
+                // QQ：PC 点击 / 悬停打开与微信一致的大弹窗；移动端点击直接唤起协议
                 return (
-                  <span
+                  <button
                     key={key}
-                    className="relative"
-                    onMouseEnter={() => setQqTooltip(true)}
-                    onMouseLeave={() => setQqTooltip(false)}
+                    type="button"
+                    onMouseEnter={() => setQqOpen(true)}
+                    onClick={() => {
+                      const isHoverDevice =
+                        typeof window !== 'undefined' && window.matchMedia
+                          ? window.matchMedia('(hover: hover)').matches
+                          : true;
+                      if (isHoverDevice) {
+                        setQqOpen(true);
+                      } else {
+                        openQQ();
+                      }
+                    }}
+                    className="hover:text-white transition-colors cursor-pointer"
+                    aria-label={label}
+                    title={t('点击添加 QQ 好友', 'Add on QQ')}
                   >
-                    <button
-                      type="button"
-                      onClick={openQQ}
-                      className="hover:text-white transition-colors cursor-pointer"
-                      aria-label={label}
-                      title={t('点击添加 QQ 好友', 'Add on QQ')}
-                    >
-                      <Icon size={22} />
-                    </button>
-                    {qqTooltip && (
-                      <div className="absolute bottom-full mb-3 right-0 w-44 bg-stone-900 border border-white/10 rounded-xl p-4 shadow-2xl z-[150]">
-                        <img
-                          src={QQ_QR}
-                          alt="QQ QR"
-                          className="w-32 h-32 mx-auto bg-white p-1 rounded-lg mb-3"
-                        />
-                        <p className="text-white/80 text-xs text-center mb-3 break-words">
-                          {t('QQ 号', 'QQ Number')}: <span className="font-semibold text-white">{QQ_NUMBER}</span>
-                        </p>
-                        <button
-                          type="button"
-                          onClick={copyQQ}
-                          className="w-full py-2 bg-white text-stone-900 text-xs font-medium tracking-widest uppercase rounded hover:bg-stone-200 transition-colors"
-                        >
-                          {t('复制 QQ 号', 'Copy QQ Number')}
-                        </button>
-                        {qqCopied && (
-                          <p className="text-center text-green-400 text-[11px] mt-2">
-                            {t('QQ 号已复制', 'QQ Number copied!')}
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  </span>
+                    <Icon size={22} />
+                  </button>
                 );
               })}
             </div>
@@ -338,6 +319,62 @@ export const Footer: React.FC = () => {
                 {t('微信号已复制，请打开微信添加', 'WeChat ID copied!')}
               </p>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* QQ 弹窗（与微信弹窗大小位置一致的暗黑极简卡片） */}
+      {qqOpen && (
+        <div
+          className="fixed inset-0 z-[200] bg-stone-950/75 backdrop-blur-sm flex items-center justify-center p-6"
+          onClick={() => setQqOpen(false)}
+        >
+          <div
+            className="bg-stone-900 border border-white/10 rounded-2xl p-8 w-full max-w-sm shadow-2xl relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setQqOpen(false)}
+              className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors text-xl leading-none"
+              aria-label={t('关闭', 'Close')}
+            >
+              ×
+            </button>
+            <p className="text-white/50 text-xs uppercase tracking-widest mb-2">
+              {t('添加 QQ 好友', 'Add on QQ')}
+            </p>
+            <h3 className="text-white text-2xl font-light mb-6">QQ</h3>
+            <img
+              src={QQ_QR}
+              alt="QQ QR"
+              className="w-56 h-56 mx-auto bg-white p-2 rounded-lg mb-6"
+            />
+            <p className="text-center text-white/80 text-sm mb-6 break-words">
+              {t('QQ 号', 'QQ Number')}:{' '}
+              <span className="font-semibold text-white">{QQ_NUMBER}</span>
+            </p>
+            <div className="flex flex-col gap-3">
+              <button
+                type="button"
+                onClick={openQQ}
+                className="w-full py-3 bg-white text-stone-900 text-sm font-medium tracking-widest uppercase rounded-lg hover:bg-stone-200 transition-colors"
+              >
+                {t('唤起 QQ', 'Open QQ')}
+              </button>
+              <button
+                type="button"
+                onClick={copyQQ}
+                className="w-full py-3 bg-transparent border border-white/20 text-white text-sm font-medium tracking-widest uppercase rounded-lg hover:bg-white/10 transition-colors"
+              >
+                {t('复制 QQ 号', 'Copy QQ Number')}
+              </button>
+              {qqCopied && (
+                <p className="text-center text-green-400 text-xs">
+                  {t('QQ 号已复制', 'QQ Number copied!')}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       )}

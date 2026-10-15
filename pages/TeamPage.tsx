@@ -113,18 +113,27 @@ export const TeamPage: React.FC = () => {
                        )}
                    </div>
 
-                   {/* Members List - Tag Style */}
+                   {/* Members List - Avatar Style */}
                    <div className="flex-1">
-                       <div className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-3">Members ({dept.members?.length || 0})</div>
-                       <div className="flex flex-wrap gap-2">
+                       <div className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-4">Members ({dept.members?.length || 0})</div>
+                       <div className="flex flex-wrap gap-4">
                            {dept.members?.map((member, mIndex) => (
-                               <button 
+                               <button
                                    key={member.id || mIndex}
                                    onClick={() => setSelectedMember(member)}
-                                   className="px-3 py-1.5 bg-stone-100 text-stone-600 rounded-full text-sm hover:bg-stone-900 hover:text-white transition-colors duration-200 flex items-center gap-1 group"
+                                   className="flex flex-col items-center gap-2 group"
+                                   title={member.name}
                                >
-                                   <Briefcase size={12} className="opacity-0 w-0 group-hover:w-3 group-hover:opacity-100 transition-all duration-200" />
-                                   {member.name}
+                                   <div className="w-16 h-16 rounded-full overflow-hidden bg-stone-200 ring-2 ring-transparent group-hover:ring-stone-900 transition-shadow duration-200">
+                                       <img
+                                           src={member.image}
+                                           alt={member.name}
+                                           loading="lazy"
+                                           className="w-full h-full object-cover object-top"
+                                           onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                                       />
+                                   </div>
+                                   <span className="text-sm text-stone-600 group-hover:text-stone-900 transition-colors max-w-[80px] text-center break-words leading-tight">{member.name}</span>
                                </button>
                            ))}
                        </div>
