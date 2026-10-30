@@ -291,7 +291,7 @@ export const AdminPanel: React.FC = () => {
                                             <InputField label="Cat (EN)" path={['news', idx.toString(), 'categoryEn']} />
                                             <InputField label="Link (可选外链)" path={['news', idx.toString(), 'link']} />
                                         </div>
-                                        <InputField label="Cover 封面（图片路径或URL，如 images/news/news-n1.jpg）" path={['news', idx.toString(), 'image']} />
+                                        <ImageEditorField label="Cover 封面图片（上传或填写路径）" path={['news', idx.toString(), 'image']} />
                                         <TextAreaField label="Summary 摘要" path={['news', idx.toString(), 'summary']} />
                                         <TextAreaField label="Summary (EN)" path={['news', idx.toString(), 'summaryEn']} />
                                         <TextAreaField label="Content 正文（空行分段）" path={['news', idx.toString(), 'content']} rows={6} />
@@ -372,6 +372,61 @@ export const AdminPanel: React.FC = () => {
           />
         </div>
       );
+  }
+
+  // 可视化图片编辑器：大图预览 + 文件上传 + 路径/URL 手工填写（一体界面）
+  function ImageEditorField({ label, path }: { label: string; path: string[] }) {
+     let value: any = content;
+     for (const key of path) {
+        if (value && value[key] !== undefined) {
+             value = value[key];
+        } else {
+             value = '';
+        }
+    }
+    const val = value as string || '';
+    return (
+        <div className="space-y-2 w-full">
+            <label className="text-[10px] uppercase font-bold text-stone-400">{label}</label>
+            {/* 大图预览 */}
+            <div className="w-full h-28 bg-stone-200 rounded-lg overflow-hidden border border-stone-300 flex items-center justify-center">
+                {val ? (
+                    <img src={val} alt={label} className="w-full h-full object-cover" />
+                ) : (
+                    <div className="text-[10px] text-stone-400 text-center p-2">
+                        <ImageIcon size={20} className="mx-auto mb-1 opacity-50" />
+                        暂无图片 — 上传或填写路径
+                    </div>
+                )}
+            </div>
+            {/* 操作按钮 */}
+            <div className="flex items-center gap-2">
+                <label className="flex-1 cursor-pointer">
+                    <div className="flex items-center justify-center w-full px-2 py-2 text-[10px] border border-dashed border-stone-300 rounded hover:border-stone-900 hover:text-stone-900 text-stone-500 bg-white">
+                        <ImageIcon size={12} className="mr-2" /> <span>上传图片</span>
+                    </div>
+                    <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, path)} />
+                </label>
+                {val && (
+                    <button
+                        type="button"
+                        onClick={() => updateNestedContent(path, '')}
+                        className="px-3 py-2 text-[10px] border border-stone-300 rounded text-stone-500 hover:border-red-500 hover:text-red-500 bg-white whitespace-nowrap"
+                    >
+                        移除图片
+                    </button>
+                )}
+            </div>
+            {/* 路径/URL 手工填写 */}
+            <input
+                type="text"
+                value={val}
+                onChange={(e) => updateNestedContent(path, e.target.value)}
+                placeholder="或直接填路径 / URL，如 images/news/news-n1.jpg"
+                className="w-full p-2 text-sm border border-stone-200 rounded focus:border-stone-900 outline-none bg-white"
+            />
+        </div>
+    )
   }
 
   function ImageUploadField({ label, path }: { label: string; path: string[] }) {
