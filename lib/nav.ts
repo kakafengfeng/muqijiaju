@@ -7,8 +7,8 @@ export const SECTION_ROUTES: Record<string, string> = {
   contact: 'contact',
 };
 
-/** 平滑滚动到指定区块 */
-export function scrollToSection(id: string) {
+/** 滚动到指定区块；页面内锚点默认平滑过渡，跨页返回定位请传 'instant' 实现瞬间直达 */
+export function scrollToSection(id: string, behavior: ScrollBehavior = 'smooth') {
   const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (el) el.scrollIntoView({ behavior, block: 'start' });
 }

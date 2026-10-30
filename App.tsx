@@ -67,7 +67,8 @@ function HomePage() {
       if (SECTION_ROUTES[alias]) target = SECTION_ROUTES[alias];
     }
     if (target) {
-      const timer = setTimeout(() => scrollToSection(target), 60);
+      // 跨页返回/直达区块：瞬间定位，不做“顶部 → 目标”的平滑过渡
+      const timer = setTimeout(() => scrollToSection(target, 'instant'), 60);
       return () => clearTimeout(timer);
     }
   }, [location.pathname, location.state, navigate]);
