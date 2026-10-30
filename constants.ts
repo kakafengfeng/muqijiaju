@@ -216,7 +216,7 @@ export const CONTENT: SiteContent = {
         },
         { 
           id: "d2-m3", 
-          name: "王琴琳", 
+          name: "王秦琳", 
           role: "首席设计师", roleEn: "Chief Designer", 
           intro: "色彩与材质的碰撞，激发生活灵感。", 
           image: "images/wangqinlin.png" 
