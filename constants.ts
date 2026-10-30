@@ -146,7 +146,7 @@ export const CONTENT: SiteContent = {
       name: "王广大",
       role: "设计总监",
       intro: "前意大利著名家居品牌主理人，专注于极简主义美学与功能性的完美融合。",
-      image: "images/wangguangda.jpg"
+      image: "images/wangguangda.png"
     },
     {
       id: "t3",
@@ -234,13 +234,6 @@ export const CONTENT: SiteContent = {
           role: "3D渲染师", roleEn: "3D Renderer", 
           intro: "用光影还原真实的未来家园。", 
           image: "images/xingwang.png" 
-        },
-        { 
-          id: "d2-m6", 
-          name: "周颖", 
-          role: "设计师", roleEn: "Designer", 
-          intro: "创新是设计的灵魂。", 
-          image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=600&h=800" 
         },
         { 
           id: "d2-m7", 
