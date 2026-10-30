@@ -222,18 +222,18 @@ export const CONTENT: SiteContent = {
           image: "images/wangqinlin.png" 
         },
         { 
-          id: "d2-m4", 
-          name: "王舒淼", 
-          role: "首席设计师", roleEn: "Chief Designer", 
-          intro: "专注细节，将设计图纸完美落地。", 
-          image: "images/wangshumiao.png" 
-        },
-        { 
           id: "d2-m5", 
           name: "邢旺", 
           role: "首席设计师", roleEn: "Chief Designer", 
           intro: "用光影还原真实的未来家园。", 
           image: "images/xingwang.png" 
+        },
+        { 
+          id: "d2-m4", 
+          name: "王舒淼", 
+          role: "首席设计师", roleEn: "Chief Designer", 
+          intro: "专注细节，将设计图纸完美落地。", 
+          image: "images/wangshumiao.png" 
         },
         { 
           id: "d2-m7", 
@@ -252,7 +252,7 @@ export const CONTENT: SiteContent = {
         { 
           id: "d3-lpp", 
           name: "刘潘潘", 
-          role: "安装组长", roleEn: "Installation Team Lead", 
+          role: "安装经理", roleEn: "Installation Manager", 
           intro: "统筹安装一线，确保每一处交付严丝合缝、客户安心。", 
           image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&q=80&w=600&h=800" 
         },
@@ -270,12 +270,19 @@ export const CONTENT: SiteContent = {
           intro: "经验丰富，解决各种现场难题。", 
           image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&q=80&w=600&h=800" 
         },
-        { 
-            id: "d3-m4",
-            name: "张靓靓",
-            role: "技师", roleEn: "Technician",
-            intro: "匠心工艺，追求卓越。",
-            image: "https://images.unsplash.com/photo-1530268729831-4b0b9e170218?auto=format&fit=crop&q=80&w=600&h=800"
+        {
+             id: "d3-wh",
+             name: "王虎",
+             role: "安装组长", roleEn: "Installation Team Lead",
+             intro: "施工扎实细致，交付一次到位。",
+             image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600&h=800"
+        },
+        {
+             id: "d3-m6",
+             name: "秦超磊",
+             role: "安装组长", roleEn: "Installation Team Lead",
+             intro: "专业技术，品质保障。",
+             image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=600&h=800"
         },
         {
             id: "d3-m5",
@@ -284,12 +291,12 @@ export const CONTENT: SiteContent = {
             intro: "严谨细致，服务至上。",
             image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=600&h=800"
         },
-        {
-             id: "d3-m6",
-             name: "秦超磊",
-             role: "技师", roleEn: "Technician",
-             intro: "专业技术，品质保障。",
-             image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=600&h=800"
+        { 
+            id: "d3-m4",
+            name: "张靓靓",
+            role: "安装组长", roleEn: "Installation Team Lead",
+            intro: "匠心工艺，追求卓越。",
+            image: "https://images.unsplash.com/photo-1530268729831-4b0b9e170218?auto=format&fit=crop&q=80&w=600&h=800"
         },
         {
              id: "d3-m7",
@@ -304,13 +311,6 @@ export const CONTENT: SiteContent = {
              role: "技师", roleEn: "Technician",
              intro: "用心服务，客户满意。",
              image: "https://images.unsplash.com/photo-1480429370139-e0132c086e2a?auto=format&fit=crop&q=80&w=600&h=800"
-        },
-        {
-             id: "d3-wh",
-             name: "王虎",
-             role: "安装组长", roleEn: "Installation Team Lead",
-             intro: "施工扎实细致，交付一次到位。",
-             image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600&h=800"
         }
       ]
     },
