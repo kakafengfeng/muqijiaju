@@ -351,7 +351,11 @@ export const CONTENT: SiteContent = {
       date: "2025-11",
       category: "Events",
       link: "#",
-      titleEn: "Muqi Home New Product Launch: Redefining Boundaries"
+      titleEn: "Muqi Home New Product Launch: Redefining Boundaries",
+      categoryEn: "Events",
+      summary: "全新整木定制系列于上海首发，融合东方美学与现代工艺，重塑人与空间的边界。",
+      summaryEn: "A brand-new whole-wood customization series debuts in Shanghai, blending Eastern aesthetics with modern craftsmanship to redefine the boundary between people and space.",
+      content: "2025 年 11 月，木栖家居年度新品发布会在上海举行，正式发布全新整木定制系列。\n\n本次发布以「重塑边界」为主题，系列覆盖玄关、客厅、餐厨、卧室等全屋场景，在设计语言上延续品牌极简东方美学，同时在结构与收纳体系上完成了一次系统升级。\n\n发布会现场，设计团队分享了从材料选型到落地工艺的全流程思考，并宣布系列产品将于全国门店陆续上线。"
     },
     {
       id: "n2",
@@ -359,7 +363,11 @@ export const CONTENT: SiteContent = {
       date: "2024-10",
       category: "Awards",
       link: "#",
-      titleEn: "Awarded the 2024 International Design Gold Award"
+      titleEn: "Awarded the 2024 International Design Gold Award",
+      categoryEn: "Awards",
+      summary: "木栖家居「栖 · 隐」系列凭借对木材与光影的极致把控，摘得年度国际设计金奖。",
+      summaryEn: "The 'Qi · Yin' collection wins the International Design Gold Award for its masterful interplay of wood and light.",
+      content: "木栖家居「栖 · 隐」系列荣获 2024 年度国际设计金奖。\n\n该系列以天然木纹与克制光影为核心语言，在极简形体中呈现温润质感，评审团评价其「在功能、工艺与情感之间取得了罕见的平衡」。\n\n这是木栖家居连续第三年获得国际权威设计奖项，也是对团队长期坚持原创设计的又一次肯定。"
     },
     {
       id: "n3",
@@ -367,7 +375,11 @@ export const CONTENT: SiteContent = {
       date: "2024-09",
       category: "Sustainability",
       link: "#",
-      titleEn: "Our Commitment to Sustainable Wood Sourcing"
+      titleEn: "Our Commitment to Sustainable Wood Sourcing",
+      categoryEn: "Sustainability",
+      summary: "我们承诺所有主材均来自可持续认证林场，从源头守护森林与未来。",
+      summaryEn: "We commit to sourcing all primary materials from certified sustainable forests, protecting nature from the very beginning.",
+      content: "木栖家居正式发布《木材可持续发展承诺》。\n\n我们承诺：品牌所有主材均采购自经国际认证的可持续林场，每批次木材均可溯源；生产环节优先选用环保胶黏剂与低能耗工艺，并通过边角料循环再利用减少浪费。\n\n可持续发展不是营销话术，而是我们对待材料、对待自然的长期态度。"
     }
   ],
   company: {

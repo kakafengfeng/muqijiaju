@@ -23,6 +23,9 @@ const LoginPage = lazy(() =>
 const TeamPage = lazy(() =>
   import('./pages/TeamPage').then((m) => ({ default: m.TeamPage }))
 );
+const NewsDetailPage = lazy(() =>
+  import('./pages/NewsDetailPage').then((m) => ({ default: m.NewsDetailPage }))
+);
 const AdminPanel = lazy(() =>
   import('./components/AdminPanel').then((m) => ({ default: m.AdminPanel }))
 );
@@ -116,6 +119,16 @@ function App() {
                   }
                 />
                 <Route path="/team" element={<TeamPage />} />
+                <Route
+                  path="/news/:id"
+                  element={
+                    <>
+                      <Header />
+                      <NewsDetailPage />
+                      <Footer />
+                    </>
+                  }
+                />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/admin" element={<AdminPage />} />
               </Routes>

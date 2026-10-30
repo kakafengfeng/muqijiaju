@@ -96,9 +96,13 @@ export interface NewsItem {
   title: string;
   date: string;
   category: string;
-  link: string;
+  link?: string;
   titleEn?: string;
   categoryEn?: string;
+  summary?: string;
+  summaryEn?: string;
+  content?: string;
+  contentEn?: string;
 }
 
 export interface CompanyInfo {

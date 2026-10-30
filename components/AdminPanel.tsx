@@ -47,7 +47,7 @@ export const AdminPanel: React.FC = () => {
         newItem = { id, name: 'New Member', role: 'Position', intro: 'Introduction...', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80' };
         break;
       case 'news':
-        newItem = { id, title: 'New Article', date: new Date().toISOString().slice(0, 7), category: 'News', link: '#' };
+        newItem = { id, title: 'New Article', date: new Date().toISOString().slice(0, 7), category: 'News', link: '#', titleEn: 'New Article', categoryEn: 'News', summary: '', summaryEn: '', content: '', contentEn: '' };
         break;
       case 'products':
         newItem = { id, category: 'Series', name: 'New Product', description: 'Desc...', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80' };
@@ -282,10 +282,19 @@ export const AdminPanel: React.FC = () => {
                                 {section.id === 'news' && (
                                     <>
                                         <InputField label="Title" path={['news', idx.toString(), 'title']} />
+                                        <InputField label="Title (EN)" path={['news', idx.toString(), 'titleEn']} />
                                         <div className="grid grid-cols-2 gap-2">
                                             <InputField label="Date" path={['news', idx.toString(), 'date']} />
                                             <InputField label="Cat" path={['news', idx.toString(), 'category']} />
                                         </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            <InputField label="Cat (EN)" path={['news', idx.toString(), 'categoryEn']} />
+                                            <InputField label="Link (可选外链)" path={['news', idx.toString(), 'link']} />
+                                        </div>
+                                        <TextAreaField label="Summary 摘要" path={['news', idx.toString(), 'summary']} />
+                                        <TextAreaField label="Summary (EN)" path={['news', idx.toString(), 'summaryEn']} />
+                                        <TextAreaField label="Content 正文（空行分段）" path={['news', idx.toString(), 'content']} rows={6} />
+                                        <TextAreaField label="Content (EN) 正文" path={['news', idx.toString(), 'contentEn']} rows={6} />
                                     </>
                                 )}
                                 {section.id === 'products' && (
@@ -342,7 +351,7 @@ export const AdminPanel: React.FC = () => {
     );
   }
 
-  function TextAreaField({ label, path }: { label: string; path: string[] }) {
+  function TextAreaField({ label, path, rows = 2 }: { label: string; path: string[]; rows?: number }) {
       let value: any = content;
       for (const key of path) {
         if (value && value[key] !== undefined) {
@@ -357,8 +366,8 @@ export const AdminPanel: React.FC = () => {
           <textarea
             value={value as string || ''}
             onChange={(e) => updateNestedContent(path, e.target.value)}
-            rows={2}
-            className="w-full p-2 text-sm border border-stone-200 rounded focus:border-stone-900 outline-none resize-none bg-white"
+            rows={rows}
+            className="w-full p-2 text-sm border border-stone-200 rounded focus:border-stone-900 outline-none resize-y bg-white"
           />
         </div>
       );

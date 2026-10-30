@@ -3,6 +3,7 @@ import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
 import { Reveal } from './UI/Reveal';
 import { ArrowUpRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const NewsSection: React.FC = () => {
   const { content } = useContent();
@@ -54,7 +55,9 @@ export const NewsSection: React.FC = () => {
                      {card}
                    </a>
                  ) : (
-                   <div className="group block">{card}</div>
+                   <Link to={`/news/${item.id}`} className="group block">
+                     {card}
+                   </Link>
                  )}
                </Reveal>
              );
