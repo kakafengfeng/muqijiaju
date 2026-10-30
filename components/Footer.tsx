@@ -3,67 +3,13 @@ import React, { useState } from 'react';
 import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Instagram, Linkedin } from 'lucide-react';
 import { scrollToSection } from '../lib/nav';
 
-const WechatIcon = ({ size = 20, className = '' }: { size?: number; className?: string }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M8 17.5a5 5 0 0 1-5-5c0-2.5 2.5-4.5 5.5-4.5s5.5 2 5.5 4.5c0 .8-.2 1.5-.6 2.1l.6 2.4-2.4-.6c-.9.4-1.9.6-3 .6z" />
-    <path d="M17 11c3 0 5.5 1.8 5.5 4s-2.5 4-5.5 4c-.9 0-1.8-.2-2.6-.5l-2 .5.5-2c-.3-.6-.4-1.2-.4-1.9 0-2.3 2.5-4.1 5.5-4.1z" />
-    <circle cx="6.5" cy="11.5" r=".5" fill="currentColor" />
-    <circle cx="9.5" cy="11.5" r=".5" fill="currentColor" />
-    <circle cx="15.5" cy="14.5" r=".5" fill="currentColor" />
-    <circle cx="18.5" cy="14.5" r=".5" fill="currentColor" />
-  </svg>
-);
-
-
-const QqIcon = ({ size = 20, className = '' }: { size?: number; className?: string }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M12 3.5c2.4 0 4 1.7 4 3.9v2.3c1.7.8 2.8 2.2 3 4l.1.8-1.6-.3.3 1.9c.2 1.2-.5 2.3-1.7 2.9-1.3.6-2.8.9-4.1.9s-2.8-.3-4.1-.9c-1.2-.6-1.9-1.7-1.7-2.9l.3-1.9-1.6.3.1-.8c.2-1.8 1.3-3.2 3-4V7.4c0-2.2 1.6-3.9 4-3.9z" />
-    <circle cx="10" cy="8.6" r=".5" fill="currentColor" />
-    <circle cx="14" cy="8.6" r=".5" fill="currentColor" />
-  </svg>
-);
-
-const WeiboIcon = ({ size = 20, className = '' }: { size?: number; className?: string }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M15 7.5a4 4 0 0 1 4 4" />
-    <path d="M15.5 9.5a2 2 0 0 1 2 2" />
-    <path d="M12 4a9 9 0 0 0-9 9 9 9 0 0 0 9 9 5 5 0 0 0 5-5c0-3-4-3-4-6s2-5 2-6" />
-    <circle cx="11.5" cy="13.5" r="1" fill="currentColor" />
-  </svg>
-);
+// 社交图标（public/images/ 下的本地图片，48px 品牌图标）
+const WECHAT_ICON = `${import.meta.env.BASE_URL}images/wechat-icon.png`;
+const QQ_ICON = `${import.meta.env.BASE_URL}images/qq-icon.png`;
+const INSTAGRAM_ICON = `${import.meta.env.BASE_URL}images/instagram-icon.png`;
+const X_ICON = `${import.meta.env.BASE_URL}images/x-icon.png`;
 
 // 社交配置：微信号 / QQ 号（二维码图片在 public/images/ 下，可直接替换同名文件）
 // 路径拼接 BASE_URL，兼容 GitHub Pages 子路径部署（/muqijiaju/）与 Cloudflare 根路径部署
@@ -71,6 +17,9 @@ const WECHAT_ID = 'zhangyanhui95';
 const QQ_NUMBER = '980763379';
 const WECHAT_QR = `${import.meta.env.BASE_URL}images/wechat-qr.png`;
 const QQ_QR = `${import.meta.env.BASE_URL}images/qq-qr.png`;
+// TODO: 替换为公司真实的 Instagram / X 主页链接
+const INSTAGRAM_URL = 'https://www.instagram.com/';
+const X_URL = 'https://x.com/';
 
 export const Footer: React.FC = () => {
   const { content } = useContent();
@@ -108,10 +57,12 @@ export const Footer: React.FC = () => {
     }
   };
 
-  // 社交链接未配置（#）时不渲染可点击链接，避免死链
+  // 社交图标配置：qr 类型点开弹窗扫码/复制，link 类型跳转外部主页
   const socials = [
-    { key: 'wechat' as const, label: t('微信', 'WeChat'), Icon: WechatIcon },
-    { key: 'qq' as const, label: 'QQ', Icon: QqIcon },
+    { key: 'wechat' as const, label: t('微信', 'WeChat'), imgSrc: WECHAT_ICON, type: 'qr' as const },
+    { key: 'qq' as const, label: 'QQ', imgSrc: QQ_ICON, type: 'qr' as const },
+    { key: 'instagram' as const, label: 'Instagram', imgSrc: INSTAGRAM_ICON, type: 'link' as const, href: INSTAGRAM_URL },
+    { key: 'x' as const, label: 'X (Twitter)', imgSrc: X_ICON, type: 'link' as const, href: X_URL },
   ];
 
   // 复制微信号（navigator.clipboard + 唤起微信）
@@ -211,27 +162,55 @@ export const Footer: React.FC = () => {
           <div className="md:col-span-1 flex flex-col justify-start md:items-end">
             <h4 className="text-white text-xs font-bold tracking-widest uppercase mb-6">Social</h4>
             <div className="flex gap-4">
-              {socials.map(({ key, label, Icon }) => {
+              {socials.map((social) => {
+                // 外链类型（Instagram / X）：直接跳转主页
+                if (social.type === 'link') {
+                  return (
+                    <a
+                      key={social.key}
+                      href={social.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="hover:opacity-70 transition-opacity"
+                      aria-label={social.label}
+                      title={social.label}
+                    >
+                      <img
+                        src={social.imgSrc}
+                        alt={social.label}
+                        width={22}
+                        height={22}
+                        className="w-[22px] h-[22px] object-contain"
+                      />
+                    </a>
+                  );
+                }
                 // 微信：点击 / 悬停打开扫码弹窗
-                if (key === 'wechat') {
+                if (social.key === 'wechat') {
                   return (
                     <button
-                      key={key}
+                      key={social.key}
                       type="button"
                       onClick={() => setWechatOpen(true)}
                       onMouseEnter={() => setWechatOpen(true)}
-                      className="hover:text-white transition-colors cursor-pointer"
-                      aria-label={label}
+                      className="hover:opacity-70 transition-opacity cursor-pointer"
+                      aria-label={social.label}
                       title={t('扫码添加微信', 'Scan to add on WeChat')}
                     >
-                      <Icon size={22} />
+                      <img
+                        src={social.imgSrc}
+                        alt={social.label}
+                        width={22}
+                        height={22}
+                        className="w-[22px] h-[22px] object-contain"
+                      />
                     </button>
                   );
                 }
                 // QQ：PC 点击 / 悬停打开与微信一致的大弹窗；移动端点击直接唤起协议
                 return (
                   <button
-                    key={key}
+                    key={social.key}
                     type="button"
                     onMouseEnter={() => setQqOpen(true)}
                     onClick={() => {
@@ -245,11 +224,17 @@ export const Footer: React.FC = () => {
                         openQQ();
                       }
                     }}
-                    className="hover:text-white transition-colors cursor-pointer"
-                    aria-label={label}
+                    className="hover:opacity-70 transition-opacity cursor-pointer"
+                    aria-label={social.label}
                     title={t('点击添加 QQ 好友', 'Add on QQ')}
                   >
-                    <Icon size={22} />
+                    <img
+                      src={social.imgSrc}
+                      alt={social.label}
+                      width={22}
+                      height={22}
+                      className="w-[22px] h-[22px] object-contain"
+                    />
                   </button>
                 );
               })}
