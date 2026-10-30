@@ -73,7 +73,14 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         docRef,
         (docSnap) => {
           if (docSnap.exists()) {
-            setContent(docSnap.data() as SiteContent);
+            const data = docSnap.data() as SiteContent;
+            setContent(data);
+            // 同步最新数据到本地缓存：下次离线/弱网打开时也能拿到最新内容
+            try {
+              localStorage.setItem('muqi_site_content', JSON.stringify(data));
+            } catch (e) {
+              console.warn('Local cache write failed', e);
+            }
           }
         },
         (error) => {

@@ -163,6 +163,14 @@ export const CONTENT: SiteContent = {
       manager: "郑晓博",
       members: [
         { 
+          id: "d1-zxb", 
+          name: "郑晓博", 
+          role: "销售经理", roleEn: "Sales Manager", 
+          intro: "深耕高端家居定制行业，带领销售团队为每一位客户提供最贴心的服务。", 
+          introEn: "Deeply rooted in premium home customization, leading the sales team to provide the warmest service for every customer.", 
+          image: "images/content/img-2.jpg" 
+        },
+        { 
           id: "d1-m1", 
           name: "王丽娜", 
           role: "销售经理", roleEn: "Sales Manager", 
