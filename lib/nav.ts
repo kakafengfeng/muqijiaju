@@ -1,9 +1,8 @@
-/** 单页区块 id 与其路由别名的映射（品牌区块暂无独立内容，未列入） */
+/** 单页区块 id 与其路由别名的映射（品牌区块暂无独立内容，未列入；news 已升级为独立列表页路由） */
 export const SECTION_ROUTES: Record<string, string> = {
   about: 'about',
   products: 'products',
   projects: 'projects',
-  news: 'news',
   contact: 'contact',
 };
 

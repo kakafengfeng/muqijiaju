@@ -19,9 +19,9 @@ export const NewsSection: React.FC = () => {
              <h2 className="text-3xl md:text-4xl font-light text-stone-900 mb-4 md:mb-0">{t('新闻动态', 'News & Updates')}</h2>
            </Reveal>
            <Reveal delay={0.1}>
-             <span className="flex items-center gap-2 text-sm text-stone-500 uppercase tracking-widest">
+             <Link to="/news" className="flex items-center gap-2 text-sm text-stone-500 uppercase tracking-widest hover:text-stone-900 transition-colors">
                Read All News <ArrowUpRight size={16} />
-             </span>
+             </Link>
            </Reveal>
         </div>
 
@@ -30,6 +30,16 @@ export const NewsSection: React.FC = () => {
              const hasLink = item.link && item.link !== '#';
              const card = (
                <>
+                 {item.image && (
+                   <div className="aspect-[16/10] overflow-hidden mb-6 bg-stone-200">
+                     <img
+                       src={item.image}
+                       alt={isEn ? (item.titleEn || item.title) : item.title}
+                       loading="lazy"
+                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                     />
+                   </div>
+                 )}
                  <div className="border-t border-stone-200 pt-6 transition-colors group-hover:border-stone-900">
                     <div className="flex justify-between items-center mb-4">
                        <span className="text-xs font-bold text-stone-400 uppercase tracking-widest group-hover:text-amber-700 transition-colors">

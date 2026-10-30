@@ -54,6 +54,17 @@ export const NewsDetailPage: React.FC = () => {
             transition: { duration: 0.6 },
           } as any)}
         >
+          {/* Cover */}
+          {item.image && (
+            <div className="aspect-[16/9] overflow-hidden bg-stone-200 mb-10">
+              <img
+                src={item.image}
+                alt={title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          )}
+
           {/* Meta */}
           <div className="flex items-center gap-4 text-xs uppercase tracking-widest text-stone-400 mb-6">
             <span className="text-amber-700 font-bold">{category}</span>

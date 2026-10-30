@@ -47,7 +47,7 @@ export const AdminPanel: React.FC = () => {
         newItem = { id, name: 'New Member', role: 'Position', intro: 'Introduction...', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80' };
         break;
       case 'news':
-        newItem = { id, title: 'New Article', date: new Date().toISOString().slice(0, 7), category: 'News', link: '#', titleEn: 'New Article', categoryEn: 'News', summary: '', summaryEn: '', content: '', contentEn: '' };
+        newItem = { id, title: 'New Article', date: new Date().toISOString().slice(0, 7), category: 'News', link: '#', image: '', titleEn: 'New Article', categoryEn: 'News', summary: '', summaryEn: '', content: '', contentEn: '' };
         break;
       case 'products':
         newItem = { id, category: 'Series', name: 'New Product', description: 'Desc...', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80' };
@@ -291,6 +291,7 @@ export const AdminPanel: React.FC = () => {
                                             <InputField label="Cat (EN)" path={['news', idx.toString(), 'categoryEn']} />
                                             <InputField label="Link (可选外链)" path={['news', idx.toString(), 'link']} />
                                         </div>
+                                        <InputField label="Cover 封面（图片路径或URL，如 images/news/news-n1.jpg）" path={['news', idx.toString(), 'image']} />
                                         <TextAreaField label="Summary 摘要" path={['news', idx.toString(), 'summary']} />
                                         <TextAreaField label="Summary (EN)" path={['news', idx.toString(), 'summaryEn']} />
                                         <TextAreaField label="Content 正文（空行分段）" path={['news', idx.toString(), 'content']} rows={6} />

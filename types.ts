@@ -97,6 +97,7 @@ export interface NewsItem {
   date: string;
   category: string;
   link?: string;
+  image?: string;
   titleEn?: string;
   categoryEn?: string;
   summary?: string;
