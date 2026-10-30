@@ -165,7 +165,7 @@ export const CONTENT: SiteContent = {
         { 
           id: "d1-zxb", 
           name: "郑晓博", 
-          role: "销售经理", roleEn: "Sales Manager", 
+          role: "运营总监", roleEn: "Operations Director", 
           intro: "深耕高端家居定制行业，带领销售团队为每一位客户提供最贴心的服务。", 
           introEn: "Deeply rooted in premium home customization, leading the sales team to provide the warmest service for every customer.", 
           image: "images/content/img-2.jpg" 
@@ -180,21 +180,21 @@ export const CONTENT: SiteContent = {
         { 
           id: "d1-m2", 
           name: "王丽艳", 
-          role: "高级顾问", roleEn: "Senior Consultant", 
+          role: "店长", roleEn: "Store Manager", 
           intro: "专业与热情并重，为您排忧解难。", 
           image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600&h=800" 
         },
         { 
           id: "d1-m5", 
           name: "费宏娜", 
-          role: "商务助理", roleEn: "Business Assistant", 
+          role: "销售经理", roleEn: "Sales Manager", 
           intro: "细致入微，确保每一个环节完美衔接。", 
           image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=600&h=800" 
         },
         { 
           id: "d1-cy", 
           name: "陈盈", 
-          role: "客户经理", roleEn: "Account Manager", 
+          role: "销售经理", roleEn: "Sales Manager", 
           intro: "用心倾听，为每一位客户定制理想的家居方案。", 
           introEn: "Listening with care, crafting the ideal home solution for every customer.", 
           image: "images/chenying.png" 
@@ -216,29 +216,29 @@ export const CONTENT: SiteContent = {
         },
         { 
           id: "d2-m3", 
-          name: "王秦琳", 
-          role: "软装设计师", roleEn: "Soft Furnishing Designer", 
+          name: "王琴琳", 
+          role: "首席设计师", roleEn: "Chief Designer", 
           intro: "色彩与材质的碰撞，激发生活灵感。", 
           image: "images/wangqinlin.png" 
         },
         { 
           id: "d2-m4", 
           name: "王舒淼", 
-          role: "深化设计师", roleEn: "Detail Designer", 
+          role: "首席设计师", roleEn: "Chief Designer", 
           intro: "专注细节，将设计图纸完美落地。", 
           image: "images/wangshumiao.png" 
         },
         { 
           id: "d2-m5", 
           name: "邢旺", 
-          role: "3D渲染师", roleEn: "3D Renderer", 
+          role: "首席设计师", roleEn: "Chief Designer", 
           intro: "用光影还原真实的未来家园。", 
           image: "images/xingwang.png" 
         },
         { 
           id: "d2-m7", 
           name: "林泉", 
-          role: "设计助理", roleEn: "Design Assistant", 
+          role: "首席设计师", roleEn: "Chief Designer", 
           intro: "学习与成长，为设计注入新活力。", 
           image: "images/linquan.png" 
         }
@@ -250,6 +250,13 @@ export const CONTENT: SiteContent = {
       manager: "刘潘潘",
       members: [
         { 
+          id: "d3-lpp", 
+          name: "刘潘潘", 
+          role: "安装组长", roleEn: "Installation Team Lead", 
+          intro: "统筹安装一线，确保每一处交付严丝合缝、客户安心。", 
+          image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&q=80&w=600&h=800" 
+        },
+        { 
           id: "d3-m1", 
           name: "王明鑫", 
           role: "安装组长", roleEn: "Installation Team Lead", 
@@ -259,7 +266,7 @@ export const CONTENT: SiteContent = {
         { 
           id: "d3-m2", 
           name: "张雄", 
-          role: "高级技师", roleEn: "Senior Technician", 
+          role: "安装组长", roleEn: "Installation Team Lead", 
           intro: "经验丰富，解决各种现场难题。", 
           image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&q=80&w=600&h=800" 
         },
@@ -273,7 +280,7 @@ export const CONTENT: SiteContent = {
         {
             id: "d3-m5",
             name: "韩伪南",
-            role: "技师", roleEn: "Technician",
+            role: "安装组长", roleEn: "Installation Team Lead",
             intro: "严谨细致，服务至上。",
             image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=600&h=800"
         },
@@ -287,7 +294,7 @@ export const CONTENT: SiteContent = {
         {
              id: "d3-m7",
              name: "王华伟",
-             role: "技师", roleEn: "Technician",
+             role: "安装组长", roleEn: "Installation Team Lead",
              intro: "脚踏实地，精益求精。",
              image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600&h=800"
         },
@@ -297,6 +304,13 @@ export const CONTENT: SiteContent = {
              role: "技师", roleEn: "Technician",
              intro: "用心服务，客户满意。",
              image: "https://images.unsplash.com/photo-1480429370139-e0132c086e2a?auto=format&fit=crop&q=80&w=600&h=800"
+        },
+        {
+             id: "d3-wh",
+             name: "王虎",
+             role: "安装组长", roleEn: "Installation Team Lead",
+             intro: "施工扎实细致，交付一次到位。",
+             image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600&h=800"
         }
       ]
     },
@@ -307,8 +321,8 @@ export const CONTENT: SiteContent = {
       members: [
         { id: "d4-zy", name: "周阳", role: "物流经理", roleEn: "Logistics Manager", intro: "统筹仓储配送，确保每一件家具准时、安全送达。", introEn: "Coordinating warehousing and delivery to ensure every piece of furniture arrives on time and safely.", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600&h=800" },
         { id: "d4-m1", name: "依鹏", role: "物流专员", roleEn: "Logistics Specialist", intro: "安全送达，风雨无阻。", image: "images/yipeng.png" },
-        { id: "d4-m3", name: "王泽有", role: "物流司机", roleEn: "Logistics Driver", intro: "准时送达，使命必达。", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=600&h=800" },
-        { id: "d4-m4", name: "王文博", role: "配送员", roleEn: "Delivery Staff", intro: "细心搬运，呵护每一件家具。", image: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&q=80&w=600&h=800" }
+        { id: "d4-m3", name: "王泽有", role: "配货员", roleEn: "Order Picker", intro: "准时送达，使命必达。", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=600&h=800" },
+        { id: "d4-m4", name: "王文博", role: "验收经理", roleEn: "Inspection Manager", intro: "细心搬运，呵护每一件家具。", image: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&q=80&w=600&h=800" }
       ]
     },
     {
@@ -337,10 +351,10 @@ export const CONTENT: SiteContent = {
     },
     {
       id: "d8",
-      department: "家政部", departmentEn: "Household Services Dept.",
-      manager: "张明巧",
+      department: "线上运营部", departmentEn: "Online Operations Dept.",
+      manager: "王美娜",
       members: [
-        { id: "d8-m1", name: "张明巧", role: "金牌管家", roleEn: "Premier Butler", intro: "用心服务，细节成就品质。", image: "https://images.unsplash.com/photo-1590650153855-d9e808231d41?auto=format&fit=crop&q=80&w=600&h=800" }
+        { id: "d8-wmn", name: "王美娜", role: "线上运营", roleEn: "Online Operations", intro: "以线上运营连接客户，让服务触达更远。", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=600&h=800" }
       ]
     }
   ],
