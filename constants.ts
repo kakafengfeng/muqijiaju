@@ -219,21 +219,21 @@ export const CONTENT: SiteContent = {
           name: "王秦琳", 
           role: "软装设计师", roleEn: "Soft Furnishing Designer", 
           intro: "色彩与材质的碰撞，激发生活灵感。", 
-          image: "images/wangqinlin.jpg" 
+          image: "images/wangqinlin.png" 
         },
         { 
           id: "d2-m4", 
           name: "王舒淼", 
           role: "深化设计师", roleEn: "Detail Designer", 
           intro: "专注细节，将设计图纸完美落地。", 
-          image: "images/wangshumiao.jpg" 
+          image: "images/wangshumiao.png" 
         },
         { 
           id: "d2-m5", 
           name: "邢旺", 
           role: "3D渲染师", roleEn: "3D Renderer", 
           intro: "用光影还原真实的未来家园。", 
-          image: "images/xingwang.jpg" 
+          image: "images/xingwang.png" 
         },
         { 
           id: "d2-m6", 
@@ -247,7 +247,7 @@ export const CONTENT: SiteContent = {
           name: "林泉", 
           role: "设计助理", roleEn: "Design Assistant", 
           intro: "学习与成长，为设计注入新活力。", 
-          image: "images/linquan.jpg" 
+          image: "images/linquan.png" 
         }
       ]
     },
