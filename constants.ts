@@ -185,20 +185,6 @@ export const CONTENT: SiteContent = {
           image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600&h=800" 
         },
         { 
-          id: "d1-m3", 
-          name: "王南南", 
-          role: "客户经理", roleEn: "Account Manager", 
-          intro: "致力于建立长期的客户信任关系。", 
-          image: "https://images.unsplash.com/photo-1598550874175-4d7112ee7f8e?auto=format&fit=crop&q=80&w=600&h=800" 
-        },
-        { 
-          id: "d1-m4", 
-          name: "李秦严", 
-          role: "销售代表", roleEn: "Sales Representative", 
-          intro: "用真诚的服务打动每一位客户。", 
-          image: "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=600&h=800" 
-        },
-        { 
           id: "d1-m5", 
           name: "费宏娜", 
           role: "商务助理", roleEn: "Business Assistant", 
@@ -213,18 +199,12 @@ export const CONTENT: SiteContent = {
       manager: "王广大",
       members: [
         { 
-          id: "d2-m1", 
-          name: "尤艳涛", 
-          role: "主案设计师", roleEn: "Lead Designer", 
-          intro: "设计不只是视觉，更是生活的艺术。", 
-          image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600&h=800" 
-        },
-        { 
-          id: "d2-m2", 
-          name: "石立菊", 
-          role: "空间规划师", roleEn: "Space Planner", 
-          intro: "在有限的空间里创造无限的可能。", 
-          image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=600&h=800" 
+          id: "d2-wgd", 
+          name: "王广大", 
+          role: "设计总监", roleEn: "Design Director", 
+          intro: "前意大利著名家居品牌主理人，专注于极简主义美学与功能性的完美融合。", 
+          introEn: "Former principal of a renowned Italian furniture brand, dedicated to the perfect fusion of minimalist aesthetics and functionality.", 
+          image: "images/wangguangda.jpg" 
         },
         { 
           id: "d2-m3", 
@@ -283,13 +263,6 @@ export const CONTENT: SiteContent = {
           image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&q=80&w=600&h=800" 
         },
         { 
-          id: "d3-m3", 
-          name: "潘小玲", 
-          role: "安装调度", roleEn: "Installation Coordinator", 
-          intro: "统筹安排，保证工期按时交付。", 
-          image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=600&h=800" 
-        },
-        { 
             id: "d3-m4",
             name: "张靓靓",
             role: "技师", roleEn: "Technician",
@@ -331,8 +304,8 @@ export const CONTENT: SiteContent = {
       department: "物流部", departmentEn: "Logistics Dept.",
       manager: "周阳",
       members: [
+        { id: "d4-zy", name: "周阳", role: "物流经理", roleEn: "Logistics Manager", intro: "统筹仓储配送，确保每一件家具准时、安全送达。", introEn: "Coordinating warehousing and delivery to ensure every piece of furniture arrives on time and safely.", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600&h=800" },
         { id: "d4-m1", name: "依鹏", role: "物流专员", roleEn: "Logistics Specialist", intro: "安全送达，风雨无阻。", image: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=600&h=800" },
-        { id: "d4-m2", name: "周连成", role: "仓储主管", roleEn: "Warehouse Supervisor", intro: "井井有条，高效流转。", image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=600&h=800" },
         { id: "d4-m3", name: "王泽有", role: "物流司机", roleEn: "Logistics Driver", intro: "准时送达，使命必达。", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=600&h=800" },
         { id: "d4-m4", name: "王文博", role: "配送员", roleEn: "Delivery Staff", intro: "细心搬运，呵护每一件家具。", image: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&q=80&w=600&h=800" }
       ]

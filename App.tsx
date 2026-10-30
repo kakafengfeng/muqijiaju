@@ -78,8 +78,8 @@ function HomePage() {
       <Hero />
       <About />
       <DepartmentGrid />
-      <ProductCarousel />
       <ProjectGrid />
+      <ProductCarousel />
       <NewsSection />
       <Footer />
     </>
