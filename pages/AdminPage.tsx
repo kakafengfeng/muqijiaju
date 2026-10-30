@@ -279,7 +279,7 @@ export const AdminPage: React.FC = () => {
     let newItem: any = {};
     switch (sectionId) {
       case 'news':
-        newItem = { id, title: '新文章标题', titleEn: 'New Article Title', date: new Date().toISOString().slice(0, 7), category: '新闻', link: '#' };
+        newItem = { id, title: '新文章标题', titleEn: 'New Article Title', date: new Date().toISOString().slice(0, 7), category: '新闻', categoryEn: 'News', link: '#', image: '', summary: '', summaryEn: '', content: '', contentEn: '' };
         break;
       case 'products':
         newItem = { id, category: '系列', name: '新产品名称', nameEn: 'New Product', description: '产品描述…', descriptionEn: 'Product description…', image: '' };
@@ -641,6 +641,17 @@ export const AdminPage: React.FC = () => {
                           <InputField label="日期" {...bind(['news', idx.toString(), 'date'])} />
                           <InputField label="分类" {...bind(['news', idx.toString(), 'category'])} />
                         </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <InputField label="英文分类" {...bind(['news', idx.toString(), 'categoryEn'])} />
+                          <InputField label="外链 Link（可选，填了跳外链）" {...bind(['news', idx.toString(), 'link'])} />
+                        </div>
+                        {/* 封面图片：可视化上传 + 预览 + 路径填写 */}
+                        <ImageUploadField label="封面图片（点击上传，自动压缩）" {...bindImage(['news', idx.toString(), 'image'])} />
+                        <InputField label="或填写封面路径 / URL（如 images/news/news-n1.jpg）" {...bind(['news', idx.toString(), 'image'])} />
+                        <TextAreaField label="摘要 Summary" {...bind(['news', idx.toString(), 'summary'])} />
+                        <TextAreaField label="英文摘要 Summary (EN)" {...bind(['news', idx.toString(), 'summaryEn'])} />
+                        <TextAreaField label="正文 Content（空行分段，详情页展示）" {...bind(['news', idx.toString(), 'content'])} />
+                        <TextAreaField label="英文正文 Content (EN)" {...bind(['news', idx.toString(), 'contentEn'])} />
                       </>
                     )}
                     {active.id === 'products' && (
