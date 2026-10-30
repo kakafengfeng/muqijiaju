@@ -100,7 +100,7 @@ export const DepartmentGrid: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {bottomDepartments.map((dept, idx) => (
                         <Reveal key={dept.id} delay={0.3 + (idx * 0.1)}>
-                            <Card dept={dept} heightClass="h-[300px]" />
+                            <Card dept={dept} heightClass="h-[400px]" />
                         </Reveal>
                     ))}
                 </div>
