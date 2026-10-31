@@ -3,9 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Star, Database, Lock, X, Briefcase } from 'lucide-react';
+import { ArrowLeft, Star, X, Briefcase } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import { CONTENT as DEFAULT_CONTENT } from '../constants';
 import { DepartmentMember } from '../types';
 
 // 健壮的成员图片：src 变化时自动重置错误状态；加载失败时显示占位，不永久隐藏
@@ -31,7 +30,7 @@ const MemberImage: React.FC<{ src: string; alt: string; className?: string; lazy
 };
 
 export const TeamPage: React.FC = () => {
-  const { content, user, saveContent } = useContent();
+  const { content } = useContent();
   const { lang } = useLanguage();
   const isEn = lang === 'en';
   const t = (zh: string, en: string) => (isEn ? en : zh);
@@ -69,18 +68,6 @@ export const TeamPage: React.FC = () => {
       document.body.style.overflow = 'unset';
     };
   }, [selectedMember]);
-
-  const seedDatabase = async () => {
-    if (!window.confirm('This will overwrite the current "departments" data with the default list. Continue?')) return;
-    try {
-      // 直接以覆盖参数保存指定区块，避免 setState 异步与 setTimeout 竞态
-      await saveContent({ departments: DEFAULT_CONTENT.departments });
-      alert('✅ 数据已重置并上传至云端数据库！');
-    } catch (e) {
-      console.error(e);
-      alert('Upload failed. See console.');
-    }
-  };
 
   return (
     <div className="bg-stone-50 min-h-screen">
@@ -163,30 +150,6 @@ export const TeamPage: React.FC = () => {
                 </motion.div>
              ))}
           </div>
-
-          {/* Admin Action Area */}
-          {user && (
-             <motion.div 
-               {...({
-                   initial: { opacity: 0 },
-                   animate: { opacity: 1 }
-               } as any)}
-               className="mt-32 pt-12 border-t border-stone-200 text-center"
-             >
-                <div className="inline-flex flex-col items-center p-6 bg-stone-100 rounded-lg border border-stone-200">
-                   <h4 className="text-sm font-bold text-stone-900 uppercase mb-4 flex items-center gap-2">
-                      <Lock size={14} /> Admin Zone
-                   </h4>
-                   <button 
-                      onClick={seedDatabase}
-                      className="flex items-center gap-2 px-6 py-3 bg-stone-900 text-white rounded hover:bg-stone-700 transition-colors shadow-lg"
-                   >
-                      <Database size={18} />
-                      Reset to Default Data
-                   </button>
-                </div>
-             </motion.div>
-          )}
        </div>
 
        {/* Member Detail Modal */}
