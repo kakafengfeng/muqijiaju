@@ -2,12 +2,12 @@
 import React, { useState } from 'react';
 import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
-import { Settings, X, Image as ImageIcon, ChevronRight, ChevronDown, Trash2, Plus, Save, LogOut, RotateCcw } from 'lucide-react';
+import { Settings, X, Image as ImageIcon, ChevronRight, ChevronDown, Trash2, Plus, Save, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
 export const AdminPanel: React.FC = () => {
-  const { content, updateContent, updateNestedContent, saveContent, resetContent, user, logout } = useContent();
+  const { content, updateContent, updateNestedContent, saveContent, user, logout } = useContent();
   const { lang } = useLanguage();
   const t = (zh: string, en: string) => (lang === 'en' ? en : zh);
   const [isOpen, setIsOpen] = useState(false);
@@ -167,10 +167,7 @@ export const AdminPanel: React.FC = () => {
       </div>
 
       {/* Toolbar */}
-      <div className="px-6 py-3 bg-stone-100 border-b border-stone-200 flex justify-between items-center">
-          <button onClick={resetContent} className="flex items-center gap-2 text-xs text-red-600 hover:text-red-800 font-medium">
-             <RotateCcw size={14} /> Revert
-          </button>
+      <div className="px-6 py-3 bg-stone-100 border-b border-stone-200 flex justify-end items-center">
           <button 
              onClick={handleSave}
              disabled={isSaving}

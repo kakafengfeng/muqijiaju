@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useContent } from '../context/ContentContext';
 import {
-  Settings, LogOut, Save, RotateCcw, Eye, Plus, Trash2, Image as ImageIcon,
+  Settings, LogOut, Save, Eye, Plus, Trash2, Image as ImageIcon,
   ChevronRight, Building2, Home, Users, Sofa, FolderKanban, Newspaper, CircleUserRound
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -137,7 +137,7 @@ const ImageListField: React.FC<ImageListFieldProps> = ({ label, values, uploadin
 );
 
 export const AdminPage: React.FC = () => {
-  const { content, updateContent, updateNestedContent, saveContent, resetContent, user, logout } = useContent();
+  const { content, updateContent, updateNestedContent, saveContent, user, logout } = useContent();
   const [activeSection, setActiveSection] = useState('hero');
   const [isSaving, setIsSaving] = useState(false);
   const [uploadingPath, setUploadingPath] = useState<string | null>(null);
@@ -431,12 +431,6 @@ export const AdminPage: React.FC = () => {
             className="flex items-center gap-1.5 text-xs text-stone-300 hover:text-white transition-colors px-3 py-1.5 rounded border border-stone-700 hover:border-stone-500"
           >
             <Eye size={14} /> 查看网站
-          </button>
-          <button
-            onClick={resetContent}
-            className="flex items-center gap-1.5 text-xs text-red-400 hover:text-red-300 transition-colors px-3 py-1.5"
-          >
-            <RotateCcw size={14} /> 恢复默认
           </button>
           <button
             onClick={handleSave}
