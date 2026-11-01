@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { SiteContent } from '../types';
 import { CONTENT as INITIAL_CONTENT } from '../constants';
+import SNAPSHOT_FILE from '../cms-snapshot.json';
 import { db, auth } from '../firebase';
 import { User, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { doc, onSnapshot, setDoc } from 'firebase/firestore';
@@ -25,8 +26,17 @@ interface ContentContextType {
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
+// 构建时快照：每次构建自动从云端拉取的最新内容（见 scripts/fetch-cms.mjs）。
+// 手机等连不上 Google 服务器的设备，首屏直接用这份快照渲染，不再显示几个月前的旧内置数据。
+const BUILD_SNAPSHOT: SiteContent | null =
+  SNAPSHOT_FILE && (SNAPSHOT_FILE as any).content && (SNAPSHOT_FILE as any).content.departments
+    ? ((SNAPSHOT_FILE as any).content as SiteContent)
+    : null;
+
 export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [content, setContent] = useState<SiteContent>(() => {
+    // 优先级：构建时快照（构建时的云端最新）> 本机缓存 > 内置默认
+    if (BUILD_SNAPSHOT) return BUILD_SNAPSHOT;
     try {
       const saved = localStorage.getItem('muqi_site_content');
       if (saved) return JSON.parse(saved) as SiteContent;
