@@ -9,7 +9,7 @@ import { ProductCarousel } from './components/ProductCarousel';
 import { ProjectGrid } from './components/ProjectGrid';
 import { NewsSection } from './components/NewsSection';
 import { Footer } from './components/Footer';
-import { ContentProvider } from './context/ContentContext';
+import { ContentProvider, useContent } from './context/ContentContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { SECTION_ROUTES, scrollToSection } from './lib/nav';
 
@@ -23,12 +23,6 @@ const LoginPage = lazy(() =>
 const TeamPage = lazy(() =>
   import('./pages/TeamPage').then((m) => ({ default: m.TeamPage }))
 );
-const NewsDetailPage = lazy(() =>
-  import('./pages/NewsDetailPage').then((m) => ({ default: m.NewsDetailPage }))
-);
-const NewsListPage = lazy(() =>
-  import('./pages/NewsListPage').then((m) => ({ default: m.NewsListPage }))
-);
 const AdminPanel = lazy(() =>
   import('./components/AdminPanel').then((m) => ({ default: m.AdminPanel }))
 );
@@ -40,6 +34,17 @@ function PageFallback() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-stone-50">
       <div className="text-xs uppercase tracking-widest text-stone-400">Loading…</div>
+    </div>
+  );
+}
+
+// 云端内容同步中的首屏：等拿到服务端最新快照再渲染，
+// 避免先闪一下构建时内置的旧默认内容
+function SyncSplash() {
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-stone-50">
+      <div className="text-sm tracking-[0.3em] text-stone-900">木栖家居</div>
+      <div className="text-xs uppercase tracking-widest text-stone-400">正在同步最新内容…</div>
     </div>
   );
 }
@@ -73,8 +78,7 @@ function HomePage() {
       if (SECTION_ROUTES[alias]) target = SECTION_ROUTES[alias];
     }
     if (target) {
-      // 跨页返回/直达区块：瞬间定位，不做“顶部 → 目标”的平滑过渡
-      const timer = setTimeout(() => scrollToSection(target, 'instant'), 60);
+      const timer = setTimeout(() => scrollToSection(target), 60);
       return () => clearTimeout(timer);
     }
   }, [location.pathname, location.state, navigate]);
@@ -85,8 +89,8 @@ function HomePage() {
       <Hero />
       <About />
       <DepartmentGrid />
-      <ProjectGrid />
       <ProductCarousel />
+      <ProjectGrid />
       <NewsSection />
       <Footer />
     </>
@@ -97,59 +101,52 @@ function App() {
   return (
     <LanguageProvider>
       <ContentProvider>
-        <Router>
-          <ScrollToTop />
-          <div className="min-h-screen bg-stone-50 font-sans text-stone-900 selection:bg-stone-900 selection:text-white">
-            <Suspense fallback={<PageFallback />}>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                {/* 单页区块路由别名 */}
-                <Route path="/about" element={<HomePage />} />
-                <Route path="/products" element={<HomePage />} />
-                <Route path="/projects" element={<HomePage />} />
-                <Route path="/contact" element={<HomePage />} />
-
-                {/* 独立页面 */}
-                <Route
-                  path="/news"
-                  element={
-                    <>
-                      <Header />
-                      <NewsListPage />
-                      <Footer />
-                    </>
-                  }
-                />
-                <Route
-                  path="/product/:id"
-                  element={
-                    <>
-                      <Header />
-                      <ProductDetail />
-                      <Footer />
-                    </>
-                  }
-                />
-                <Route path="/team" element={<TeamPage />} />
-                <Route
-                  path="/news/:id"
-                  element={
-                    <>
-                      <Header />
-                      <NewsDetailPage />
-                      <Footer />
-                    </>
-                  }
-                />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/admin" element={<AdminPage />} />
-              </Routes>
-              <AdminPanel />
-            </Suspense>
-          </div>
-        </Router>
+        <SyncedApp />
       </ContentProvider>
     </LanguageProvider>
+  );
+}
+
+// 内层：等 contentReady 才挂路由，首屏不渲染旧默认内容
+function SyncedApp() {
+  const { contentReady } = useContent();
+  return (
+    <Router>
+      <ScrollToTop />
+      <div className="min-h-screen bg-stone-50 font-sans text-stone-900 selection:bg-stone-900 selection:text-white">
+        {!contentReady ? (
+          <SyncSplash />
+        ) : (
+          <Suspense fallback={<PageFallback />}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              {/* 单页区块路由别名 */}
+              <Route path="/about" element={<HomePage />} />
+              <Route path="/products" element={<HomePage />} />
+              <Route path="/projects" element={<HomePage />} />
+              <Route path="/news" element={<HomePage />} />
+              <Route path="/contact" element={<HomePage />} />
+
+              {/* 独立页面 */}
+              <Route
+                path="/product/:id"
+                element={
+                  <>
+                    <Header />
+                    <ProductDetail />
+                    <Footer />
+                  </>
+                }
+              />
+              <Route path="/team" element={<TeamPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/admin" element={<AdminPage />} />
+            </Routes>
+            <AdminPanel />
+          </Suspense>
+        )}
+      </div>
+    </Router>
   );
 }
 

@@ -13,6 +13,8 @@ const DEMO_PASSWORD = '123456';
 
 interface ContentContextType {
   content: SiteContent;
+  /** 云端首个快照是否已到达（非本地缓存）。首屏用它做门，避免先渲染内置旧默认内容 */
+  contentReady: boolean;
   user: User | null;
   loading: boolean;
   updateContent: (section: keyof SiteContent, data: any) => void;
@@ -26,15 +28,10 @@ interface ContentContextType {
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [content, setContent] = useState<SiteContent>(() => {
-    try {
-      const saved = localStorage.getItem('muqi_site_content');
-      if (saved) return JSON.parse(saved) as SiteContent;
-    } catch (e) {
-      console.warn('Local content load failed', e);
-    }
-    return INITIAL_CONTENT;
-  });
+  // 注意：初始值只用构建时内置的默认内容做占位，不再从 localStorage 读旧快照；
+  // 首屏由 contentReady 把门，等云端第一个快照回来再渲染，避免"先看到旧内容"。
+  const [content, setContent] = useState<SiteContent>(INITIAL_CONTENT);
+  const [contentReady, setContentReady] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -64,8 +61,21 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
   }, []);
 
   // 2. Listen for Realtime Data from Firestore
+  // 首屏同步门：只有拿到服务端快照（非本地缓存）才放行渲染；
+  // 出错或 8 秒超时则用内置默认内容兜底，避免一直白屏。
   useEffect(() => {
-    if (!db) return;
+    if (!db) {
+      setContentReady(true);
+      return;
+    }
+
+    let done = false;
+    const markReady = () => {
+      if (!done) {
+        done = true;
+        setContentReady(true);
+      }
+    };
 
     try {
       const docRef = doc(db, 'site_content', 'main');
@@ -73,24 +83,34 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         docRef,
         (docSnap) => {
           if (docSnap.exists()) {
-            const data = docSnap.data() as SiteContent;
-            setContent(data);
-            // 同步最新数据到本地缓存：下次离线/弱网打开时也能拿到最新内容
-            try {
-              localStorage.setItem('muqi_site_content', JSON.stringify(data));
-            } catch (e) {
-              console.warn('Local cache write failed', e);
-            }
+            setContent(docSnap.data() as SiteContent);
           }
+          if (!docSnap.metadata.fromCache) markReady();
         },
         (error) => {
           console.warn('Firestore sync unavailable (expected until Firebase is configured):', error.message);
+          markReady();
         }
       );
-      return () => unsubscribe();
+      const timer = setTimeout(markReady, 8000);
+      return () => {
+        clearTimeout(timer);
+        unsubscribe();
+      };
     } catch (e) {
       console.warn('Firestore init error', e);
+      markReady();
     }
+  }, []);
+
+  // 3. 手机浏览器切回旧标签页时（bfcache 恢复，JS 不重新执行），强制刷新一次，
+  // 保证看到的永远是最新内容，而不是内存里恢复的旧页面。
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) window.location.reload();
+    };
+    window.addEventListener('pageshow', onPageShow);
+    return () => window.removeEventListener('pageshow', onPageShow);
   }, []);
 
   // Save state to Firestore. Accepts an optional partial override so callers
@@ -184,6 +204,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     <ContentContext.Provider
       value={{
         content,
+        contentReady,
         user,
         loading,
         updateContent,
