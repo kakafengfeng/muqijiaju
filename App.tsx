@@ -23,6 +23,12 @@ const LoginPage = lazy(() =>
 const TeamPage = lazy(() =>
   import('./pages/TeamPage').then((m) => ({ default: m.TeamPage }))
 );
+const NewsDetailPage = lazy(() =>
+  import('./pages/NewsDetailPage').then((m) => ({ default: m.NewsDetailPage }))
+);
+const NewsListPage = lazy(() =>
+  import('./pages/NewsListPage').then((m) => ({ default: m.NewsListPage }))
+);
 const AdminPanel = lazy(() =>
   import('./components/AdminPanel').then((m) => ({ default: m.AdminPanel }))
 );
@@ -39,7 +45,7 @@ function PageFallback() {
 }
 
 // 云端内容同步中的首屏：等拿到服务端最新快照再渲染，
-// 避免先闪一下构建时内置的旧默认内容
+// 避免先闪一下本地旧缓存内容
 function SyncSplash() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-stone-50">
@@ -78,7 +84,8 @@ function HomePage() {
       if (SECTION_ROUTES[alias]) target = SECTION_ROUTES[alias];
     }
     if (target) {
-      const timer = setTimeout(() => scrollToSection(target), 60);
+      // 跨页返回/直达区块：瞬间定位，不做“顶部 → 目标”的平滑过渡
+      const timer = setTimeout(() => scrollToSection(target, 'instant'), 60);
       return () => clearTimeout(timer);
     }
   }, [location.pathname, location.state, navigate]);
@@ -89,8 +96,8 @@ function HomePage() {
       <Hero />
       <About />
       <DepartmentGrid />
-      <ProductCarousel />
       <ProjectGrid />
+      <ProductCarousel />
       <NewsSection />
       <Footer />
     </>
@@ -107,45 +114,61 @@ function App() {
   );
 }
 
-// 内层：等 contentReady 才挂路由，首屏不渲染旧默认内容
+// 内层：等 contentReady 才挂路由，首屏不渲染旧缓存内容
 function SyncedApp() {
   const { contentReady } = useContent();
+  if (!contentReady) return <SyncSplash />;
   return (
     <Router>
-      <ScrollToTop />
-      <div className="min-h-screen bg-stone-50 font-sans text-stone-900 selection:bg-stone-900 selection:text-white">
-        {!contentReady ? (
-          <SyncSplash />
-        ) : (
-          <Suspense fallback={<PageFallback />}>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              {/* 单页区块路由别名 */}
-              <Route path="/about" element={<HomePage />} />
-              <Route path="/products" element={<HomePage />} />
-              <Route path="/projects" element={<HomePage />} />
-              <Route path="/news" element={<HomePage />} />
-              <Route path="/contact" element={<HomePage />} />
+          <ScrollToTop />
+          <div className="min-h-screen bg-stone-50 font-sans text-stone-900 selection:bg-stone-900 selection:text-white">
+            <Suspense fallback={<PageFallback />}>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                {/* 单页区块路由别名 */}
+                <Route path="/about" element={<HomePage />} />
+                <Route path="/products" element={<HomePage />} />
+                <Route path="/projects" element={<HomePage />} />
+                <Route path="/contact" element={<HomePage />} />
 
-              {/* 独立页面 */}
-              <Route
-                path="/product/:id"
-                element={
-                  <>
-                    <Header />
-                    <ProductDetail />
-                    <Footer />
-                  </>
-                }
-              />
-              <Route path="/team" element={<TeamPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/admin" element={<AdminPage />} />
-            </Routes>
-            <AdminPanel />
-          </Suspense>
-        )}
-      </div>
+                {/* 独立页面 */}
+                <Route
+                  path="/news"
+                  element={
+                    <>
+                      <Header />
+                      <NewsListPage />
+                      <Footer />
+                    </>
+                  }
+                />
+                <Route
+                  path="/product/:id"
+                  element={
+                    <>
+                      <Header />
+                      <ProductDetail />
+                      <Footer />
+                    </>
+                  }
+                />
+                <Route path="/team" element={<TeamPage />} />
+                <Route
+                  path="/news/:id"
+                  element={
+                    <>
+                      <Header />
+                      <NewsDetailPage />
+                      <Footer />
+                    </>
+                  }
+                />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/admin" element={<AdminPage />} />
+              </Routes>
+              <AdminPanel />
+            </Suspense>
+          </div>
     </Router>
   );
 }

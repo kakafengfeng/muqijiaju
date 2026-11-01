@@ -13,7 +13,7 @@ const DEMO_PASSWORD = '123456';
 
 interface ContentContextType {
   content: SiteContent;
-  /** 云端首个快照是否已到达（非本地缓存）。首屏用它做门，避免先渲染内置旧默认内容 */
+  /** 云端首个快照是否已到达（非本地缓存）。首屏用它做门，避免先渲染本地旧缓存 */
   contentReady: boolean;
   user: User | null;
   loading: boolean;
@@ -28,12 +28,18 @@ interface ContentContextType {
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // 注意：初始值只用构建时内置的默认内容做占位，不再从 localStorage 读旧快照；
-  // 首屏由 contentReady 把门，等云端第一个快照回来再渲染，避免"先看到旧内容"。
-  const [content, setContent] = useState<SiteContent>(INITIAL_CONTENT);
-  const [contentReady, setContentReady] = useState(false);
+  const [content, setContent] = useState<SiteContent>(() => {
+    try {
+      const saved = localStorage.getItem('muqi_site_content');
+      if (saved) return JSON.parse(saved) as SiteContent;
+    } catch (e) {
+      console.warn('Local content load failed', e);
+    }
+    return INITIAL_CONTENT;
+  });
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [contentReady, setContentReady] = useState(false);
 
   // 1. Listen for Auth State Changes & Local Storage for Demo (dev only)
   useEffect(() => {
@@ -62,7 +68,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // 2. Listen for Realtime Data from Firestore
   // 首屏同步门：只有拿到服务端快照（非本地缓存）才放行渲染；
-  // 出错或 8 秒超时则用内置默认内容兜底，避免一直白屏。
+  // 出错或 8 秒超时则用本地缓存/内置默认内容兜底，避免一直白屏。
   useEffect(() => {
     if (!db) {
       setContentReady(true);
@@ -83,7 +89,14 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         docRef,
         (docSnap) => {
           if (docSnap.exists()) {
-            setContent(docSnap.data() as SiteContent);
+            const data = docSnap.data() as SiteContent;
+            setContent(data);
+            // 同步最新数据到本地缓存：下次离线/弱网打开时也能拿到最新内容
+            try {
+              localStorage.setItem('muqi_site_content', JSON.stringify(data));
+            } catch (e) {
+              console.warn('Local cache write failed', e);
+            }
           }
           if (!docSnap.metadata.fromCache) markReady();
         },
