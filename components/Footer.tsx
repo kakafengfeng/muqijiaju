@@ -54,6 +54,10 @@ export const Footer: React.FC = () => {
       } else {
         navigate('/', { state: { scrollTo: href.slice(1) } });
       }
+    } else if (href.startsWith('/')) {
+      // 站内路由（如 /team）：HashRouter 下用 navigate 跳转，避免整页刷新导致 404
+      e.preventDefault();
+      navigate(href);
     }
   };
 
