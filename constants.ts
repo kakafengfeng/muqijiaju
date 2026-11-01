@@ -319,7 +319,7 @@ export const CONTENT: SiteContent = {
       department: "物流部", departmentEn: "Logistics Dept.",
       manager: "周阳",
       members: [
-        { id: "d4-zy", name: "周阳", role: "物流经理", roleEn: "Logistics Manager", intro: "统筹仓储配送，确保每一件家具准时、安全送达。", introEn: "Coordinating warehousing and delivery to ensure every piece of furniture arrives on time and safely.", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600&h=800" },
+        { id: "d4-zy", name: "周阳", role: "物流经理", roleEn: "Logistics Manager", intro: "统筹仓储配送，确保每一件家具准时、安全送达。", introEn: "Coordinating warehousing and delivery to ensure every piece of furniture arrives on time and safely.", image: "images/zhouyang.png" },
         { id: "d4-m1", name: "依鹏", role: "物流专员", roleEn: "Logistics Specialist", intro: "安全送达，风雨无阻。", image: "images/yipeng.png" },
         { id: "d4-m3", name: "王泽有", role: "配货员", roleEn: "Order Picker", intro: "准时送达，使命必达。", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=600&h=800" },
         { id: "d4-m4", name: "王文博", role: "验收经理", roleEn: "Inspection Manager", intro: "细心搬运，呵护每一件家具。", image: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&q=80&w=600&h=800" }
