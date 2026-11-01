@@ -168,7 +168,7 @@ export const CONTENT: SiteContent = {
           role: "运营总监", roleEn: "Operations Director", 
           intro: "深耕高端家居定制行业，带领销售团队为每一位客户提供最贴心的服务。", 
           introEn: "Deeply rooted in premium home customization, leading the sales team to provide the warmest service for every customer.", 
-          image: "images/content/img-2.jpg" 
+          image: "images/zhengxiaobo.png" 
         },
         { 
           id: "d1-m1", 
