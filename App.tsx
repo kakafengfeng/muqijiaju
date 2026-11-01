@@ -9,7 +9,7 @@ import { ProductCarousel } from './components/ProductCarousel';
 import { ProjectGrid } from './components/ProjectGrid';
 import { NewsSection } from './components/NewsSection';
 import { Footer } from './components/Footer';
-import { ContentProvider, useContent } from './context/ContentContext';
+import { ContentProvider } from './context/ContentContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { SECTION_ROUTES, scrollToSection } from './lib/nav';
 
@@ -40,17 +40,6 @@ function PageFallback() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-stone-50">
       <div className="text-xs uppercase tracking-widest text-stone-400">Loading…</div>
-    </div>
-  );
-}
-
-// 云端内容同步中的首屏：等拿到服务端最新快照再渲染，
-// 避免先闪一下本地旧缓存内容
-function SyncSplash() {
-  return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-stone-50">
-      <div className="text-sm tracking-[0.3em] text-stone-900">木栖家居</div>
-      <div className="text-xs uppercase tracking-widest text-stone-400">正在同步最新内容…</div>
     </div>
   );
 }
@@ -108,18 +97,7 @@ function App() {
   return (
     <LanguageProvider>
       <ContentProvider>
-        <SyncedApp />
-      </ContentProvider>
-    </LanguageProvider>
-  );
-}
-
-// 内层：等 contentReady 才挂路由，首屏不渲染旧缓存内容
-function SyncedApp() {
-  const { contentReady } = useContent();
-  if (!contentReady) return <SyncSplash />;
-  return (
-    <Router>
+        <Router>
           <ScrollToTop />
           <div className="min-h-screen bg-stone-50 font-sans text-stone-900 selection:bg-stone-900 selection:text-white">
             <Suspense fallback={<PageFallback />}>
@@ -169,7 +147,9 @@ function SyncedApp() {
               <AdminPanel />
             </Suspense>
           </div>
-    </Router>
+        </Router>
+      </ContentProvider>
+    </LanguageProvider>
   );
 }
 
