@@ -184,7 +184,8 @@ export const TeamPage: React.FC = () => {
                           lazy={false}
                           className="w-full h-full object-cover object-top"
                        />
-                       <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 to-transparent"></div>
+                       {/* 底部渐变只压住名字文字区域，不罩人脸 */}
+                       <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-stone-900/85 to-transparent"></div>
                        <div className="absolute bottom-6 left-6 text-white">
                            <h2 className="text-3xl font-light mb-1">{selectedMember.name}</h2>
                            <p className="text-amber-400 text-sm font-bold uppercase tracking-wider">{isEn ? (selectedMember.roleEn || selectedMember.role) : selectedMember.role}</p>
