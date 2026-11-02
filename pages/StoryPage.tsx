@@ -8,6 +8,9 @@ import { Reveal } from '../components/UI/Reveal';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 
+// 故事页顶部大图：团队协作主题配图
+const STORY_HERO = 'images/story/hero-team.jpg';
+
 // 故事页公司介绍文案（2026-11-02 用户提供，直接写死在此，不走 CMS）
 const STORY_INTRO = {
   zh: '木栖家居科技（上海）有限公司是一家专注于现代家居美学、全屋定制与空间解决方案的创新型科技企业，并于2026年入选上海市2026年第四批入库科技型中小企业名单。',
@@ -60,7 +63,7 @@ export const StoryPage: React.FC = () => {
       {/* Hero */}
       <div className="relative w-full h-[60vh] min-h-[420px] overflow-hidden bg-stone-900">
         <img
-          src={about.image || 'images/content/about-hero.jpg'}
+          src={STORY_HERO}
           alt={t('我们的故事', 'Our Story')}
           className="absolute inset-0 w-full h-full object-cover"
         />
