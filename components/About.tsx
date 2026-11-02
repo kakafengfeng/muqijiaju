@@ -52,7 +52,7 @@ export const About: React.FC = () => {
               </Reveal>
               <Reveal delay={0.5}>
                 <Link
-                  to="/team"
+                  to="/story"
                   className="inline-block text-sm border-b border-white/80 pb-1 text-white tracking-widest uppercase hover:text-stone-300 hover:border-stone-300 transition-colors whitespace-nowrap"
                 >
                   {isEn ? (about.ctaEn || about.cta) : about.cta}

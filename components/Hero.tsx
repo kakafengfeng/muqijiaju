@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
 import { scrollToSection } from '../lib/nav';
@@ -8,6 +9,7 @@ import { scrollToSection } from '../lib/nav';
 export const Hero: React.FC = () => {
   const { content } = useContent();
   const { lang } = useLanguage();
+  const navigate = useNavigate();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -89,7 +91,7 @@ export const Hero: React.FC = () => {
               </span>
             </button>
             <button
-              onClick={() => scrollToSection('contact')}
+              onClick={() => navigate('/contact')}
               className="px-8 py-4 border border-white/30 text-white text-sm tracking-widest uppercase hover:bg-white hover:text-stone-900 transition-all hover:-translate-y-1"
             >
               {isEn ? (hero.ctaSecondaryEn || hero.ctaSecondary) : hero.ctaSecondary}

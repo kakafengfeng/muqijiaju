@@ -29,6 +29,12 @@ const NewsDetailPage = lazy(() =>
 const NewsListPage = lazy(() =>
   import('./pages/NewsListPage').then((m) => ({ default: m.NewsListPage }))
 );
+const StoryPage = lazy(() =>
+  import('./pages/StoryPage').then((m) => ({ default: m.StoryPage }))
+);
+const ContactPage = lazy(() =>
+  import('./pages/ContactPage').then((m) => ({ default: m.ContactPage }))
+);
 const AdminPanel = lazy(() =>
   import('./components/AdminPanel').then((m) => ({ default: m.AdminPanel }))
 );
@@ -107,7 +113,10 @@ function App() {
                 <Route path="/about" element={<HomePage />} />
                 <Route path="/products" element={<HomePage />} />
                 <Route path="/projects" element={<HomePage />} />
-                <Route path="/contact" element={<HomePage />} />
+
+                {/* 独立页面 */}
+                <Route path="/story" element={<StoryPage />} />
+                <Route path="/contact" element={<ContactPage />} />
 
                 {/* 独立页面 */}
                 <Route
