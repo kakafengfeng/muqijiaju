@@ -35,6 +35,9 @@ const StoryPage = lazy(() =>
 const ContactPage = lazy(() =>
   import('./pages/ContactPage').then((m) => ({ default: m.ContactPage }))
 );
+const ProjectsPage = lazy(() =>
+  import('./pages/ProjectsPage').then((m) => ({ default: m.ProjectsPage }))
+);
 const AdminPanel = lazy(() =>
   import('./components/AdminPanel').then((m) => ({ default: m.AdminPanel }))
 );
@@ -112,11 +115,11 @@ function App() {
                 {/* 单页区块路由别名 */}
                 <Route path="/about" element={<HomePage />} />
                 <Route path="/products" element={<HomePage />} />
-                <Route path="/projects" element={<HomePage />} />
 
                 {/* 独立页面 */}
                 <Route path="/story" element={<StoryPage />} />
                 <Route path="/contact" element={<ContactPage />} />
+                <Route path="/projects" element={<ProjectsPage />} />
 
                 {/* 独立页面 */}
                 <Route

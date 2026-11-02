@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
 import { Reveal } from './UI/Reveal';
@@ -8,6 +9,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 export const ProjectGrid: React.FC = () => {
   const { content } = useContent();
   const { lang } = useLanguage();
+  const navigate = useNavigate();
   const isEn = lang === 'en';
   const t = (zh: string, en: string) => (isEn ? en : zh);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -68,8 +70,9 @@ export const ProjectGrid: React.FC = () => {
            </Reveal>
         </div>
 
+        {/* 首页只展示 3 个精选案例，更多去独立案例页 */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {content.projects.map((project, index) => (
+          {content.projects.slice(0, 3).map((project, index) => (
             <Reveal key={project.id} delay={index * 0.1}>
               <div 
                 className="group relative cursor-pointer block overflow-hidden"
@@ -103,7 +106,10 @@ export const ProjectGrid: React.FC = () => {
         </div>
 
         <div className="text-center mt-16">
-            <button className="px-10 py-4 border border-stone-900 text-stone-900 text-sm tracking-widest uppercase hover:bg-stone-900 hover:text-white transition-colors">
+            <button
+               onClick={() => navigate('/projects')}
+               className="px-10 py-4 border border-stone-900 text-stone-900 text-sm tracking-widest uppercase hover:bg-stone-900 hover:text-white transition-colors"
+            >
                {t('更多案例', 'More Projects')}
             </button>
         </div>
