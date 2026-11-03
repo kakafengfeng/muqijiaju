@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
 import { ArrowLeft } from 'lucide-react';
@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 
 export const ProductDetail: React.FC = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { content } = useContent();
   const { lang } = useLanguage();
   const isEn = lang === 'en';
@@ -26,15 +27,15 @@ export const ProductDetail: React.FC = () => {
 
   return (
     <div className="bg-stone-50 min-h-screen">
-       {/* Nav Strip */}
-       <div className="fixed top-0 left-0 w-full z-40 bg-white/80 backdrop-blur-md border-b border-stone-200 py-4 px-6 md:px-12 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-stone-900 hover:opacity-60 transition-opacity">
-             <ArrowLeft size={16} /> Back to Home
-          </Link>
-          <span className="text-xs font-bold text-stone-400 uppercase">{isEn ? (product.categoryEn || product.category) : product.category}</span>
-       </div>
-
-       <div className="container mx-auto px-6 md:px-12 pt-32 pb-24">
+       {/* 返回按钮：之前这里有一条 fixed 返回条，但被整站页眉（z-50）盖住看不见，
+           改为内容区内的返回按钮，点击回首页并滚动到产品区块 */}
+       <div className="container mx-auto px-6 md:px-12 pt-28 md:pt-32 pb-24">
+          <button
+             onClick={() => navigate('/', { state: { scrollTo: 'products' } })}
+             className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-stone-900 hover:opacity-60 transition-opacity mb-10"
+          >
+             <ArrowLeft size={16} /> {isEn ? 'Back to Products' : '返回产品'}
+          </button>
           <div className="grid md:grid-cols-2 gap-12 lg:gap-24">
              {/* Image */}
              <motion.div 
