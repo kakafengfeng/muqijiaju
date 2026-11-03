@@ -14,6 +14,12 @@ export const ProductDetail: React.FC = () => {
   
   const product = content.products.find(p => p.id === id);
 
+  // 详情文案：后台可编辑，空行分段；没填则不显示该区块（不再显示写死的占位文案）
+  const detailBody = isEn ? (product?.detailEn || product?.detail || '') : (product?.detail || '');
+  const detailParagraphs = detailBody.split(/\n{2,}/).map(p => p.trim()).filter(p => p.length > 0);
+  const materials = isEn ? (product?.materialsEn || product?.materials || '') : (product?.materials || '');
+  const dimensions = isEn ? (product?.dimensionsEn || product?.dimensions || '') : (product?.dimensions || '');
+
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-stone-50">
@@ -73,22 +79,32 @@ export const ProductDetail: React.FC = () => {
                 <p className="text-lg text-stone-600 leading-relaxed mb-10 font-light">
                     {isEn ? (product.descriptionEn || product.description) : product.description}
                 </p>
-                <p className="text-sm text-stone-500 leading-relaxed mb-12 font-light">
-                    {isEn
-                      ? 'Detailed specifications, dimensions, materials and craftsmanship details can be added here from the admin panel.'
-                      : '这里是详细的产品介绍文案。在后台系统中，您可以添加更多关于该产品的材质、尺寸、工艺细节等信息。'}
-                </p>
-                
-                <div className="grid grid-cols-2 gap-8 mb-12">
-                   <div>
-                      <h4 className="text-xs font-bold uppercase mb-2">Materials</h4>
-                      <p className="text-sm text-stone-600">Oak Wood, Brushed Metal</p>
-                   </div>
-                   <div>
-                      <h4 className="text-xs font-bold uppercase mb-2">Dimensions</h4>
-                      <p className="text-sm text-stone-600">H: 220cm / W: 90cm</p>
-                   </div>
-                </div>
+                {detailParagraphs.length > 0 && (
+                  <div className="mb-12">
+                    {detailParagraphs.map((para, i) => (
+                      <p key={i} className="text-sm text-stone-500 leading-relaxed mb-4 font-light whitespace-pre-line">
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                )}
+
+                {(materials || dimensions) && (
+                  <div className="grid grid-cols-2 gap-8 mb-12">
+                    {materials && (
+                      <div>
+                        <h4 className="text-xs font-bold uppercase mb-2">Materials</h4>
+                        <p className="text-sm text-stone-600">{materials}</p>
+                      </div>
+                    )}
+                    {dimensions && (
+                      <div>
+                        <h4 className="text-xs font-bold uppercase mb-2">Dimensions</h4>
+                        <p className="text-sm text-stone-600">{dimensions}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 <button className="w-full md:w-auto px-10 py-4 bg-stone-900 text-white text-sm tracking-widest uppercase hover:bg-stone-700 transition-colors">
                    Inquire Now

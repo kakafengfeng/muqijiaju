@@ -49,6 +49,13 @@ export interface ProductItem {
   nameEn?: string;
   categoryEn?: string;
   descriptionEn?: string;
+  /** 详情页文案（后台可编辑，空行分段）；以下均为可选，老数据缺失时详情页自动隐藏对应区块 */
+  detail?: string;
+  detailEn?: string;
+  materials?: string;
+  materialsEn?: string;
+  dimensions?: string;
+  dimensionsEn?: string;
 }
 
 export interface ProjectItem {

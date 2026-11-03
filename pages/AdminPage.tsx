@@ -655,6 +655,16 @@ export const AdminPage: React.FC = () => {
                         <InputField label="分类" {...bind(['products', idx.toString(), 'category'])} />
                         <TextAreaField label="描述" {...bind(['products', idx.toString(), 'description'])} />
                         <TextAreaField label="英文描述" {...bind(['products', idx.toString(), 'descriptionEn'])} />
+                        <TextAreaField label="详情文案（空行分段，详情页展示）" {...bind(['products', idx.toString(), 'detail'])} />
+                        <TextAreaField label="英文详情文案" {...bind(['products', idx.toString(), 'detailEn'])} />
+                        <div className="grid grid-cols-2 gap-2">
+                          <InputField label="材质" {...bind(['products', idx.toString(), 'materials'])} />
+                          <InputField label="英文材质" {...bind(['products', idx.toString(), 'materialsEn'])} />
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <InputField label="尺寸" {...bind(['products', idx.toString(), 'dimensions'])} />
+                          <InputField label="英文尺寸" {...bind(['products', idx.toString(), 'dimensionsEn'])} />
+                        </div>
                         <ImageUploadField label="图片" {...bindImage(['products', idx.toString(), 'image'])} />
                       </>
                     )}
