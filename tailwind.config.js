@@ -28,8 +28,18 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['"Noto Sans SC"', 'sans-serif'],
-        serif: ['"Playfair Display"', 'serif'],
+        // 系统字体栈：不再从 Google 下载字体。中文优先苹方/微软雅黑，
+        // 英文衬线用 Georgia 替代 Playfair Display。
+        sans: [
+          'system-ui',
+          '-apple-system',
+          '"PingFang SC"',
+          '"Hiragino Sans GB"',
+          '"Microsoft YaHei"',
+          '"Noto Sans SC"',
+          'sans-serif',
+        ],
+        serif: ['Georgia', '"Times New Roman"', '"Songti SC"', '"SimSun"', 'serif'],
       },
       letterSpacing: {
         widest: '0.2em',
