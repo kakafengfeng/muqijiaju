@@ -1,1 +1,584 @@
-{"_meta":{"syncedAt":"2026-11-02T03:25:20.383Z","source":"firestore/site_content/main"},"content":{"nav":[{"label":"关于","href":"#about"},{"label":"产品","href":"#products"},{"href":"#projects","label":"项目"},{"href":"/team","label":"团队"},{"label":"新闻","href":"#news"},{"label":"联系","href":"#contact"}],"team":[{"image":"https://picsum.photos/id/1005/600/800","name":"林一鸣","role":"创始人 / 首席设计师","id":"t1","intro":"20年高端家居设计经验，曾获红点设计大奖。致力于探索东方美学与现代生活的平衡。"},{"id":"t2","name":"王广大","intro":"前意大利著名家居品牌主理人，专注于极简主义美学与功能性的完美融合。","role":"设计总监","image":"images/wangguangda.png"},{"role":"工艺总监","id":"t3","image":"https://picsum.photos/id/64/600/800","intro":"匠心独运，对材质与细节有着极致的追求，确保每一件作品都经得起时间的考验。","name":"张艳慧"}],"hero":{"descriptionEn":"Redefining spatial order in every detail, we interpret Eastern philosophy through minimalist aesthetics. We create more than furniture — we craft enduring warmth for life.","title":"木栖家居 — 只为美好关系","subtitle":"Make better connections","description":"在细微之处重塑空间秩序，以极简美学演绎东方哲学。我们创造的不只是家具，而是恒久的生活温度。","backgroundImage":"images/hero.jpg","titleEn":"MUQI HOME — For Better Connections","ctaPrimary":"了解更多","ctaSecondaryEn":"Contact Us","ctaPrimaryEn":"Learn More","ctaSecondary":"联系我们","subtitleEn":"Make better connections"},"projects":[{"year":"2024","nameEn":"Vanke Holiday Scenery","images":["images/projects/vanke/vanke-1.png","images/projects/vanke/vanke-2.png","images/projects/vanke/vanke-3.png","images/projects/vanke/vanke-4.png","images/projects/vanke/vanke-5.png"],"category":"Private House","image":"images/projects/vanke/vanke-1.png","name":"上海·万科假日风景","id":"p-vanke","categoryEn":"PRIVATE RESIDENCE"},{"name":"上海·世茂滨江花园","id":"p-shimao","categoryEn":"PRIVATE RESIDENCE","year":"2024","nameEn":"Shimao Riverside Garden","image":"images/projects/shimao/shimao-cover.jpg","images":["images/projects/shimao/shimao-cover.jpg","images/projects/shimao/shimao-1.jpg","images/projects/shimao/shimao-2.jpg","images/projects/shimao/shimao-3.jpg","images/projects/shimao/shimao-4.jpg"],"category":"Private House"},{"category":"Private House","id":"p-zhongjun","nameEn":"Zhongjun Jingxi Yunting","categoryEn":"PRIVATE RESIDENCE","year":"2025","images":["images/projects/zhongjun/zhongjun-1.png","images/projects/zhongjun/zhongjun-2.png","images/projects/zhongjun/zhongjun-3.png","images/projects/zhongjun/zhongjun-4.png"],"image":"images/projects/zhongjun/zhongjun-1.png","name":"上海·中骏璟禧云庭"},{"categoryEn":"PRIVATE RESIDENCE","name":"上海·金地佘山天镜","category":"Private House","id":"p-jindi","nameEn":"Jindi Sheshan Tianjing","image":"images/projects/jindi/jindi-1.jpg","images":["images/projects/jindi/jindi-1.jpg","images/projects/jindi/jindi-2.jpg","images/projects/jindi/jindi-3.jpg","images/projects/jindi/jindi-4.jpg","images/projects/jindi/jindi-5.jpg"],"year":"2025"},{"image":"images/projects/ziwei/ziwei-1.jpg","year":"2025","category":"Private House","id":"p-ziwei","name":"上海·颛桥紫薇花园","images":["images/projects/ziwei/ziwei-1.jpg","images/projects/ziwei/ziwei-2.jpg","images/projects/ziwei/ziwei-3.jpg","images/projects/ziwei/ziwei-4.jpg","images/projects/ziwei/ziwei-5.jpg"],"nameEn":"Zhuanqiao Ziwei Garden","categoryEn":"PRIVATE RESIDENCE"},{"categoryEn":"PRIVATE RESIDENCE","nameEn":"Daning Jinmao Palace","images":["images/projects/jinmao/jinmao-1.jpg","images/projects/jinmao/jinmao-2.jpg","images/projects/jinmao/jinmao-3.jpg","images/projects/jinmao/jinmao-4.jpg","images/projects/jinmao/jinmao-5.jpg","images/projects/jinmao/jinmao-6.jpg"],"year":"2026","image":"images/projects/jinmao/jinmao-1.jpg","id":"p-jinmao","category":"Private House","name":"上海·大宁金茂府"}],"departments":[{"departmentEn":"Sales Dept.","id":"d1","members":[{"image":"images/zhengxiaobo.png","intro":"深耕高端家居定制行业，带领销售团队为每一位客户提供最贴心的服务。","roleEn":"Operations Director","introEn":"Deeply rooted in premium home customization, leading the sales team to provide the warmest service for every customer.","name":"郑晓博","id":"d1-zxb","role":"运营总监"},{"image":"https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600&h=800","roleEn":"Sales Manager","name":"王丽娜","intro":"倾听客户需求，提供最温暖的家居方案。","id":"d1-m1","role":"销售经理"},{"image":"https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600&h=800","roleEn":"Store Manager","name":"王丽艳","intro":"专业与热情并重，为您排忧解难。","id":"d1-m2","role":"店长"},{"image":"https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=600&h=800","intro":"细致入微，确保每一个环节完美衔接。","roleEn":"Sales Manager","name":"费宏娜","id":"d1-m5","role":"销售经理"},{"image":"images/chenying.png","intro":"用心倾听，为每一位客户定制理想的家居方案。","roleEn":"Sales Manager","introEn":"Listening with care, crafting the ideal home solution for every customer.","name":"陈盈","id":"d1-cy","role":"销售经理"}],"manager":"郑晓博","department":"销售部"},{"departmentEn":"Design Dept.","id":"d2","members":[{"image":"images/wangguangda.png","intro":"前意大利著名家居品牌主理人，专注于极简主义美学与功能性的完美融合。","roleEn":"Design Director","introEn":"Former principal of a renowned Italian furniture brand, dedicated to the perfect fusion of minimalist aesthetics and functionality.","name":"王广大","id":"d2-wgd","role":"设计总监"},{"image":"images/wangqinlin.png","roleEn":"Chief Designer","name":"王秦琳","intro":"色彩与材质的碰撞，激发生活灵感。","id":"d2-m3","role":"首席设计师"},{"image":"images/xingwang.png","roleEn":"Chief Designer","name":"邢旺","intro":"用光影还原真实的未来家园。","id":"d2-m5","role":"首席设计师"},{"image":"images/wangshumiao.png","intro":"专注细节，将设计图纸完美落地。","roleEn":"Chief Designer","name":"王舒淼","id":"d2-m4","role":"首席设计师"},{"image":"images/linquan.png","roleEn":"Chief Designer","name":"林泉","intro":"学习与成长，为设计注入新活力。","id":"d2-m7","role":"首席设计师"}],"manager":"王广大","department":"设计部"},{"manager":"刘潘潘","id":"d3","departmentEn":"Installation Dept.","members":[{"image":"images/liupanpan.png","intro":"统筹安装一线，确保每一处交付严丝合缝、客户安心。","roleEn":"Installation Manager","name":"刘潘潘","id":"d3-lpp","role":"安装经理"},{"image":"https://images.unsplash.com/photo-1504257432389-52343af06ae3?auto=format&fit=crop&q=80&w=600&h=800","intro":"精准安装，确保每一毫米的严丝合缝。","roleEn":"Installation Team Lead","name":"王明鑫","id":"d3-m1","role":"安装组长"},{"image":"https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&q=80&w=600&h=800","intro":"经验丰富，解决各种现场难题。","roleEn":"Installation Team Lead","name":"张雄","id":"d3-m2","role":"安装组长"},{"image":"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600&h=800","intro":"施工扎实细致，交付一次到位。","roleEn":"Installation Team Lead","name":"王虎","id":"d3-wh","role":"安装组长"},{"image":"images/qinchaolei.png","intro":"专业技术，品质保障。","roleEn":"Installation Team Lead","name":"秦超磊","id":"d3-m6","role":"安装组长"},{"image":"https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=600&h=800","roleEn":"Installation Team Lead","name":"韩伪南","intro":"严谨细致，服务至上。","id":"d3-m5","role":"安装组长"},{"image":"https://images.unsplash.com/photo-1530268729831-4b0b9e170218?auto=format&fit=crop&q=80&w=600&h=800","intro":"匠心工艺，追求卓越。","roleEn":"Installation Team Lead","name":"张靓靓","id":"d3-m4","role":"安装组长"},{"image":"https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600&h=800","intro":"脚踏实地，精益求精。","roleEn":"Installation Team Lead","name":"王华伟","id":"d3-m7","role":"安装组长"},{"image":"https://images.unsplash.com/photo-1480429370139-e0132c086e2a?auto=format&fit=crop&q=80&w=600&h=800","roleEn":"Technician","name":"皇凡磊","intro":"用心服务，客户满意。","id":"d3-m8","role":"技师"}],"department":"安装部"},{"manager":"周阳","id":"d4","members":[{"image":"images/zhouyang.png","roleEn":"Logistics Manager","introEn":"Coordinating warehousing and delivery to ensure every piece of furniture arrives on time and safely.","name":"周阳","intro":"统筹仓储配送，确保每一件家具准时、安全送达。","id":"d4-zy","role":"物流经理"},{"image":"images/yipeng.png","intro":"安全送达，风雨无阻。","roleEn":"Logistics Specialist","name":"依鹏","id":"d4-m1","role":"物流专员"},{"image":"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=600&h=800","intro":"准时送达，使命必达。","roleEn":"Order Picker","name":"王泽有","id":"d4-m3","role":"配货员"},{"image":"https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&q=80&w=600&h=800","roleEn":"Inspection Manager","name":"王文博","intro":"细心搬运，呵护每一件家具。","id":"d4-m4","role":"验收经理"}],"departmentEn":"Logistics Dept.","department":"物流部"},{"departmentEn":"Order Processing Dept.","id":"d5","members":[{"image":"images/zhangyanhui.jpg","roleEn":"Order Processing Lead","name":"张艳慧","intro":"精准核对，源头把控。","id":"d5-m1","role":"下单主管"}],"manager":"张艳慧","department":"下单部"},{"manager":"陈莲红","id":"d6","departmentEn":"Dispatch","members":[{"image":"https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=600&h=800","roleEn":"Chief Dispatcher","name":"陈莲红","intro":"运筹帷幄，统筹全局。","id":"d6-m1","role":"总调度"}],"department":"调度员"},{"departmentEn":"Finance Dept.","id":"d7","members":[{"image":"https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600&h=800","roleEn":"Finance Manager","name":"陈吉","intro":"严谨合规，为企业护航。","id":"d7-m1","role":"财务经理"}],"manager":"陈吉","department":"财务部"},{"manager":"王美娜","id":"d8","members":[{"image":"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=600&h=800","intro":"以线上运营连接客户，让服务触达更远。","roleEn":"Online Operations","name":"王美娜","id":"d8-wmn","role":"线上运营"}],"departmentEn":"Online Operations Dept.","department":"线上运营部"}],"about":{"heading":"重构生活美学","title":"About Us","cards":[{"more":"了解更多","titleEn":"Whole-house Customization","image":"https://picsum.photos/id/42/800/1000","titleZh":"全屋定制","id":"c1"}],"paragraph1En":"Muqi Home Technology (Shanghai) Co., Ltd. is dedicated to high-quality living solutions and smart customization. We believe home is where our connection with the world begins — and where our heart returns.","headingEn":"Reimagining Living Aesthetics","paragraph2En":"We bring together world-class design, exquisite craftsmanship and modern technology to create one-of-a-kind living experiences. Every detail is a pursuit of perfection.","paragraph1":"    木栖家居科技（上海）有限公司，致力于提供高品质的居家生活与智能定制解决方案。我们坚信，家是人与世界连接的起点，也是内心回归的终点。","cta":"阅读我们的故事","ctaEn":"Read Our Story","image":"images/content/about-hero.jpg","paragraph2":"我们汇聚全国顶尖设计力量，融合精湛工艺与现代科技，为您打造独一无二的居住体验。每一处细节，皆是对完美的极致追求。"},"company":{"socials":{"linkedin":"#","wechat":"https://weixin.qq.com/","instagram":"#","weibo":"#","qq":"https://wpa.qq.com/msgrd?v=3&uin=980763379&site=qq&menu=yes"},"address":"上海市徐汇区宜山路家饰佳4033展位","icp":"本站仅供展示，托管于海外静态服务","email":"980763379@qq.com","name":"木栖家居科技（上海）有限公司","logo":"images/content/img-1.svg","phone":"021-54242017","nameEn":"Muqi Home Technology (Shanghai) Co., Ltd.","phoneMobile":"15801948991","copyright":"© 2026 Muqi Home Technology. All rights reserved.","addressEn":"4033, Jiashijia, Yishan Road, Xuhui District, Shanghai"},"products":[{"image":"images/content/img-3.jpg","descriptionEn":"Seamless design — the art of extended space.","category":"Door System","description":"无界设计，空间延伸的艺术。","id":"01","nameEn":"Hidden Door System","name":"隐形门系统"},{"name":"木饰面护墙","image":"images/content/img-4.jpg","nameEn":"Wood Veneer Wall","descriptionEn":"Warm touch that defines the character of a space.","id":"02","description":"温润触感，定义空间基调。","category":"Wall System"},{"image":"images/content/img-5.jpg","id":"03","name":"高定收纳","category":"Cabinet System","descriptionEn":"The balance of rational order and sensual aesthetics.","description":"理性秩序与感性美学的平衡。","nameEn":"Bespoke Storage"},{"name":"智能中控","id":"04","image":"images/content/img-6.jpg","nameEn":"Smart Control System","descriptionEn":"Technology concealed, serving life effortlessly.","category":"Smart Home","description":"科技隐于无形，服务生活。"}],"news":[{"summary":"全新整木定制系列于上海首发，融合东方美学与现代工艺，重塑人与空间的边界。","link":"#","category":"Events","title":"木栖家居新品发布会：重塑边界","id":"n1","content":"2025 年 11 月，木栖家居年度新品发布会在上海举行，正式发布全新整木定制系列。\n\n本次发布以「重塑边界」为主题，系列覆盖玄关、客厅、餐厨、卧室等全屋场景，在设计语言上延续品牌极简东方美学，同时在结构与收纳体系上完成了一次系统升级。\n\n发布会现场，设计团队分享了从材料选型到落地工艺的全流程思考，并宣布系列产品将于全国门店陆续上线。","image":"images/news/news-n1.jpg","summaryEn":"A brand-new whole-wood customization series debuts in Shanghai, blending Eastern aesthetics with modern craftsmanship to redefine the boundary between people and space.","categoryEn":"Events","titleEn":"Muqi Home New Product Launch: Redefining Boundaries","contentEn":"In November 2025, Muqi Home held its annual new product launch in Shanghai, officially unveiling a brand-new whole-wood customization series.\n\nCentered on the theme 'Redefining Boundaries', the collection covers entryways, living rooms, kitchens and bedrooms, extending the brand's minimalist Eastern aesthetic while delivering a systematic upgrade in structure and storage.\n\nAt the event, the design team shared their full journey from material selection to craftsmanship, announcing the collection would roll out across showrooms nationwide.","date":"2025-11"},{"summaryEn":"The 'Qi · Yin' collection wins the International Design Gold Award for its masterful interplay of wood and light.","image":"images/news/news-n2.jpg","titleEn":"Awarded the 2024 International Design Gold Award","id":"n2","contentEn":"Muqi Home's 'Qi · Yin' collection has been awarded the 2024 International Design Gold Award.\n\nDefined by natural wood grain and restrained lighting, the collection achieves a warm tactility within minimalist forms. The jury praised it for 'striking a rare balance between function, craftsmanship and emotion'.\n\nThis marks the third consecutive year Muqi Home has received an international design accolade, further validating the team's long-standing commitment to original design.","categoryEn":"Awards","title":"荣获2024年度国际设计金奖","date":"2024-10","link":"#","summary":"木栖家居「栖 · 隐」系列凭借对木材与光影的极致把控，摘得年度国际设计金奖。","category":"Awards","content":"木栖家居「栖 · 隐」系列荣获 2024 年度国际设计金奖。\n\n该系列以天然木纹与克制光影为核心语言，在极简形体中呈现温润质感，评审团评价其「在功能、工艺与情感之间取得了罕见的平衡」。\n\n这是木栖家居连续第三年获得国际权威设计奖项，也是对团队长期坚持原创设计的又一次肯定。"},{"summary":"我们承诺所有主材均来自可持续认证林场，从源头守护森林与未来。","image":"images/news/news-n3.jpg","content":"木栖家居正式发布《木材可持续发展承诺》。\n\n我们承诺：品牌所有主材均采购自经国际认证的可持续林场，每批次木材均可溯源；生产环节优先选用环保胶黏剂与低能耗工艺，并通过边角料循环再利用减少浪费。\n\n可持续发展不是营销话术，而是我们对待材料、对待自然的长期态度。","date":"2024-09","category":"Sustainability","categoryEn":"Sustainability","title":"关于木材可持续发展的企业承诺","contentEn":"Muqi Home officially releases its Wood Sustainability Commitment.\n\nWe commit to sourcing all primary materials from internationally certified sustainable forests, with full traceability for every batch; production prioritizes eco-friendly adhesives and low-energy processes, while offcuts are recycled to reduce waste.\n\nSustainability is not a marketing slogan - it is our long-term attitude toward materials and nature.","link":"#","titleEn":"Our Commitment to Sustainable Wood Sourcing","id":"n3","summaryEn":"We commit to sourcing all primary materials from certified sustainable forests, protecting nature from the very beginning."}]}}
+{
+  "content": {
+    "about": {
+      "cta": "阅读我们的故事",
+      "image": "images/content/about-hero.jpg",
+      "paragraph2": "我们汇聚全国顶尖设计力量，融合精湛工艺与现代科技，为您打造独一无二的居住体验。每一处细节，皆是对完美的极致追求。",
+      "ctaEn": "Read Our Story",
+      "cards": [
+        {
+          "more": "了解更多",
+          "titleEn": "Whole-house Customization",
+          "image": "https://picsum.photos/id/42/800/1000",
+          "titleZh": "全屋定制",
+          "id": "c1"
+        }
+      ],
+      "heading": "重构生活美学",
+      "paragraph1": "    木栖家居科技（上海）有限公司，致力于提供高品质的居家生活与智能定制解决方案。我们坚信，家是人与世界连接的起点，也是内心回归的终点。",
+      "paragraph2En": "We bring together world-class design, exquisite craftsmanship and modern technology to create one-of-a-kind living experiences. Every detail is a pursuit of perfection.",
+      "headingEn": "Reimagining Living Aesthetics",
+      "paragraph1En": "Muqi Home Technology (Shanghai) Co., Ltd. is dedicated to high-quality living solutions and smart customization. We believe home is where our connection with the world begins — and where our heart returns.",
+      "title": "About Us"
+    },
+    "projects": [
+      {
+        "year": "2024",
+        "nameEn": "Vanke Holiday Scenery",
+        "images": [
+          "images/projects/vanke/vanke-1.png",
+          "images/projects/vanke/vanke-2.png",
+          "images/projects/vanke/vanke-3.png",
+          "images/projects/vanke/vanke-4.png",
+          "images/projects/vanke/vanke-5.png"
+        ],
+        "category": "Private House",
+        "image": "images/projects/vanke/vanke-1.png",
+        "name": "上海·万科假日风景",
+        "id": "p-vanke",
+        "categoryEn": "PRIVATE RESIDENCE"
+      },
+      {
+        "name": "上海·世茂滨江花园",
+        "id": "p-shimao",
+        "categoryEn": "PRIVATE RESIDENCE",
+        "year": "2024",
+        "nameEn": "Shimao Riverside Garden",
+        "image": "images/projects/shimao/shimao-cover.jpg",
+        "images": [
+          "images/projects/shimao/shimao-cover.jpg",
+          "images/projects/shimao/shimao-1.jpg",
+          "images/projects/shimao/shimao-2.jpg",
+          "images/projects/shimao/shimao-3.jpg",
+          "images/projects/shimao/shimao-4.jpg"
+        ],
+        "category": "Private House"
+      },
+      {
+        "category": "Private House",
+        "id": "p-zhongjun",
+        "nameEn": "Zhongjun Jingxi Yunting",
+        "categoryEn": "PRIVATE RESIDENCE",
+        "year": "2025",
+        "images": [
+          "images/projects/zhongjun/zhongjun-1.png",
+          "images/projects/zhongjun/zhongjun-2.png",
+          "images/projects/zhongjun/zhongjun-3.png",
+          "images/projects/zhongjun/zhongjun-4.png"
+        ],
+        "image": "images/projects/zhongjun/zhongjun-1.png",
+        "name": "上海·中骏璟禧云庭"
+      },
+      {
+        "categoryEn": "PRIVATE RESIDENCE",
+        "name": "上海·金地佘山天镜",
+        "category": "Private House",
+        "id": "p-jindi",
+        "nameEn": "Jindi Sheshan Tianjing",
+        "image": "images/projects/jindi/jindi-1.jpg",
+        "images": [
+          "images/projects/jindi/jindi-1.jpg",
+          "images/projects/jindi/jindi-2.jpg",
+          "images/projects/jindi/jindi-3.jpg",
+          "images/projects/jindi/jindi-4.jpg",
+          "images/projects/jindi/jindi-5.jpg"
+        ],
+        "year": "2025"
+      },
+      {
+        "image": "images/projects/ziwei/ziwei-1.jpg",
+        "year": "2025",
+        "category": "Private House",
+        "id": "p-ziwei",
+        "name": "上海·颛桥紫薇花园",
+        "images": [
+          "images/projects/ziwei/ziwei-1.jpg",
+          "images/projects/ziwei/ziwei-2.jpg",
+          "images/projects/ziwei/ziwei-3.jpg",
+          "images/projects/ziwei/ziwei-4.jpg",
+          "images/projects/ziwei/ziwei-5.jpg"
+        ],
+        "nameEn": "Zhuanqiao Ziwei Garden",
+        "categoryEn": "PRIVATE RESIDENCE"
+      },
+      {
+        "categoryEn": "PRIVATE RESIDENCE",
+        "nameEn": "Daning Jinmao Palace",
+        "images": [
+          "images/projects/jinmao/jinmao-1.jpg",
+          "images/projects/jinmao/jinmao-2.jpg",
+          "images/projects/jinmao/jinmao-3.jpg",
+          "images/projects/jinmao/jinmao-4.jpg",
+          "images/projects/jinmao/jinmao-5.jpg",
+          "images/projects/jinmao/jinmao-6.jpg"
+        ],
+        "year": "2026",
+        "image": "images/projects/jinmao/jinmao-1.jpg",
+        "id": "p-jinmao",
+        "category": "Private House",
+        "name": "上海·大宁金茂府"
+      }
+    ],
+    "hero": {
+      "ctaSecondary": "联系我们",
+      "ctaPrimaryEn": "Learn More",
+      "title": "木栖家居 — 只为美好关系",
+      "descriptionEn": "Redefining spatial order in every detail, we interpret Eastern philosophy through minimalist aesthetics. We create more than furniture — we craft enduring warmth for life.",
+      "description": "在细微之处重塑空间秩序，以极简美学演绎东方哲学。我们创造的不只是家具，而是恒久的生活温度。",
+      "titleEn": "MUQI HOME — For Better Connections",
+      "subtitleEn": "Make better connections",
+      "ctaSecondaryEn": "Contact Us",
+      "backgroundImage": "images/hero.jpg",
+      "subtitle": "Make better connections",
+      "ctaPrimary": "了解更多"
+    },
+    "products": [
+      {
+        "image": "images/content/img-3.jpg",
+        "descriptionEn": "Seamless design — the art of extended space.",
+        "category": "Door System",
+        "description": "无界设计，空间延伸的艺术。",
+        "id": "01",
+        "nameEn": "Hidden Door System",
+        "name": "隐形门系统",
+        "detail": "消解边界，让空间回归纯粹秩序。\n\n采用与墙面无缝契合的隐藏工法，将门扇与木饰面融为一体。开合自如之间，消减视觉割裂感，为居所带来流畅、静谧的流动美学与通透层次。",
+        "detailEn": "Dissolving boundaries, the space returns to a state of pure order.\n\nThrough a concealed installation technique that integrates seamlessly with the walls, the door panels become one with the wood-paneled surfaces. As they open and close with effortless ease, visual fragmentation is minimized—infusing the residence with a fluid, tranquil aesthetic and a sense of airy, layered openness."
+      },
+      {
+        "name": "木饰面护墙",
+        "image": "images/content/img-4.jpg",
+        "nameEn": "Wood Veneer Wall",
+        "descriptionEn": "Warm touch that defines the character of a space.",
+        "id": "02",
+        "description": "温润触感，定义空间基调。",
+        "category": "Wall System",
+        "detail": "严苛微缝工法，构筑现代墙面新秩序。\n\n采用精工挂板干挂工艺与防潮平衡结构，有效防止板材形变。极窄金属微缝收口设计，支持与隐形门、柜体及灯光无缝嵌合，细节之处尽显工艺造诣。",
+        "detailEn": "Rigorous micro-joint installation techniques establish a new order for modern wall surfaces.\n\nUtilizing precision dry-hanging panel systems and moisture-resistant, balanced structural design, the method effectively prevents panel deformation. The ultra-narrow metal micro-joint detailing allows for seamless integration with concealed doors, cabinetry, and lighting—a testament to masterful craftsmanship in every detail."
+      },
+      {
+        "image": "images/content/img-5.jpg",
+        "id": "03",
+        "name": "高定收纳",
+        "category": "Cabinet System",
+        "descriptionEn": "The balance of rational order and sensual aesthetics.",
+        "description": "理性秩序与感性美学的平衡。",
+        "nameEn": "Bespoke Storage",
+        "detail": "秩序与仪式感并存，收纳亦是生活的策展。\n\n结合悬挂系统、精密皮革抽屉与智能柔光照明，重构衣物与珍藏的收纳逻辑。通过通透玻璃与质感金属的细腻对话，将日常更衣升级为私密而优雅的艺术仪式。",
+        "detailEn": "Where order meets a sense of ritual, storage becomes a curation of one’s life.\n\nIntegrating a suspension system, precision-crafted leather drawers, and intelligent, soft-glow lighting, this design reimagines how garments and cherished possessions are organized. Through the nuanced interplay of transparent glass and refined metal, the daily act of dressing is elevated into an intimate, elegant, and artistic ritual."
+      },
+      {
+        "name": "智能中控",
+        "id": "04",
+        "image": "images/content/img-6.jpg",
+        "nameEn": "Smart Control System",
+        "descriptionEn": "Technology concealed, serving life effortlessly.",
+        "category": "Smart Home",
+        "description": "科技隐于无形，服务生活。",
+        "detail": "指尖轻触之间，化繁为简掌控全屋场景。\n\n采用航空级铝合金精雕机身与AG防眩光防指纹玻璃，支持嵌入式极平齐安装，与木饰面护墙浑然一体。一屏整合照明、暖通、遮阳与全屋影音，告别墙面杂乱开关，回归纯粹空间美感。",
+        "detailEn": "With a gentle touch, simplify the control of your entire home environment.\n\nCrafted with a precision-milled, aerospace-grade aluminum alloy frame and an anti-glare, anti-fingerprint (AG) glass surface, the unit supports a flush, recessed installation—blending seamlessly into wood-paneled walls. A single screen integrates lighting, HVAC, shading, and whole-home audio-visual systems, eliminating the clutter of multiple wall switches and restoring the pure aesthetic beauty of your space."
+      }
+    ],
+    "company": {
+      "icp": "本站仅供展示，托管于海外静态服务",
+      "name": "木栖家居科技（上海）有限公司",
+      "email": "980763379@qq.com",
+      "logo": "images/content/img-1.svg",
+      "socials": {
+        "instagram": "#",
+        "wechat": "https://weixin.qq.com/",
+        "weibo": "#",
+        "qq": "https://wpa.qq.com/msgrd?v=3&uin=980763379&site=qq&menu=yes",
+        "linkedin": "#"
+      },
+      "phoneMobile": "15801948991",
+      "addressEn": "4033, Jiashijia, Yishan Road, Xuhui District, Shanghai",
+      "address": "上海市徐汇区宜山路家饰佳4033展位",
+      "nameEn": "Muqi Home Technology (Shanghai) Co., Ltd.",
+      "phone": "021-54242017",
+      "copyright": "© 2026 Muqi Home Technology. All rights reserved."
+    },
+    "team": [
+      {
+        "image": "https://picsum.photos/id/1005/600/800",
+        "name": "林一鸣",
+        "role": "创始人 / 首席设计师",
+        "id": "t1",
+        "intro": "20年高端家居设计经验，曾获红点设计大奖。致力于探索东方美学与现代生活的平衡。"
+      },
+      {
+        "id": "t2",
+        "name": "王广大",
+        "intro": "前意大利著名家居品牌主理人，专注于极简主义美学与功能性的完美融合。",
+        "role": "设计总监",
+        "image": "images/wangguangda.png"
+      },
+      {
+        "role": "工艺总监",
+        "id": "t3",
+        "image": "https://picsum.photos/id/64/600/800",
+        "intro": "匠心独运，对材质与细节有着极致的追求，确保每一件作品都经得起时间的考验。",
+        "name": "张艳慧"
+      }
+    ],
+    "nav": [
+      {
+        "label": "关于",
+        "href": "#about"
+      },
+      {
+        "label": "产品",
+        "href": "#products"
+      },
+      {
+        "href": "#projects",
+        "label": "项目"
+      },
+      {
+        "href": "/team",
+        "label": "团队"
+      },
+      {
+        "label": "新闻",
+        "href": "#news"
+      },
+      {
+        "label": "联系",
+        "href": "#contact"
+      }
+    ],
+    "news": [
+      {
+        "summary": "全新整木定制系列于上海首发，融合东方美学与现代工艺，重塑人与空间的边界。",
+        "link": "#",
+        "category": "Events",
+        "title": "木栖家居新品发布会：重塑边界",
+        "id": "n1",
+        "content": "2025 年 11 月，木栖家居年度新品发布会在上海举行，正式发布全新整木定制系列。\n\n本次发布以「重塑边界」为主题，系列覆盖玄关、客厅、餐厨、卧室等全屋场景，在设计语言上延续品牌极简东方美学，同时在结构与收纳体系上完成了一次系统升级。\n\n发布会现场，设计团队分享了从材料选型到落地工艺的全流程思考，并宣布系列产品将于全国门店陆续上线。",
+        "image": "images/news/news-n1.jpg",
+        "summaryEn": "A brand-new whole-wood customization series debuts in Shanghai, blending Eastern aesthetics with modern craftsmanship to redefine the boundary between people and space.",
+        "categoryEn": "Events",
+        "titleEn": "Muqi Home New Product Launch: Redefining Boundaries",
+        "contentEn": "In November 2025, Muqi Home held its annual new product launch in Shanghai, officially unveiling a brand-new whole-wood customization series.\n\nCentered on the theme 'Redefining Boundaries', the collection covers entryways, living rooms, kitchens and bedrooms, extending the brand's minimalist Eastern aesthetic while delivering a systematic upgrade in structure and storage.\n\nAt the event, the design team shared their full journey from material selection to craftsmanship, announcing the collection would roll out across showrooms nationwide.",
+        "date": "2025-11"
+      },
+      {
+        "summaryEn": "The 'Qi · Yin' collection wins the International Design Gold Award for its masterful interplay of wood and light.",
+        "image": "images/news/news-n2.jpg",
+        "titleEn": "Awarded the 2024 International Design Gold Award",
+        "id": "n2",
+        "contentEn": "Muqi Home's 'Qi · Yin' collection has been awarded the 2024 International Design Gold Award.\n\nDefined by natural wood grain and restrained lighting, the collection achieves a warm tactility within minimalist forms. The jury praised it for 'striking a rare balance between function, craftsmanship and emotion'.\n\nThis marks the third consecutive year Muqi Home has received an international design accolade, further validating the team's long-standing commitment to original design.",
+        "categoryEn": "Awards",
+        "title": "荣获2024年度国际设计金奖",
+        "date": "2024-10",
+        "link": "#",
+        "summary": "木栖家居「栖 · 隐」系列凭借对木材与光影的极致把控，摘得年度国际设计金奖。",
+        "category": "Awards",
+        "content": "木栖家居「栖 · 隐」系列荣获 2024 年度国际设计金奖。\n\n该系列以天然木纹与克制光影为核心语言，在极简形体中呈现温润质感，评审团评价其「在功能、工艺与情感之间取得了罕见的平衡」。\n\n这是木栖家居连续第三年获得国际权威设计奖项，也是对团队长期坚持原创设计的又一次肯定。"
+      },
+      {
+        "summary": "我们承诺所有主材均来自可持续认证林场，从源头守护森林与未来。",
+        "image": "images/news/news-n3.jpg",
+        "content": "木栖家居正式发布《木材可持续发展承诺》。\n\n我们承诺：品牌所有主材均采购自经国际认证的可持续林场，每批次木材均可溯源；生产环节优先选用环保胶黏剂与低能耗工艺，并通过边角料循环再利用减少浪费。\n\n可持续发展不是营销话术，而是我们对待材料、对待自然的长期态度。",
+        "date": "2024-09",
+        "category": "Sustainability",
+        "categoryEn": "Sustainability",
+        "title": "关于木材可持续发展的企业承诺",
+        "contentEn": "Muqi Home officially releases its Wood Sustainability Commitment.\n\nWe commit to sourcing all primary materials from internationally certified sustainable forests, with full traceability for every batch; production prioritizes eco-friendly adhesives and low-energy processes, while offcuts are recycled to reduce waste.\n\nSustainability is not a marketing slogan - it is our long-term attitude toward materials and nature.",
+        "link": "#",
+        "titleEn": "Our Commitment to Sustainable Wood Sourcing",
+        "id": "n3",
+        "summaryEn": "We commit to sourcing all primary materials from certified sustainable forests, protecting nature from the very beginning."
+      }
+    ],
+    "departments": [
+      {
+        "departmentEn": "Sales Dept.",
+        "id": "d1",
+        "members": [
+          {
+            "image": "images/zhengxiaobo.png",
+            "intro": "深耕高端家居定制行业，带领销售团队为每一位客户提供最贴心的服务。",
+            "roleEn": "Operations Director",
+            "introEn": "Deeply rooted in premium home customization, leading the sales team to provide the warmest service for every customer.",
+            "name": "郑晓博",
+            "id": "d1-zxb",
+            "role": "运营总监"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600&h=800",
+            "roleEn": "Sales Manager",
+            "name": "王丽娜",
+            "intro": "倾听客户需求，提供最温暖的家居方案。",
+            "id": "d1-m1",
+            "role": "销售经理"
+          },
+          {
+            "image": "images/wangliyan.jpg",
+            "roleEn": "Store Manager",
+            "name": "王丽艳",
+            "intro": "专业与热情并重，为您排忧解难。",
+            "id": "d1-m2",
+            "role": "店长"
+          },
+          {
+            "image": "images/feihongna.jpg",
+            "intro": "细致入微，确保每一个环节完美衔接。",
+            "roleEn": "Sales Manager",
+            "name": "费宏娜",
+            "id": "d1-m5",
+            "role": "销售经理"
+          },
+          {
+            "image": "images/chenying.png",
+            "intro": "用心倾听，为每一位客户定制理想的家居方案。",
+            "roleEn": "Sales Manager",
+            "introEn": "Listening with care, crafting the ideal home solution for every customer.",
+            "name": "陈盈",
+            "id": "d1-cy",
+            "role": "销售经理"
+          }
+        ],
+        "manager": "郑晓博",
+        "department": "销售部"
+      },
+      {
+        "departmentEn": "Design Dept.",
+        "id": "d2",
+        "members": [
+          {
+            "image": "images/wangguangda.png",
+            "intro": "前意大利著名家居品牌主理人，专注于极简主义美学与功能性的完美融合。",
+            "roleEn": "Design Director",
+            "introEn": "Former principal of a renowned Italian furniture brand, dedicated to the perfect fusion of minimalist aesthetics and functionality.",
+            "name": "王广大",
+            "id": "d2-wgd",
+            "role": "设计总监"
+          },
+          {
+            "image": "images/wangqinlin.jpg",
+            "roleEn": "Chief Designer",
+            "name": "王秦琳",
+            "intro": "色彩与材质的碰撞，激发生活灵感。",
+            "id": "d2-m3",
+            "role": "首席设计师"
+          },
+          {
+            "image": "images/xingwang.png",
+            "roleEn": "Chief Designer",
+            "name": "邢旺",
+            "intro": "用光影还原真实的未来家园。",
+            "id": "d2-m5",
+            "role": "首席设计师"
+          },
+          {
+            "image": "images/wangshumiao.png",
+            "intro": "专注细节，将设计图纸完美落地。",
+            "roleEn": "Chief Designer",
+            "name": "王舒淼",
+            "id": "d2-m4",
+            "role": "首席设计师"
+          },
+          {
+            "image": "images/linquan.png",
+            "roleEn": "Chief Designer",
+            "name": "林泉",
+            "intro": "学习与成长，为设计注入新活力。",
+            "id": "d2-m7",
+            "role": "首席设计师"
+          }
+        ],
+        "manager": "王广大",
+        "department": "设计部"
+      },
+      {
+        "manager": "刘潘潘",
+        "id": "d3",
+        "departmentEn": "Installation Dept.",
+        "members": [
+          {
+            "image": "images/liupanpan.png",
+            "intro": "统筹安装一线，确保每一处交付严丝合缝、客户安心。",
+            "roleEn": "Installation Manager",
+            "name": "刘潘潘",
+            "id": "d3-lpp",
+            "role": "安装经理"
+          },
+          {
+            "image": "images/wangmingxin.png",
+            "intro": "精准安装，确保每一毫米的严丝合缝。",
+            "roleEn": "Installation Team Lead",
+            "name": "王明鑫",
+            "id": "d3-m1",
+            "role": "安装组长"
+          },
+          {
+            "image": "images/zhangxiong.png",
+            "intro": "经验丰富，解决各种现场难题。",
+            "roleEn": "Installation Team Lead",
+            "name": "张雄",
+            "id": "d3-m2",
+            "role": "安装组长"
+          },
+          {
+            "image": "images/wanghu.png",
+            "intro": "施工扎实细致，交付一次到位。",
+            "roleEn": "Installation Team Lead",
+            "name": "王虎",
+            "id": "d3-wh",
+            "role": "安装组长"
+          },
+          {
+            "image": "images/qinchaolei.png",
+            "intro": "专业技术，品质保障。",
+            "roleEn": "Installation Team Lead",
+            "name": "秦超磊",
+            "id": "d3-m6",
+            "role": "安装组长"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=600&h=800",
+            "roleEn": "Installation Team Lead",
+            "name": "韩伪南",
+            "intro": "严谨细致，服务至上。",
+            "id": "d3-m5",
+            "role": "安装组长"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1530268729831-4b0b9e170218?auto=format&fit=crop&q=80&w=600&h=800",
+            "intro": "匠心工艺，追求卓越。",
+            "roleEn": "Installation Team Lead",
+            "name": "张靓靓",
+            "id": "d3-m4",
+            "role": "安装组长"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600&h=800",
+            "intro": "脚踏实地，精益求精。",
+            "roleEn": "Installation Team Lead",
+            "name": "王华伟",
+            "id": "d3-m7",
+            "role": "安装组长"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1480429370139-e0132c086e2a?auto=format&fit=crop&q=80&w=600&h=800",
+            "roleEn": "Technician",
+            "name": "皇凡磊",
+            "intro": "用心服务，客户满意。",
+            "id": "d3-m8",
+            "role": "技师"
+          }
+        ],
+        "department": "安装部"
+      },
+      {
+        "manager": "周阳",
+        "id": "d4",
+        "members": [
+          {
+            "image": "images/zhouyang.png",
+            "roleEn": "Logistics Manager",
+            "introEn": "Coordinating warehousing and delivery to ensure every piece of furniture arrives on time and safely.",
+            "name": "周阳",
+            "intro": "统筹仓储配送，确保每一件家具准时、安全送达。",
+            "id": "d4-zy",
+            "role": "物流经理"
+          },
+          {
+            "image": "images/yipeng.png",
+            "intro": "安全送达，风雨无阻。",
+            "roleEn": "Logistics Specialist",
+            "name": "依鹏",
+            "id": "d4-m1",
+            "role": "物流专员"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=600&h=800",
+            "intro": "准时送达，使命必达。",
+            "roleEn": "Order Picker",
+            "name": "王泽有",
+            "id": "d4-m3",
+            "role": "配货员"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&q=80&w=600&h=800",
+            "roleEn": "Inspection Manager",
+            "name": "王文博",
+            "intro": "细心搬运，呵护每一件家具。",
+            "id": "d4-m4",
+            "role": "验收经理"
+          }
+        ],
+        "departmentEn": "Logistics Dept.",
+        "department": "物流部"
+      },
+      {
+        "departmentEn": "Order Processing Dept.",
+        "id": "d5",
+        "members": [
+          {
+            "image": "images/zhangyanhui.jpg",
+            "roleEn": "Order Processing Lead",
+            "name": "张艳慧",
+            "intro": "精准核对，源头把控。",
+            "id": "d5-m1",
+            "role": "下单主管"
+          }
+        ],
+        "manager": "张艳慧",
+        "department": "下单部"
+      },
+      {
+        "manager": "陈莲红",
+        "id": "d6",
+        "departmentEn": "Dispatch",
+        "members": [
+          {
+            "image": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=600&h=800",
+            "roleEn": "Chief Dispatcher",
+            "name": "陈莲红",
+            "intro": "运筹帷幄，统筹全局。",
+            "id": "d6-m1",
+            "role": "总调度"
+          }
+        ],
+        "department": "调度员"
+      },
+      {
+        "departmentEn": "Finance Dept.",
+        "id": "d7",
+        "members": [
+          {
+            "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600&h=800",
+            "roleEn": "Finance Manager",
+            "name": "陈吉",
+            "intro": "严谨合规，为企业护航。",
+            "id": "d7-m1",
+            "role": "财务经理"
+          }
+        ],
+        "manager": "陈吉",
+        "department": "财务部"
+      },
+      {
+        "manager": "王美娜",
+        "id": "d8",
+        "members": [
+          {
+            "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=600&h=800",
+            "intro": "以线上运营连接客户，让服务触达更远。",
+            "roleEn": "Online Operations",
+            "name": "王美娜",
+            "id": "d8-wmn",
+            "role": "线上运营"
+          }
+        ],
+        "departmentEn": "Online Operations Dept.",
+        "department": "线上运营部"
+      }
+    ]
+  },
+  "_meta": {
+    "syncedAt": "2026-11-02T03:25:20.383Z",
+    "source": "firestore/site_content/main"
+  }
+}
