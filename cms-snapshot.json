@@ -484,7 +484,7 @@
             "role": "物流专员"
           },
           {
-            "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=600&h=800",
+            "image": "images/wangzeyou.png",
             "intro": "准时送达，使命必达。",
             "roleEn": "Order Picker",
             "name": "王泽有",
@@ -492,7 +492,7 @@
             "role": "配货员"
           },
           {
-            "image": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&q=80&w=600&h=800",
+            "image": "images/wangwenbo.png",
             "roleEn": "Inspection Manager",
             "name": "王文博",
             "intro": "细心搬运，呵护每一件家具。",
